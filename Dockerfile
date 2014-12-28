@@ -4,3 +4,4 @@ ADD config/kheo-api-dev.yml /data/kheo-api.yml
 WORKDIR /data
 CMD java -jar kheo-api.jar server
 EXPOSE 8080
+EXPOSE 8081

@@ -1,4 +1,4 @@
 kheo
 ====
 
-Run application inside a container: docker build -t kheo . && docker run --restart=no --rm=true -p 8080:8080 kheo
+Run application inside a container: sudo docker build -t kheo . && sudo docker run -d -p 8080:8080 -p 8081:8081 kheo
