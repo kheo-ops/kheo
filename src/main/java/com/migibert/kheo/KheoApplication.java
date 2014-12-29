@@ -1,5 +1,7 @@
 package com.migibert.kheo;
 
+import com.migibert.kheo.resources.ServerResource;
+
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -11,8 +13,8 @@ public class KheoApplication extends Application<KheoConfiguration> {
 	}
 
 	@Override
-	public void run(KheoConfiguration arg0, Environment arg1) throws Exception {
-
+	public void run(KheoConfiguration configuration, Environment environment) throws Exception {
+		environment.jersey().register(new ServerResource());
 	}
 
 	@Override
