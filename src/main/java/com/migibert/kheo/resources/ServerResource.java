@@ -20,6 +20,6 @@ public class ServerResource {
 	@GET
 	@Timed
 	public List<Server> getServers() {
-		return Lists.newArrayList(new Server(4096, 2, new ArrayList<NetworkInterface>()));
+		return Lists.newArrayList(new Server("localhost", 4096, 2, new ArrayList<NetworkInterface>()));
 	}
 }
