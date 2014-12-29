@@ -4,30 +4,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class NetworkInterface {
 	@JsonProperty
-	private final String inetAddress;
+	private String inetAddress;
 
 	@JsonProperty
-	private final String inet6Address;
+	private String inet6Address;
 
 	@JsonProperty
-	private final String encapsulationType;
+	private String encapsulationType;
 
 	@JsonProperty
-	private final String name;
+	private String name;
 
 	@JsonProperty
-	private final String broadcast;
+	private String broadcast;
 
 	@JsonProperty
-	private final String mask;
+	private String mask;
 
 	public NetworkInterface() {
-		this.inetAddress = "";
-		this.inet6Address = "";
-		this.encapsulationType = "";
-		this.name = "";
-		this.broadcast = "";
-		this.mask = "";
+		this("", "", "", "", "", "");
 	}
 
 	public NetworkInterface(String inetAddress, String inet6Address, String encapsulationType, String name,
@@ -63,4 +58,60 @@ public class NetworkInterface {
 	public String getMask() {
 		return mask;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((broadcast == null) ? 0 : broadcast.hashCode());
+		result = prime * result + ((encapsulationType == null) ? 0 : encapsulationType.hashCode());
+		result = prime * result + ((inet6Address == null) ? 0 : inet6Address.hashCode());
+		result = prime * result + ((inetAddress == null) ? 0 : inetAddress.hashCode());
+		result = prime * result + ((mask == null) ? 0 : mask.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		NetworkInterface other = (NetworkInterface) obj;
+		if (broadcast == null) {
+			if (other.broadcast != null)
+				return false;
+		} else if (!broadcast.equals(other.broadcast))
+			return false;
+		if (encapsulationType == null) {
+			if (other.encapsulationType != null)
+				return false;
+		} else if (!encapsulationType.equals(other.encapsulationType))
+			return false;
+		if (inet6Address == null) {
+			if (other.inet6Address != null)
+				return false;
+		} else if (!inet6Address.equals(other.inet6Address))
+			return false;
+		if (inetAddress == null) {
+			if (other.inetAddress != null)
+				return false;
+		} else if (!inetAddress.equals(other.inetAddress))
+			return false;
+		if (mask == null) {
+			if (other.mask != null)
+				return false;
+		} else if (!mask.equals(other.mask))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+
 }
