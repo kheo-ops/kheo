@@ -12,6 +12,8 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import jersey.repackaged.com.google.common.collect.Lists;
 
@@ -42,10 +44,12 @@ public class ServerResourceTest {
 		target.request().post(Entity.entity(server, MediaType.APPLICATION_JSON));
 
 		// Get servers list
-		List<Server> readServers = target.request().get(new GenericType<List<Server>>() {
-		});
-		assertThat(readServers).containsExactly(server);
+		Response response = target.request().get();
+		assertThat(response.getStatus()).isEqualTo(Status.OK.getStatusCode());
 
+		List<Server> entity = response.readEntity(new GenericType<List<Server>>() {});
+		assertThat(entity).containsExactly(server);
+				
 		// Get server
 		Server readServer = target.path("kheo-dev").request().get(Server.class);
 		assertThat(readServer).isEqualTo(server);
@@ -53,17 +57,14 @@ public class ServerResourceTest {
 		// Update server
 		Server updatedServer = new Server("kheo-test", 2048, 1, new ArrayList<NetworkInterface>());
 		target.path("kheo-dev").request().put(Entity.entity(updatedServer, MediaType.APPLICATION_JSON));
-		readServer = target.path("kheo-dev").request().get(Server.class);
-		assertThat(readServer).isNull();
+		response = target.path("kheo-dev").request().get();
+		assertThat(response.getStatus()).isEqualTo(Status.NOT_FOUND.getStatusCode());
 		readServer = target.path("kheo-test").request().get(Server.class);
 		assertThat(readServer).isEqualTo(updatedServer);
 
 		// Delete server
 		target.path("kheo-test").request().delete();
-		readServer = target.path("kheo-test").request().get(Server.class);
-		assertThat(readServer).isNull();
-		readServers = target.request().get(new GenericType<List<Server>>() {
-		});
-		assertThat(readServers).isEmpty();
+		response = target.path("kheo-test").request().get();
+		assertThat(response.getStatus()).isEqualTo(Status.NOT_FOUND.getStatusCode());
 	}
 }

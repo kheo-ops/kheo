@@ -1,8 +1,5 @@
 package com.migibert.kheo.resources;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,54 +8,57 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.codahale.metrics.annotation.Timed;
 import com.migibert.kheo.core.Server;
+import com.migibert.kheo.service.ServerService;
 
 @Path("servers")
 @Produces(MediaType.APPLICATION_JSON)
 public class ServerResource {
-	
-	private List<Server> serverStore = new ArrayList<>();
+
+	private ServerService service = ServerService.getInstance();
 
 	@GET
 	@Timed
-	public List<Server> getServers() {
-		return serverStore;
+	public Response getServers() {
+		return Response.status(Status.OK).entity(service.readAll()).build();
 	}
-	
+
 	@GET
 	@Timed
 	@Path("/{hostname}")
-	public Server getServer(@PathParam("hostname") String hostname) {
-		for(Server server : serverStore) {
-			if(hostname.equals(server.getHostname())) {
-				return server;
-			}
+	public Response getServer(@PathParam("hostname") String hostname) {
+		Server server = service.read(hostname);
+		if(server == null) {
+			return Response.status(Status.NOT_FOUND).build();
 		}
-		return null;
+		return Response.status(Status.OK).entity(server).build();
 	}
-	
+
 	@POST
 	@Timed
-	public void createServer(Server server) {
-		serverStore.add(server);
+	public Response createServer(Server server) {
+		service.create(server);
+		return Response.status(Status.CREATED).build();
 	}
-	
+
 	@PUT
 	@Timed
 	@Path("/{hostname}")
-	public void updateServer(@PathParam("hostname") String hostname, Server server) {
-		serverStore.remove(getServer(hostname));
-		serverStore.add(server);
+	public Response updateServer(@PathParam("hostname") String hostname, Server server) {
+		service.update(hostname, server);
+		return Response.status(Status.NO_CONTENT).build();
 	}
-	
+
 	@DELETE
 	@Timed
 	@Path("/{hostname}")
-	public void deleteServer(@PathParam("hostname") String hostname, Server server) {
-		serverStore.remove(getServer(hostname));
+	public Response deleteServer(@PathParam("hostname") String hostname) {
+		service.delete(hostname);
+		return Response.status(Status.NO_CONTENT).build();
 	}
-	
-	
+
 }
