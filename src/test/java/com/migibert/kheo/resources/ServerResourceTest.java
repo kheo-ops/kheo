@@ -28,7 +28,7 @@ import com.migibert.kheo.core.Server;
 public class ServerResourceTest {
 	@ClassRule
 	public static final DropwizardAppRule<KheoConfiguration> RULE = new DropwizardAppRule<KheoConfiguration>(
-			KheoApplication.class, null);
+			KheoApplication.class, "config/kheo-api-dev.yml");
 
 	@Test
 	public void crudOperations() {
