@@ -16,6 +16,16 @@
 			<artifactId>dropwizard-testing</artifactId>
 			<version>0.8.0-rc1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>2.12.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jongo</groupId>
+			<artifactId>jongo</artifactId>
+			<version>1.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
