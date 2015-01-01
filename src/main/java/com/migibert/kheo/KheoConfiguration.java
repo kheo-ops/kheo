@@ -1,18 +1,16 @@
 package com.migibert.kheo;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import io.dropwizard.Configuration;
 
+import javax.validation.Valid;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.migibert.kheo.configuration.MongoConfiguration;
+
 public class KheoConfiguration extends Configuration {
-	
+
 	@JsonProperty
-	public String dbHost;
-	
-	@JsonProperty
-	public String dbPort;
-	
-	@JsonProperty
-	public String dbName;
-	
+	@Valid
+	public MongoConfiguration mongo = new MongoConfiguration();
+
 }

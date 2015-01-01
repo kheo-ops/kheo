@@ -4,6 +4,9 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
+import com.migibert.kheo.exception.mapping.ServerAlreadyExistExceptionMapper;
+import com.migibert.kheo.exception.mapping.ServerNotFoundExceptionMapper;
+import com.migibert.kheo.managed.ManagedMongo;
 import com.migibert.kheo.resources.ServerResource;
 
 public class KheoApplication extends Application<KheoConfiguration> {
@@ -14,7 +17,14 @@ public class KheoApplication extends Application<KheoConfiguration> {
 
 	@Override
 	public void run(KheoConfiguration configuration, Environment environment) throws Exception {
-		environment.jersey().register(new ServerResource());
+	
+		ManagedMongo managedMongo = new ManagedMongo(configuration.mongo);
+		
+		environment.lifecycle().manage(managedMongo);
+		environment.jersey().register(ServerAlreadyExistExceptionMapper.class);
+		environment.jersey().register(ServerNotFoundExceptionMapper.class);
+		
+		environment.jersey().register(new ServerResource(managedMongo.getJongo().getCollection(configuration.mongo.serverCollection)));
 	}
 
 	@Override

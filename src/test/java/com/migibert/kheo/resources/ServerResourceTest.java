@@ -36,35 +36,39 @@ public class ServerResourceTest {
 				"eth0", "10.0.2.255", "255.255.255.0");
 		final NetworkInterface lo = new NetworkInterface("127.0.0.1", "", "Local loopback", "lo", "", "255.0.0.0");
 		final Server server = new Server("kheo-dev", 4096, 2, Lists.newArrayList(eth0, lo));
+		Server updatedServer = new Server("kheo-dev", 2048, 1, new ArrayList<NetworkInterface>());
 
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:" + RULE.getLocalPort() + "/servers");
 
 		// Create server
-		target.request().post(Entity.entity(server, MediaType.APPLICATION_JSON));
+		Response response = target.request().post(Entity.entity(server, MediaType.APPLICATION_JSON));
+		assertThat(response.getStatus()).isEqualTo(Status.CREATED.getStatusCode());
 
 		// Get servers list
-		Response response = target.request().get();
+		response = target.request().get();
 		assertThat(response.getStatus()).isEqualTo(Status.OK.getStatusCode());
 
-		List<Server> entity = response.readEntity(new GenericType<List<Server>>() {});
+		List<Server> entity = response.readEntity(new GenericType<List<Server>>() {
+		});
 		assertThat(entity).containsExactly(server);
-				
+
 		// Get server
 		Server readServer = target.path("kheo-dev").request().get(Server.class);
 		assertThat(readServer).isEqualTo(server);
 
 		// Update server
-		Server updatedServer = new Server("kheo-test", 2048, 1, new ArrayList<NetworkInterface>());
-		target.path("kheo-dev").request().put(Entity.entity(updatedServer, MediaType.APPLICATION_JSON));
+		response = target.path("kheo-dev").request().put(Entity.entity(updatedServer, MediaType.APPLICATION_JSON));
+		assertThat(response.getStatus()).isEqualTo(Status.NO_CONTENT.getStatusCode());
+
 		response = target.path("kheo-dev").request().get();
-		assertThat(response.getStatus()).isEqualTo(Status.NOT_FOUND.getStatusCode());
-		readServer = target.path("kheo-test").request().get(Server.class);
-		assertThat(readServer).isEqualTo(updatedServer);
+		assertThat(response.getStatus()).isEqualTo(Status.OK.getStatusCode());
+		assertThat(response.readEntity(Server.class)).isEqualTo(updatedServer);
 
 		// Delete server
-		target.path("kheo-test").request().delete();
-		response = target.path("kheo-test").request().get();
+		response = target.path("kheo-dev").request().delete();
+		assertThat(response.getStatus()).isEqualTo(Status.NO_CONTENT.getStatusCode());
+		response = target.path("kheo-dev").request().get();
 		assertThat(response.getStatus()).isEqualTo(Status.NOT_FOUND.getStatusCode());
 	}
 }

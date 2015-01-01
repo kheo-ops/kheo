@@ -1,5 +1,6 @@
 package com.migibert.kheo.resources;
 
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -11,6 +12,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.jongo.MongoCollection;
+
 import com.codahale.metrics.annotation.Timed;
 import com.migibert.kheo.core.Server;
 import com.migibert.kheo.service.ServerService;
@@ -19,7 +22,11 @@ import com.migibert.kheo.service.ServerService;
 @Produces(MediaType.APPLICATION_JSON)
 public class ServerResource {
 
-	private ServerService service = ServerService.getInstance();
+	private ServerService service;
+
+	public ServerResource(MongoCollection collection) {
+		this.service = new ServerService(collection);
+	}
 
 	@GET
 	@Timed
@@ -32,7 +39,7 @@ public class ServerResource {
 	@Path("/{hostname}")
 	public Response getServer(@PathParam("hostname") String hostname) {
 		Server server = service.read(hostname);
-		if(server == null) {
+		if (server == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		return Response.status(Status.OK).entity(server).build();
@@ -49,7 +56,10 @@ public class ServerResource {
 	@Timed
 	@Path("/{hostname}")
 	public Response updateServer(@PathParam("hostname") String hostname, Server server) {
-		service.update(hostname, server);
+		if(!hostname.equals(server.getHostname())) {
+			throw new BadRequestException("Hostnames does not match.");
+		}
+		service.update(server);
 		return Response.status(Status.NO_CONTENT).build();
 	}
 
