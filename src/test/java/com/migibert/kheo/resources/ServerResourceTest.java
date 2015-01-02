@@ -24,11 +24,16 @@ import com.migibert.kheo.KheoApplication;
 import com.migibert.kheo.KheoConfiguration;
 import com.migibert.kheo.core.NetworkInterface;
 import com.migibert.kheo.core.Server;
+import com.migibert.kheo.rules.MongoRule;
 
 public class ServerResourceTest {
+
+	@ClassRule
+	public static final MongoRule MONGO_RULE = new MongoRule(12345);
+
 	@ClassRule
 	public static final DropwizardAppRule<KheoConfiguration> RULE = new DropwizardAppRule<KheoConfiguration>(
-			KheoApplication.class, "config/kheo-api-dev.yml");
+			KheoApplication.class, "config/kheo-api-test.yml");
 
 	@Test
 	public void crudOperations() {
@@ -36,7 +41,8 @@ public class ServerResourceTest {
 				"eth0", "10.0.2.255", "255.255.255.0");
 		final NetworkInterface lo = new NetworkInterface("127.0.0.1", "", "Local loopback", "lo", "", "255.0.0.0");
 		final Server server = new Server("kheo-dev", 4096, 2, Lists.newArrayList(eth0, lo));
-		Server updatedServer = new Server("kheo-dev", 2048, 1, new ArrayList<NetworkInterface>());
+		final String hostname = "kheo-dev";
+		Server updatedServer = new Server(hostname, 2048, 1, new ArrayList<NetworkInterface>());
 
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:" + RULE.getLocalPort() + "/servers");
@@ -48,27 +54,25 @@ public class ServerResourceTest {
 		// Get servers list
 		response = target.request().get();
 		assertThat(response.getStatus()).isEqualTo(Status.OK.getStatusCode());
-
 		List<Server> entity = response.readEntity(new GenericType<List<Server>>() {
 		});
 		assertThat(entity).containsExactly(server);
 
 		// Get server
-		Server readServer = target.path("kheo-dev").request().get(Server.class);
+		Server readServer = target.path(hostname).request().get(Server.class);
 		assertThat(readServer).isEqualTo(server);
 
 		// Update server
-		response = target.path("kheo-dev").request().put(Entity.entity(updatedServer, MediaType.APPLICATION_JSON));
+		response = target.path(hostname).request().put(Entity.entity(updatedServer, MediaType.APPLICATION_JSON));
 		assertThat(response.getStatus()).isEqualTo(Status.NO_CONTENT.getStatusCode());
-
-		response = target.path("kheo-dev").request().get();
+		response = target.path(hostname).request().get();
 		assertThat(response.getStatus()).isEqualTo(Status.OK.getStatusCode());
 		assertThat(response.readEntity(Server.class)).isEqualTo(updatedServer);
 
 		// Delete server
-		response = target.path("kheo-dev").request().delete();
+		response = target.path(hostname).request().delete();
 		assertThat(response.getStatus()).isEqualTo(Status.NO_CONTENT.getStatusCode());
-		response = target.path("kheo-dev").request().get();
+		response = target.path(hostname).request().get();
 		assertThat(response.getStatus()).isEqualTo(Status.NOT_FOUND.getStatusCode());
 	}
 }
