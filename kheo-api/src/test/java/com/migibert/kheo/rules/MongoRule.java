@@ -1,5 +1,7 @@
 package com.migibert.kheo.rules;
 
+import org.jongo.Jongo;
+import org.jongo.MongoCollection;
 import org.junit.rules.ExternalResource;
 
 import com.mongodb.MongoClient;
@@ -40,5 +42,9 @@ public class MongoRule extends ExternalResource {
 	protected void after() {
 		mongo.close();
 		mongod.stop();
+	}
+
+	public MongoCollection getServerCollection() {
+		return new Jongo(mongo.getDB("kheo")).getCollection("servers");
 	}
 }
