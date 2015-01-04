@@ -3,13 +3,16 @@ api:
     ports:
     - 8080:8080
     - 8081:8081
-
+    links:
+    - db
 web:
     image: dockerfile/nginx 
     ports: 
     - 80:80
     volumes:
     - kheo-web/dist:/var/www/html
+    links:
+    - api
 
 db:
     image: mongo:latest

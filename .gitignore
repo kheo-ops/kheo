@@ -2,4 +2,4 @@
 kheo-api/.project
 kheo-api/.settings
 kheo-api/.classpath
-*/target/*
+kheo-api/target/*
