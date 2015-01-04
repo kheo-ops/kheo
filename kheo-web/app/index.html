@@ -25,17 +25,13 @@
       <div class="header">
         <ul class="nav nav-pills pull-right">
           <li><a ng-href="#/">Home</a></li>
+          <li><a ng-href="#/servers">Servers</a></li>
           <li><a ng-href="#/about">About</a></li>
           <li><a ng-href="#/contact">Contact</a></li>
         </ul>
         <h3 class="text-muted">kheo</h3>
       </div>
-
-      <div ng-view=""></div>
-
-      <div class="footer">
-        <p><span class="glyphicon glyphicon-heart"></span> from the Kheo team <span class="glyphicon glyphicon-heart"></span></p>
-      </div>
+      <div ng-view=""></div>  
     </div>
 
     <!-- build:js(.) scripts/vendor.js -->
@@ -55,6 +51,8 @@
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/about.js"></script>
     <script src="scripts/controllers/contact.js"></script>
+    <script src="scripts/controllers/servers.js"></script>
+    <script src="scripts/controllers/server.js"></script>
     <!-- endbuild -->
 
 </body>

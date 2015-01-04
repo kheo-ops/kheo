@@ -27,6 +27,14 @@ angular
         templateUrl: 'views/contact.html',
         controller: 'ContactCtrl'
       })
+      .when('/servers', {
+        templateUrl: 'views/servers.html',
+        controller: 'ServersCtrl'
+      })
+      .when('/servers/:hostname', {
+        templateUrl: 'views/server.html',
+        controller: 'ServerCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
