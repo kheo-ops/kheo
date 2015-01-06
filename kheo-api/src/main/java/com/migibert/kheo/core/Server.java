@@ -8,42 +8,42 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Server {
 
 	@JsonProperty
-	private String hostname;
+	public String hostname;
+	
+	@JsonProperty
+	public String ip;
+	
+	@JsonProperty
+	public String user;
 
 	@JsonProperty
-	private int ram;
+	public String password;
+	
+	@JsonProperty
+	public String privateKey;
+	
+	@JsonProperty
+	public int ram;
 
 	@JsonProperty
-	private int cpu;
+	public int cpu;
 
 	@JsonProperty
-	private List<NetworkInterface> networkInterfaces;
+	public List<NetworkInterface> networkInterfaces;
 
 	public Server() {
-		this("", 0, 0, new ArrayList<NetworkInterface>());
+		this("", "", "", "", "", 0, 0, new ArrayList<NetworkInterface>());
 	}
 
-	public Server(String hostname, int ram, int cpu, List<NetworkInterface> networkInterfaces) {
+	public Server(String hostname, String ip, String user, String password, String privateKey, int ram, int cpu, List<NetworkInterface> networkInterfaces) {
 		this.hostname = hostname;
+		this.ip = ip;
+		this.user = user;
+		this.password = password;
+		this.privateKey = privateKey;
 		this.ram = ram;
 		this.cpu = cpu;
 		this.networkInterfaces = networkInterfaces;
-	}
-
-	public int getCpu() {
-		return cpu;
-	}
-
-	public int getRam() {
-		return ram;
-	}
-
-	public List<NetworkInterface> getNetworkInterfaces() {
-		return new ArrayList<NetworkInterface>(networkInterfaces);
-	}
-
-	public String getHostname() {
-		return hostname;
 	}
 
 	@Override
@@ -52,8 +52,12 @@ public class Server {
 		int result = 1;
 		result = prime * result + cpu;
 		result = prime * result + ((hostname == null) ? 0 : hostname.hashCode());
+		result = prime * result + ((ip == null) ? 0 : ip.hashCode());
 		result = prime * result + ((networkInterfaces == null) ? 0 : networkInterfaces.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((privateKey == null) ? 0 : privateKey.hashCode());
 		result = prime * result + ram;
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
 
@@ -73,14 +77,36 @@ public class Server {
 				return false;
 		} else if (!hostname.equals(other.hostname))
 			return false;
+		if (ip == null) {
+			if (other.ip != null)
+				return false;
+		} else if (!ip.equals(other.ip))
+			return false;
 		if (networkInterfaces == null) {
 			if (other.networkInterfaces != null)
 				return false;
 		} else if (!networkInterfaces.equals(other.networkInterfaces))
 			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (privateKey == null) {
+			if (other.privateKey != null)
+				return false;
+		} else if (!privateKey.equals(other.privateKey))
+			return false;
 		if (ram != other.ram)
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
 			return false;
 		return true;
 	}
+	
+	
 
 }

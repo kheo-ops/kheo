@@ -56,7 +56,7 @@ public class ServerResource {
 	@Timed
 	@Path("/{hostname}")
 	public Response updateServer(@PathParam("hostname") String hostname, Server server) {
-		if(!hostname.equals(server.getHostname())) {
+		if(!hostname.equals(server.hostname)) {
 			throw new BadRequestException("Hostnames does not match.");
 		}
 		service.update(server);

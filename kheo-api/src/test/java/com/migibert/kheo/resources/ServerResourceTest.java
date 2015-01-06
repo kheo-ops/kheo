@@ -34,8 +34,8 @@ public class ServerResourceTest {
 	public static final MongoRule MONGO_RULE = new MongoRule(12345);
 
 	@ClassRule
-	public static final DropwizardAppRule<KheoConfiguration> RULE = new DropwizardAppRule<KheoConfiguration>(
-			KheoApplication.class, "config/kheo-api-test.yml");
+	public static final DropwizardAppRule<KheoConfiguration> RULE = new DropwizardAppRule<KheoConfiguration>(KheoApplication.class,
+			"config/kheo-api-test.yml");
 
 	@After
 	public void setup() {
@@ -44,12 +44,12 @@ public class ServerResourceTest {
 
 	@Test
 	public void crudOperations() {
-		final NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet",
-				"eth0", "10.0.2.255", "255.255.255.0");
+		final NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0", "10.0.2.255",
+				"255.255.255.0");
 		final NetworkInterface lo = new NetworkInterface("127.0.0.1", "", "Local loopback", "lo", "", "255.0.0.0");
-		final Server server = new Server("kheo-dev", 4096, 2, Lists.newArrayList(eth0, lo));
+		final Server server = new Server("kheo-dev", "127.0.0.1", "root", "password", "", 4096, 2, Lists.newArrayList(eth0, lo));
 		final String hostname = "kheo-dev";
-		Server updatedServer = new Server(hostname, 2048, 1, new ArrayList<NetworkInterface>());
+		Server updatedServer = new Server(hostname, "127.0.0.1", "root", "password", "", 2048, 1, new ArrayList<NetworkInterface>());
 
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:" + RULE.getLocalPort() + "/servers");
@@ -86,10 +86,9 @@ public class ServerResourceTest {
 	@Test
 	public void when_post_servers_ok_then_201() {
 		// Adapt
-		NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0",
-				"10.0.2.255", "255.255.255.0");
+		NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0", "10.0.2.255", "255.255.255.0");
 		NetworkInterface lo = new NetworkInterface("127.0.0.1", "", "Local loopback", "lo", "", "255.0.0.0");
-		Server server = new Server("kheo-test-creation", 4096, 2, Lists.newArrayList(eth0, lo));
+		Server server = new Server("kheo-test-creation", "127.0.0.1", "root", "password", "", 4096, 2, Lists.newArrayList(eth0, lo));
 
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:" + RULE.getLocalPort() + "/servers");
@@ -108,11 +107,10 @@ public class ServerResourceTest {
 	public void when_post_servers_with_existing_hostname_then_409() {
 
 		// Adapt
-		NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0",
-				"10.0.2.255", "255.255.255.0");
+		NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0", "10.0.2.255", "255.255.255.0");
 		NetworkInterface lo = new NetworkInterface("127.0.0.1", "", "Local loopback", "lo", "", "255.0.0.0");
-		Server server = new Server("kheo-test-conflict", 4096, 2, Lists.newArrayList(eth0, lo));
-		Server serverConflict = new Server("kheo-test-conflict", 2048, 1, Lists.newArrayList(eth0, lo));
+		Server server = new Server("kheo-test-conflict", "127.0.0.1", "root", "password", "", 4096, 2, Lists.newArrayList(eth0, lo));
+		Server serverConflict = new Server("kheo-test-conflict", "127.0.0.1", "root", "password", "", 2048, 1, Lists.newArrayList(eth0, lo));
 
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:" + RULE.getLocalPort() + "/servers");
@@ -133,11 +131,10 @@ public class ServerResourceTest {
 	public void when_get_servers_on_non_empty_collection_then_200() {
 
 		// Adapt
-		NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0",
-				"10.0.2.255", "255.255.255.0");
+		NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0", "10.0.2.255", "255.255.255.0");
 		NetworkInterface lo = new NetworkInterface("127.0.0.1", "", "Local loopback", "lo", "", "255.0.0.0");
-		Server server1 = new Server("kheo-test-1", 4096, 2, Lists.newArrayList(eth0, lo));
-		Server server2 = new Server("kheo-test-2", 2048, 1, new ArrayList<NetworkInterface>());
+		Server server1 = new Server("kheo-test-1", "127.0.0.1", "root", "password", "", 4096, 2, Lists.newArrayList(eth0, lo));
+		Server server2 = new Server("kheo-test-2", "127.0.0.1", "root", "password", "", 2048, 1, new ArrayList<NetworkInterface>());
 
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:" + RULE.getLocalPort() + "/servers");
@@ -175,10 +172,9 @@ public class ServerResourceTest {
 	public void when_get_existing_server_then_200() {
 
 		// Adapt
-		NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0",
-				"10.0.2.255", "255.255.255.0");
+		NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0", "10.0.2.255", "255.255.255.0");
 		NetworkInterface lo = new NetworkInterface("127.0.0.1", "", "Local loopback", "lo", "", "255.0.0.0");
-		Server server = new Server("kheo-test", 4096, 2, Lists.newArrayList(eth0, lo));
+		Server server = new Server("kheo-test", "127.0.0.1", "root", "password", "", 4096, 2, Lists.newArrayList(eth0, lo));
 
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:" + RULE.getLocalPort() + "/servers");
@@ -209,10 +205,9 @@ public class ServerResourceTest {
 	@Test
 	public void when_delete_existing_server_then_204() {
 		// Adapt
-		NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0",
-				"10.0.2.255", "255.255.255.0");
+		NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0", "10.0.2.255", "255.255.255.0");
 		NetworkInterface lo = new NetworkInterface("127.0.0.1", "", "Local loopback", "lo", "", "255.0.0.0");
-		Server server = new Server("kheo-test", 4096, 2, Lists.newArrayList(eth0, lo));
+		Server server = new Server("kheo-test", "127.0.0.1", "root", "password", "", 4096, 2, Lists.newArrayList(eth0, lo));
 
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:" + RULE.getLocalPort() + "/servers");
@@ -225,7 +220,7 @@ public class ServerResourceTest {
 		assertThat(response.getStatus()).isEqualTo(Status.NO_CONTENT.getStatusCode());
 		assertThat(MONGO_RULE.getServerCollection().find().as(Server.class).iterator()).isEmpty();
 	}
-	
+
 	@Test
 	public void when_delete_non_existing_server_then_404() {
 
@@ -239,16 +234,15 @@ public class ServerResourceTest {
 		// Assert
 		assertThat(response.getStatus()).isEqualTo(Status.NOT_FOUND.getStatusCode());
 	}
-	
+
 	@Test
 	public void when_put_servers_then_200() {
 
 		// Adapt
-		NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0",
-				"10.0.2.255", "255.255.255.0");
+		NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0", "10.0.2.255", "255.255.255.0");
 		NetworkInterface lo = new NetworkInterface("127.0.0.1", "", "Local loopback", "lo", "", "255.0.0.0");
-		Server server = new Server("kheo-test", 4096, 2, Lists.newArrayList(eth0, lo));
-		Server serverUpdate = new Server("kheo-test", 2048, 1, Lists.newArrayList(eth0, lo));
+		Server server = new Server("kheo-test", "127.0.0.1", "root", "password", "", 4096, 2, Lists.newArrayList(eth0, lo));
+		Server serverUpdate = new Server("kheo-test", "127.0.0.1", "root", "password", "", 2048, 1, Lists.newArrayList(eth0, lo));
 
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:" + RULE.getLocalPort() + "/servers");
@@ -261,16 +255,15 @@ public class ServerResourceTest {
 		assertThat(response.getStatus()).isEqualTo(Status.NO_CONTENT.getStatusCode());
 		assertThat(MONGO_RULE.getServerCollection().find().as(Server.class).iterator()).containsExactly(serverUpdate);
 	}
-	
+
 	@Test
 	public void when_put_servers_with_different_hostname_then_400() {
 
 		// Adapt
-		NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0",
-				"10.0.2.255", "255.255.255.0");
+		NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0", "10.0.2.255", "255.255.255.0");
 		NetworkInterface lo = new NetworkInterface("127.0.0.1", "", "Local loopback", "lo", "", "255.0.0.0");
-		Server server = new Server("kheo-test-conflict", 4096, 2, Lists.newArrayList(eth0, lo));
-		Server serverConflict = new Server("kheo-test-conflict", 2048, 1, Lists.newArrayList(eth0, lo));
+		Server server = new Server("kheo-test-conflict", "127.0.0.1", "root", "password", "", 4096, 2, Lists.newArrayList(eth0, lo));
+		Server serverConflict = new Server("kheo-test-conflict", "127.0.0.1", "root", "password", "", 2048, 1, Lists.newArrayList(eth0, lo));
 
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:" + RULE.getLocalPort() + "/servers");
@@ -283,16 +276,17 @@ public class ServerResourceTest {
 		assertThat(response.getStatus()).isEqualTo(Status.BAD_REQUEST.getStatusCode());
 		assertThat(MONGO_RULE.getServerCollection().find().as(Server.class).iterator()).containsExactly(server);
 	}
-	
+
 	@Test
 	public void when_put_non_existing_server_then_400() {
 
 		// Adapt
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://localhost:" + RULE.getLocalPort() + "/servers/non-existing-server");
+		Server server = new Server("test-put", "127.0.0.1", "root", "password", "", 256, 1, new ArrayList<NetworkInterface>());
 
 		// Act
-		Response response = target.request().put(Entity.entity(new Server("test-put", 256, 1, new ArrayList<NetworkInterface>()), MediaType.APPLICATION_JSON));
+		Response response = target.request().put(Entity.entity(server, MediaType.APPLICATION_JSON));
 
 		// Assert
 		assertThat(response.getStatus()).isEqualTo(Status.BAD_REQUEST.getStatusCode());
