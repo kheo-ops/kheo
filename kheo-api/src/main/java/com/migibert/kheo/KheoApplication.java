@@ -6,6 +6,7 @@ import io.dropwizard.setup.Environment;
 
 import com.migibert.kheo.exception.mapping.ServerAlreadyExistExceptionMapper;
 import com.migibert.kheo.exception.mapping.ServerNotFoundExceptionMapper;
+import com.migibert.kheo.healtcheck.MongoHealtcheck;
 import com.migibert.kheo.managed.ManagedMongo;
 import com.migibert.kheo.resources.ServerResource;
 
@@ -25,6 +26,8 @@ public class KheoApplication extends Application<KheoConfiguration> {
 		environment.jersey().register(ServerNotFoundExceptionMapper.class);
 		
 		environment.jersey().register(new ServerResource(managedMongo.getJongo().getCollection(configuration.mongo.serverCollection)));
+		
+		environment.healthChecks().register("Mongo connection", new MongoHealtcheck(managedMongo.getJongo()));
 	}
 
 	@Override

@@ -1,3 +1,8 @@
+db:
+    image: mongo:latest
+    ports:
+    - 27017:27017
+
 api:
     build: kheo-api
     ports:
@@ -13,9 +18,3 @@ web:
     - kheo-web/dist:/var/www/html
     links:
     - api
-
-db:
-    image: mongo:latest
-    ports:
-    - 27017:27017
-    
