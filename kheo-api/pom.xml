@@ -27,10 +27,16 @@
 			<version>1.1</version>
 		</dependency>
 		<dependency>
+			<groupId>net.schmizz</groupId>
+			<artifactId>sshj</artifactId>
+			<version>0.10.0</version>
+		</dependency>
+		<dependency>
 			<groupId>de.flapdoodle.embed</groupId>
 			<artifactId>de.flapdoodle.embed.mongo</artifactId>
 			<version>1.46.4</version>
-		</dependency>	
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

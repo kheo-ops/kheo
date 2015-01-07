@@ -1,7 +1,14 @@
 package com.migibert.kheo.core;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.schmizz.sshj.SSHClient;
+import net.schmizz.sshj.common.IOUtils;
+import net.schmizz.sshj.connection.channel.direct.Session;
+import net.schmizz.sshj.connection.channel.direct.Session.Command;
+import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -9,19 +16,19 @@ public class Server {
 
 	@JsonProperty
 	public String hostname;
-	
+
 	@JsonProperty
-	public String ip;
-	
+	public String host;
+
 	@JsonProperty
 	public String user;
 
 	@JsonProperty
 	public String password;
-	
+
 	@JsonProperty
 	public String privateKey;
-	
+
 	@JsonProperty
 	public int ram;
 
@@ -35,9 +42,10 @@ public class Server {
 		this("", "", "", "", "", 0, 0, new ArrayList<NetworkInterface>());
 	}
 
-	public Server(String hostname, String ip, String user, String password, String privateKey, int ram, int cpu, List<NetworkInterface> networkInterfaces) {
+	public Server(String hostname, String host, String user, String password, String privateKey, int ram, int cpu,
+			List<NetworkInterface> networkInterfaces) {
 		this.hostname = hostname;
-		this.ip = ip;
+		this.host = host;
 		this.user = user;
 		this.password = password;
 		this.privateKey = privateKey;
@@ -45,14 +53,14 @@ public class Server {
 		this.cpu = cpu;
 		this.networkInterfaces = networkInterfaces;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + cpu;
 		result = prime * result + ((hostname == null) ? 0 : hostname.hashCode());
-		result = prime * result + ((ip == null) ? 0 : ip.hashCode());
+		result = prime * result + ((host == null) ? 0 : host.hashCode());
 		result = prime * result + ((networkInterfaces == null) ? 0 : networkInterfaces.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((privateKey == null) ? 0 : privateKey.hashCode());
@@ -77,10 +85,10 @@ public class Server {
 				return false;
 		} else if (!hostname.equals(other.hostname))
 			return false;
-		if (ip == null) {
-			if (other.ip != null)
+		if (host == null) {
+			if (other.host != null)
 				return false;
-		} else if (!ip.equals(other.ip))
+		} else if (!host.equals(other.host))
 			return false;
 		if (networkInterfaces == null) {
 			if (other.networkInterfaces != null)
@@ -106,7 +114,5 @@ public class Server {
 			return false;
 		return true;
 	}
-	
-	
 
 }

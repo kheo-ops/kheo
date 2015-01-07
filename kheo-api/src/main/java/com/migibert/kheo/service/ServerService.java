@@ -5,7 +5,6 @@ import java.util.List;
 import org.jongo.MongoCollection;
 
 import com.google.common.collect.Lists;
-import com.migibert.kheo.core.NetworkInterface;
 import com.migibert.kheo.core.Server;
 import com.migibert.kheo.exception.ServerAlreadyExistException;
 import com.migibert.kheo.exception.ServerNotFoundException;
@@ -14,7 +13,7 @@ public class ServerService {
 	private MongoCollection collection;
 
 	public ServerService(MongoCollection collection) {
-		this.collection = collection;	
+		this.collection = collection;
 	}
 
 	public void create(Server server) {
@@ -41,14 +40,9 @@ public class ServerService {
 			throw new ServerNotFoundException(hostname);
 		}
 		collection.remove("{hostname:#}", hostname);
-	}
-		
+	}	
+
 	private boolean exists(String hostname) {
 		return collection.count("{hostname:#}", hostname) > 0;
-	}
-	
-	private List<NetworkInterface> findNetworkInterfaces(String hostname) {
-		Server server = read(hostname);
-		return null;
 	}
 }

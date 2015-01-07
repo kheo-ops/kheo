@@ -82,7 +82,7 @@ public class ServerResourceTest {
 		response = target.path(hostname).request().get();
 		assertThat(response.getStatus()).isEqualTo(Status.NOT_FOUND.getStatusCode());
 	}
-
+	
 	@Test
 	public void when_post_servers_ok_then_201() {
 		// Adapt
