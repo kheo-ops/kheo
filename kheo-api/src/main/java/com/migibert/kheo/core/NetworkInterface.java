@@ -4,22 +4,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class NetworkInterface {
 	@JsonProperty
-	private String inetAddress;
+	public String inetAddress;
 
 	@JsonProperty
-	private String inet6Address;
+	public String inet6Address;
 
 	@JsonProperty
-	private String encapsulationType;
+	public String encapsulationType;
 
 	@JsonProperty
-	private String name;
+	public String name;
 
 	@JsonProperty
-	private String broadcast;
+	public String broadcast;
 
 	@JsonProperty
-	private String mask;
+	public String mask;
 
 	public NetworkInterface() {
 		this("", "", "", "", "", "");
@@ -33,30 +33,6 @@ public class NetworkInterface {
 		this.name = name;
 		this.broadcast = broadcast;
 		this.mask = mask;
-	}
-
-	public String getEncapsulationType() {
-		return encapsulationType;
-	}
-
-	public String getInet6Address() {
-		return inet6Address;
-	}
-
-	public String getInetAddress() {
-		return inetAddress;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getBroadcast() {
-		return broadcast;
-	}
-
-	public String getMask() {
-		return mask;
 	}
 
 	@Override

@@ -11,6 +11,7 @@ import net.schmizz.sshj.connection.channel.direct.Session.Command;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.migibert.kheo.client.SshClient;
 
 public class Server {
 
@@ -113,6 +114,26 @@ public class Server {
 		} else if (!user.equals(other.user))
 			return false;
 		return true;
+	}
+
+	public void discover() throws IOException {
+		String result = SshClient.execute(this, "ifconfig -a");
+		this.networkInterfaces = parseIfconfigResult(result);
+	}
+	
+	private List<NetworkInterface> parseIfconfigResult(String ifconfigResult) {
+		String[] line = ifconfigResult.split("\n");
+		List<NetworkInterface> interfaces = new ArrayList<NetworkInterface>();
+		if(line.length > 0) {
+			String firstLine = line[0];
+			String interfaceName = firstLine.substring(0, firstLine.indexOf(" "));
+			NetworkInterface res = new NetworkInterface();
+			res.name = interfaceName;
+			interfaces.add(res);
+		}
+		
+		
+		return interfaces;
 	}
 
 }
