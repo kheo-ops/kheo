@@ -4,29 +4,65 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.util.Strings;
+
 import com.migibert.kheo.client.SshClient;
 import com.migibert.kheo.core.NetworkInterface;
 import com.migibert.kheo.core.Server;
 
 public class IfconfigCommand extends AbstractSshCommand<List<NetworkInterface>> {
 
-    @Override
-    public List<NetworkInterface> parse(String result) {
-        String[] line = result.split("\n");
-        List<NetworkInterface> interfaces = new ArrayList<NetworkInterface>();
-        if (line.length > 0) {
-            String firstLine = line[0];
-            String interfaceName = firstLine.substring(0, firstLine.indexOf(" "));
-            NetworkInterface res = new NetworkInterface();
-            res.name = interfaceName;
-            interfaces.add(res);
-        }
+	private static final String BROADCAST_TOKEN = "Bcast:";
+	private static final String ENCAPSULATION_TYPE_TOKEN = "Link encap:";
+	private static final String INET6_ADDR_TOKEN = "inet6 addr:";
+	private static final String INET_ADDR_TOKEN = "inet addr:";
+	private static final String HWADDR_TOKEN = "HWaddr";
+	private static final String MASK_TOKEN = "Mask:";
+	
+	@Override
+	public List<NetworkInterface> parse(String result) {
+		List<NetworkInterface> interfaces = new ArrayList<NetworkInterface>();
+		String[] interfacesData = result.split("\n\n");
+		for (String interfaceData : interfacesData) {
+			interfaces.add(parseInterface(interfaceData));
+		}
+		return interfaces;
+	}
 
-        return interfaces;
-    }
-    
-    @Override
-    public String execute(Server target, String command) throws IOException{
-        return SshClient.execute(target, command);
-    }
+	@Override
+	public String execute(Server target, String command) throws IOException {
+		return SshClient.execute(target, command);
+	}
+
+	private NetworkInterface parseInterface(String interfaceData) {
+		NetworkInterface result = new NetworkInterface();
+		int firstIndexOfSpace = interfaceData.indexOf(" ");
+		result.name = interfaceData.substring(0, firstIndexOfSpace);
+
+		String networkInterfaceData = interfaceData.substring(firstIndexOfSpace);
+		for (String data : networkInterfaceData.split("\n")) {
+			String[] lineProperties = data.trim().split("  ");
+			for (String property : lineProperties) {
+				result.broadcast = extractPropertyIfNull(property,BROADCAST_TOKEN, result.broadcast);
+				result.encapsulationType = extractPropertyIfNull(property, ENCAPSULATION_TYPE_TOKEN, result.encapsulationType);
+				result.inet6Address = extractPropertyIfNull(property, INET6_ADDR_TOKEN, result.inet6Address);
+				result.inetAddress = extractPropertyIfNull(property, INET_ADDR_TOKEN, result.inetAddress);
+				result.macAddress = extractPropertyIfNull(property, HWADDR_TOKEN, result.macAddress);
+				result.mask = extractPropertyIfNull(property, MASK_TOKEN, result.mask);
+			}
+		}
+		return result;
+	}
+
+	private static String extractPropertyIfNull(String data, String propertyKey, String actualValue) {
+
+		if (!Strings.isNullOrEmpty(actualValue)) {
+			return actualValue;
+		}
+		int propertyIndex = data.lastIndexOf(propertyKey);
+		if (propertyIndex != -1) {
+			return data.replace(propertyKey, "").trim();
+		}
+		return "";
+	}
 }
