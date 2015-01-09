@@ -22,53 +22,66 @@ import com.migibert.kheo.service.ServerService;
 @Produces(MediaType.APPLICATION_JSON)
 public class ServerResource {
 
-	private ServerService service;
+    private ServerService service;
 
-	public ServerResource(MongoCollection collection) {
-		this.service = new ServerService(collection);
-	}
+    public ServerResource(MongoCollection collection) {
+        this.service = new ServerService(collection);
+    }
 
-	@GET
-	@Timed
-	public Response getServers() {
-		return Response.status(Status.OK).entity(service.readAll()).build();
-	}
+    @GET
+    @Timed
+    public Response getServers() {
+        return Response.status(Status.OK).entity(service.readAll()).build();
+    }
 
-	@GET
-	@Timed
-	@Path("/{hostname}")
-	public Response getServer(@PathParam("hostname") String hostname) {
-		Server server = service.read(hostname);
-		if (server == null) {
-			return Response.status(Status.NOT_FOUND).build();
-		}
-		return Response.status(Status.OK).entity(server).build();
-	}
+    @GET
+    @Timed
+    @Path("/{hostname}")
+    public Response getServer(@PathParam("hostname") String hostname) {
+        Server server = service.read(hostname);
+        if (server == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.status(Status.OK).entity(server).build();
+    }
 
-	@POST
-	@Timed
-	public Response createServer(Server server) {
-		service.create(server);
-		return Response.status(Status.CREATED).build();
-	}
+    @GET
+    @Timed
+    @Path("/{hostname}/discover")
+    public Response discoverServer(@PathParam("hostname") String hostname) {
+        Server server = service.read(hostname);
+        if (server == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
 
-	@PUT
-	@Timed
-	@Path("/{hostname}")
-	public Response updateServer(@PathParam("hostname") String hostname, Server server) {
-		if(!hostname.equals(server.hostname)) {
-			throw new BadRequestException("Hostnames does not match.");
-		}
-		service.update(server);
-		return Response.status(Status.NO_CONTENT).build();
-	}
+        Server discoveredServer = service.discover(server);
+        return Response.status(Status.OK).entity(discoveredServer).build();
+    }
 
-	@DELETE
-	@Timed
-	@Path("/{hostname}")
-	public Response deleteServer(@PathParam("hostname") String hostname) {
-		service.delete(hostname);
-		return Response.status(Status.NO_CONTENT).build();
-	}
+    @POST
+    @Timed
+    public Response createServer(Server server) {
+        service.create(server);
+        return Response.status(Status.CREATED).build();
+    }
+
+    @PUT
+    @Timed
+    @Path("/{hostname}")
+    public Response updateServer(@PathParam("hostname") String hostname, Server server) {
+        if (!hostname.equals(server.hostname)) {
+            throw new BadRequestException("Hostnames does not match.");
+        }
+        service.update(server);
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    @DELETE
+    @Timed
+    @Path("/{hostname}")
+    public Response deleteServer(@PathParam("hostname") String hostname) {
+        service.delete(hostname);
+        return Response.status(Status.NO_CONTENT).build();
+    }
 
 }
