@@ -1,16 +1,9 @@
 package com.migibert.kheo.core;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.migibert.kheo.client.SshClient;
-import com.migibert.kheo.util.IfconfigCommand;
-import com.migibert.kheo.util.SshCommand;
-import com.migibert.kheo.util.UnameCommand;
-
-import de.flapdoodle.embed.mongo.config.Net;
 
 public class Server {
 

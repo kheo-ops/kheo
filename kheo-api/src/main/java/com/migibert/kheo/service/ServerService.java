@@ -10,9 +10,9 @@ import com.migibert.kheo.core.NetworkInterface;
 import com.migibert.kheo.core.OperatingSystem;
 import com.migibert.kheo.core.Server;
 import com.migibert.kheo.exception.ServerAlreadyExistException;
+import com.migibert.kheo.exception.ServerConnectionException;
 import com.migibert.kheo.exception.ServerNotFoundException;
 import com.migibert.kheo.util.IfconfigCommand;
-import com.migibert.kheo.util.SshCommand;
 import com.migibert.kheo.util.UnameCommand;
 
 public class ServerService {
@@ -52,9 +52,14 @@ public class ServerService {
         collection.remove("{hostname:#}", hostname);
     }
 
-    public void discover(Server server) throws IOException {
-        discoverOperatingSystem(server);
-        discoverNetworkInterfaces(server);
+    public Server discover(Server server) {
+        try {
+            server.os = discoverOperatingSystem(server);
+            server.networkInterfaces = discoverNetworkInterfaces(server);
+            return server;
+        } catch (IOException e) {
+            throw new ServerConnectionException(server.hostname);
+        }
     }
 
     private boolean exists(String hostname) {
