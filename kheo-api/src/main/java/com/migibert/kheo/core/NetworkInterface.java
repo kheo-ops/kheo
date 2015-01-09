@@ -1,5 +1,7 @@
 package com.migibert.kheo.core;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class NetworkInterface {
@@ -21,18 +23,21 @@ public class NetworkInterface {
 	@JsonProperty
 	public String mask;
 
+	public String macAddress;
+
 	public NetworkInterface() {
-		this("", "", "", "", "", "");
+		this("", "", "", "", "", "", "");
 	}
 
-	public NetworkInterface(String inetAddress, String inet6Address, String encapsulationType, String name,
-			String broadcast, String mask) {
+	public NetworkInterface(String inetAddress, String inet6Address, String encapsulationType, String name, String broadcast, String mask,
+			String macAddress) {
 		this.inetAddress = inetAddress;
 		this.inet6Address = inet6Address;
 		this.encapsulationType = encapsulationType;
 		this.name = name;
 		this.broadcast = broadcast;
 		this.mask = mask;
+		this.macAddress = macAddress;
 	}
 
 	@Override
@@ -90,4 +95,8 @@ public class NetworkInterface {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
 }
