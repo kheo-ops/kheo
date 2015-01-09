@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.util.Strings;
-
+import com.google.common.base.Strings;
 import com.migibert.kheo.client.SshClient;
 import com.migibert.kheo.core.NetworkInterface;
 import com.migibert.kheo.core.Server;
@@ -18,7 +17,7 @@ public class IfconfigCommand extends AbstractSshCommand<List<NetworkInterface>> 
 	private static final String INET_ADDR_TOKEN = "inet addr:";
 	private static final String HWADDR_TOKEN = "HWaddr";
 	private static final String MASK_TOKEN = "Mask:";
-	
+
 	@Override
 	public List<NetworkInterface> parse(String result) {
 		List<NetworkInterface> interfaces = new ArrayList<NetworkInterface>();
@@ -43,7 +42,7 @@ public class IfconfigCommand extends AbstractSshCommand<List<NetworkInterface>> 
 		for (String data : networkInterfaceData.split("\n")) {
 			String[] lineProperties = data.trim().split("  ");
 			for (String property : lineProperties) {
-				result.broadcast = extractPropertyIfNull(property,BROADCAST_TOKEN, result.broadcast);
+				result.broadcast = extractPropertyIfNull(property, BROADCAST_TOKEN, result.broadcast);
 				result.encapsulationType = extractPropertyIfNull(property, ENCAPSULATION_TYPE_TOKEN, result.encapsulationType);
 				result.inet6Address = extractPropertyIfNull(property, INET6_ADDR_TOKEN, result.inet6Address);
 				result.inetAddress = extractPropertyIfNull(property, INET_ADDR_TOKEN, result.inetAddress);
