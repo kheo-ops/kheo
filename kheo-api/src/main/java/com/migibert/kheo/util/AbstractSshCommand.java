@@ -6,8 +6,14 @@ import com.migibert.kheo.client.SshClient;
 import com.migibert.kheo.core.Server;
 
 public abstract class AbstractSshCommand<T> implements SshCommand<T> {
+	
+	private String command;
+	
+	protected AbstractSshCommand(String command) {
+		this.command = command;
+	}
     
-    public T executeAndParse(Server target, String command) throws IOException {
+    public T executeAndParse(Server target) throws IOException {
         return parse(execute(target, command));
     }
     

@@ -1,6 +1,5 @@
 package com.migibert.kheo.core;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -36,8 +35,9 @@ public class Server {
 	@JsonProperty
 	public List<NetworkInterface> networkInterfaces;
 
+	public List<Service> services;
+
 	public Server() {
-		this("", "", "", "", "", 0, 0, new ArrayList<NetworkInterface>());
 	}
 
 	public Server(String hostname, String host, String user, String password, String privateKey, int ram, int cpu,
@@ -57,12 +57,14 @@ public class Server {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + cpu;
-		result = prime * result + ((hostname == null) ? 0 : hostname.hashCode());
 		result = prime * result + ((host == null) ? 0 : host.hashCode());
+		result = prime * result + ((hostname == null) ? 0 : hostname.hashCode());
 		result = prime * result + ((networkInterfaces == null) ? 0 : networkInterfaces.hashCode());
+		result = prime * result + ((os == null) ? 0 : os.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((privateKey == null) ? 0 : privateKey.hashCode());
 		result = prime * result + ram;
+		result = prime * result + ((services == null) ? 0 : services.hashCode());
 		result = prime * result + ((user == null) ? 0 : user.hashCode());
 		return result;
 	}
@@ -78,20 +80,25 @@ public class Server {
 		Server other = (Server) obj;
 		if (cpu != other.cpu)
 			return false;
-		if (hostname == null) {
-			if (other.hostname != null)
-				return false;
-		} else if (!hostname.equals(other.hostname))
-			return false;
 		if (host == null) {
 			if (other.host != null)
 				return false;
 		} else if (!host.equals(other.host))
 			return false;
+		if (hostname == null) {
+			if (other.hostname != null)
+				return false;
+		} else if (!hostname.equals(other.hostname))
+			return false;
 		if (networkInterfaces == null) {
 			if (other.networkInterfaces != null)
 				return false;
 		} else if (!networkInterfaces.equals(other.networkInterfaces))
+			return false;
+		if (os == null) {
+			if (other.os != null)
+				return false;
+		} else if (!os.equals(other.os))
 			return false;
 		if (password == null) {
 			if (other.password != null)
@@ -104,6 +111,11 @@ public class Server {
 		} else if (!privateKey.equals(other.privateKey))
 			return false;
 		if (ram != other.ram)
+			return false;
+		if (services == null) {
+			if (other.services != null)
+				return false;
+		} else if (!services.equals(other.services))
 			return false;
 		if (user == null) {
 			if (other.user != null)
