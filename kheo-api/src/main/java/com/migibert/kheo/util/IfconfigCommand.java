@@ -1,13 +1,10 @@
 package com.migibert.kheo.util;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Strings;
-import com.migibert.kheo.client.SshClient;
 import com.migibert.kheo.core.NetworkInterface;
-import com.migibert.kheo.core.Server;
 
 public class IfconfigCommand extends AbstractSshCommand<List<NetworkInterface>> {
 
@@ -18,6 +15,10 @@ public class IfconfigCommand extends AbstractSshCommand<List<NetworkInterface>> 
 	private static final String HWADDR_TOKEN = "HWaddr";
 	private static final String MASK_TOKEN = "Mask:";
 
+	public IfconfigCommand() {
+		super("ifconfig -a");	
+	}
+	
 	@Override
 	public List<NetworkInterface> parse(String result) {
 		List<NetworkInterface> interfaces = new ArrayList<NetworkInterface>();
@@ -26,11 +27,6 @@ public class IfconfigCommand extends AbstractSshCommand<List<NetworkInterface>> 
 			interfaces.add(parseInterface(interfaceData));
 		}
 		return interfaces;
-	}
-
-	@Override
-	public String execute(Server target, String command) throws IOException {
-		return SshClient.execute(target, command);
 	}
 
 	private NetworkInterface parseInterface(String interfaceData) {
