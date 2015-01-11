@@ -35,7 +35,11 @@ public class Server {
 	@JsonProperty
 	public List<NetworkInterface> networkInterfaces;
 
+	@JsonProperty
 	public List<Service> services;
+
+	@JsonProperty
+	public List<ListeningProcess> listeningProcesses;
 
 	public Server() {
 	}
@@ -49,7 +53,6 @@ public class Server {
 		this.privateKey = privateKey;
 		this.ram = ram;
 		this.cpu = cpu;
-		this.networkInterfaces = networkInterfaces;
 	}
 
 	@Override

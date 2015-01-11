@@ -1,4 +1,4 @@
-package com.migibert.kheo.util;
+package com.migibert.kheo.core.commands;
 
 import java.util.ArrayList;
 import java.util.List;

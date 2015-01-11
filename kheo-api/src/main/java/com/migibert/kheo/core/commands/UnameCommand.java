@@ -1,4 +1,4 @@
-package com.migibert.kheo.util;
+package com.migibert.kheo.core.commands;
 
 import com.migibert.kheo.core.OperatingSystem;
 

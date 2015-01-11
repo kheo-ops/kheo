@@ -6,16 +6,18 @@ import java.util.List;
 import org.jongo.MongoCollection;
 
 import com.google.common.collect.Lists;
+import com.migibert.kheo.core.ListeningProcess;
 import com.migibert.kheo.core.NetworkInterface;
 import com.migibert.kheo.core.OperatingSystem;
 import com.migibert.kheo.core.Server;
 import com.migibert.kheo.core.Service;
+import com.migibert.kheo.core.commands.IfconfigCommand;
+import com.migibert.kheo.core.commands.NetstatCommand;
+import com.migibert.kheo.core.commands.ServiceCommand;
+import com.migibert.kheo.core.commands.UnameCommand;
 import com.migibert.kheo.exception.ServerAlreadyExistException;
 import com.migibert.kheo.exception.ServerConnectionException;
 import com.migibert.kheo.exception.ServerNotFoundException;
-import com.migibert.kheo.util.IfconfigCommand;
-import com.migibert.kheo.util.ServiceCommand;
-import com.migibert.kheo.util.UnameCommand;
 
 public class ServerService {
 
@@ -24,7 +26,8 @@ public class ServerService {
     private IfconfigCommand ifconfigCommand = new IfconfigCommand();
     private UnameCommand unameCommand = new UnameCommand();
     private ServiceCommand serviceCommand = new ServiceCommand();
-
+    private NetstatCommand netstatCommand = new NetstatCommand();
+    
     public ServerService(MongoCollection collection) {
         this.collection = collection;
     }
@@ -60,6 +63,7 @@ public class ServerService {
             server.os = discoverOperatingSystem(server);
             server.networkInterfaces = discoverNetworkInterfaces(server);
             server.services = discoverServices(server);
+            server.listeningProcesses = discoverListeningProcesses(server);
             return server;
         } catch (IOException e) {
             throw new ServerConnectionException(server.hostname);
@@ -80,5 +84,9 @@ public class ServerService {
     
     private List<Service> discoverServices(Server server) throws IOException {
         return serviceCommand.executeAndParse(server);
+    }
+    
+    private List<ListeningProcess> discoverListeningProcesses(Server server) throws IOException {
+    	return netstatCommand.executeAndParse(server);
     }
 }
