@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ListeningProcess {
 	@JsonProperty
+	public String programName;
+
+	@JsonProperty
 	public String pid;
 
 	@JsonProperty
@@ -20,6 +23,7 @@ public class ListeningProcess {
 		int result = 1;
 		result = prime * result + ((pid == null) ? 0 : pid.hashCode());
 		result = prime * result + ((port == null) ? 0 : port.hashCode());
+		result = prime * result + ((programName == null) ? 0 : programName.hashCode());
 		result = prime * result + ((protocol == null) ? 0 : protocol.hashCode());
 		return result;
 	}
@@ -42,6 +46,11 @@ public class ListeningProcess {
 			if (other.port != null)
 				return false;
 		} else if (!port.equals(other.port))
+			return false;
+		if (programName == null) {
+			if (other.programName != null)
+				return false;
+		} else if (!programName.equals(other.programName))
 			return false;
 		if (protocol == null) {
 			if (other.protocol != null)
