@@ -19,16 +19,17 @@ public class KheoApplication extends Application<KheoConfiguration> {
 
 	@Override
 	public void run(KheoConfiguration configuration, Environment environment) throws Exception {
-	
+
 		ManagedMongo managedMongo = new ManagedMongo(configuration.mongo);
-		
+		ManagedScheduler managedScheduler = new ManagedScheduler();
+				
 		environment.lifecycle().manage(managedMongo);
-		environment.lifecycle().manage(new ManagedScheduler());
-		
+		environment.lifecycle().manage(managedScheduler);
+
 		environment.jersey().register(ServerAlreadyExistExceptionMapper.class);
 		environment.jersey().register(ServerNotFoundExceptionMapper.class);
 		environment.jersey().register(new ServerResource(managedMongo.getJongo().getCollection(configuration.mongo.serverCollection)));
-		
+
 		environment.healthChecks().register("Mongo connection", new MongoHealtcheck(managedMongo.getJongo()));
 	}
 
@@ -36,7 +37,7 @@ public class KheoApplication extends Application<KheoConfiguration> {
 	public String getName() {
 		return "kheo";
 	}
-	
+
 	@Override
 	public void initialize(Bootstrap<KheoConfiguration> bootstrap) {
 	}
