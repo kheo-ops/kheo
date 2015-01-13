@@ -16,7 +16,6 @@ public class SshClient {
         try (SSHClient ssh = new SSHClient();) {
             ssh.addHostKeyVerifier(new PromiscuousVerifier());
             ssh.connect(server.host);
-            ssh.loadKnownHosts();
             ssh.authPassword(server.user, server.password);
             try (Session session = ssh.startSession()) {
                 Command cmd = session.exec(command);
