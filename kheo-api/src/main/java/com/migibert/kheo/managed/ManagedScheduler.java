@@ -39,4 +39,8 @@ public class ManagedScheduler implements Managed {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	public Scheduler getScheduler() {
+		return scheduler;
+	}
 }

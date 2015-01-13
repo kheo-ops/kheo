@@ -4,11 +4,11 @@ import org.jongo.Jongo;
 
 import com.codahale.metrics.health.HealthCheck;
 
-public class MongoHealtcheck extends HealthCheck {
+public class MongoHealthcheck extends HealthCheck {
 
 	private Jongo jongo;
 
-	public MongoHealtcheck(Jongo jongo) {
+	public MongoHealthcheck(Jongo jongo) {
 		super();
 		this.jongo = jongo;
 	}
