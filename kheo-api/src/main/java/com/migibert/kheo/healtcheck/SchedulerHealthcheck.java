@@ -14,10 +14,7 @@ public class SchedulerHealthcheck extends HealthCheck {
 
 	@Override
 	protected Result check() throws Exception {
-		if (scheduler.isShutdown()) {
-			return Result.unhealthy("Scheduler is shutdown");
-		}
-		return Result.healthy();
+		return scheduler.isStarted() ? Result.healthy() : Result.unhealthy("Scheduler is not started");
 	}
 
 }

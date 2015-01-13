@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.jongo.MongoCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 import com.migibert.kheo.core.ListeningProcess;
@@ -21,6 +23,7 @@ import com.migibert.kheo.exception.ServerNotFoundException;
 
 public class ServerService {
 
+	private Logger logger = LoggerFactory.getLogger(ServerService.class);
     private MongoCollection collection;
 
     private IfconfigCommand ifconfigCommand = new IfconfigCommand();
@@ -60,12 +63,20 @@ public class ServerService {
 
     public Server discover(Server server) {
         try {
+        	logger.info("OS discovery");
             server.os = discoverOperatingSystem(server);
+            
+            logger.info("Network interfaces discovery");
             server.networkInterfaces = discoverNetworkInterfaces(server);
+            
+            logger.info("Running services discovery");
             server.services = discoverServices(server);
+            
+            logger.info("Listening processes discovery");
             server.listeningProcesses = discoverListeningProcesses(server);
             return server;
         } catch (IOException e) {
+        	logger.error(e.getMessage(), e);
             throw new ServerConnectionException(server.hostname);
         }
     }

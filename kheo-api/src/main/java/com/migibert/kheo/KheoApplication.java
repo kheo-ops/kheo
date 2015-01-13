@@ -1,5 +1,7 @@
 package com.migibert.kheo;
 
+import org.quartz.impl.StdSchedulerFactory;
+
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -22,7 +24,7 @@ public class KheoApplication extends Application<KheoConfiguration> {
 	public void run(KheoConfiguration configuration, Environment environment) throws Exception {
 
 		ManagedMongo managedMongo = new ManagedMongo(configuration.mongo);
-		ManagedScheduler managedScheduler = new ManagedScheduler();
+		ManagedScheduler managedScheduler = new ManagedScheduler(StdSchedulerFactory.getDefaultScheduler());
 				
 		environment.lifecycle().manage(managedMongo);
 		environment.lifecycle().manage(managedScheduler);
@@ -33,6 +35,8 @@ public class KheoApplication extends Application<KheoConfiguration> {
 
 		environment.healthChecks().register("Mongo connection", new MongoHealthcheck(managedMongo.getJongo()));
 		environment.healthChecks().register("Scheduler", new SchedulerHealthcheck(managedScheduler.getScheduler()));
+		
+		managedScheduler.registerJobs();
 	}
 
 	@Override
