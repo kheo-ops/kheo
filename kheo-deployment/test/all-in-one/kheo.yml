@@ -1,0 +1,16 @@
+- hosts: all
+  tasks:
+  - name: Update apt
+    command: apt-get update
+
+- hosts: kheo-db
+  roles:
+    - lesmyrmidons.mongodb
+
+- hosts: kheo-api
+  roles:
+    - smola.java
+
+- hosts: kheo-web
+  roles:
+    - bennojoy.nginx

@@ -1,0 +1,38 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|  
+  config.vm.box = "ubuntu-precise_12.04_x64"
+  config.vm.box_url = "http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box"
+
+  config.vm.define "db" do |db|
+    db.vm.network "private_network", ip: "192.168.10.5"
+    db.vm.provider :virtualbox do |vb|
+      vb.name = "db"
+      vb.customize ["modifyvm", :id, "--cpus", "1"]
+      vb.customize ["modifyvm", :id, "--memory", "512"]
+    end 
+  end
+
+  config.vm.define "api" do |api|
+    api.vm.network "private_network", ip: "192.168.10.6"
+    api.vm.provider :virtualbox do |vb|
+      vb.name = "api"
+      vb.customize ["modifyvm", :id, "--cpus", "1"]
+      vb.customize ["modifyvm", :id, "--memory", "512"]
+    end 
+  end
+
+  config.vm.define "web" do |web|
+    web.vm.network "private_network", ip: "192.168.10.7"
+    web.vm.provider :virtualbox do |vb|
+      vb.name = "web"
+      vb.customize ["modifyvm", :id, "--cpus", "1"]
+      vb.customize ["modifyvm", :id, "--memory", "512"]
+    end 
+  end
+
+  config.vm.provision "shell", inline: 'cat /vagrant/key.pub >> /root/.ssh/authorized_keys'
+end
