@@ -28,12 +28,12 @@ angular
         controller: 'ContactCtrl'
       })
       .when('/servers', {
-        templateUrl: 'views/servers.html',
-        controller: 'ServersCtrl'
+        templateUrl: 'views/server-list.html',
+        controller: 'ServerListCtrl'
       })
       .when('/servers/:hostname', {
-        templateUrl: 'views/server.html',
-        controller: 'ServerCtrl'
+        templateUrl: 'views/server-detail.html',
+        controller: 'ServerDetailCtrl'
       })
       .otherwise({
         redirectTo: '/'

@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name kheoApp.controller:ServersCtrl
+ * @name kheoApp.controller:ServerCtrl
  * @description
- * # ServersCtrl
+ * # ServerCtrl
  * Controller of the kheoApp
  */
 angular.module('kheoApp')
-  .controller('ServersCtrl', function ($scope) {
+  .controller('ServerDetailCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
