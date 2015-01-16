@@ -2,8 +2,10 @@ package com.migibert.kheo.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import org.bouncycastle.asn1.cmp.OOBCertHash;
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import com.migibert.kheo.core.commands.IfconfigCommand;
 import com.migibert.kheo.core.commands.NetstatCommand;
 import com.migibert.kheo.core.commands.ServiceCommand;
 import com.migibert.kheo.core.commands.UnameCommand;
+import com.migibert.kheo.core.event.EventType;
 import com.migibert.kheo.core.event.ServerEvent;
 import com.migibert.kheo.exception.ServerAlreadyExistException;
 import com.migibert.kheo.exception.ServerConnectionException;
@@ -111,6 +114,34 @@ public class ServerService {
     }
 
     private List<ServerEvent> generateEvents(Server original, Server discovered) {
-        return new ArrayList<>();
+        List<ServerEvent> generatedEvents = new ArrayList<>();
+        
+        generatedEvents.addAll(generateOsEvents(original.id, original.os, discovered.os));
+        
+        return generatedEvents;
+    }
+
+    private List<ServerEvent> generateOsEvents(String serverId, OperatingSystem original, OperatingSystem discovered) {
+        List<ServerEvent> generatedEvents = new ArrayList<>();
+        
+        if (!original.equals(discovered)) {
+            if (!original.hardwarePlatform.equals(discovered.hardwarePlatform)) {
+                logger.info("OS Hardware platform changed! Generating event...");
+                generatedEvents.add(new ServerEvent(EventType.OS_HARDWARE_PLATFORM_CHANGED));
+            }
+            if(!original.kernelName.equals(discovered.kernelName)) {
+                logger.info("OS Kernel name changed! Generating event...");
+                generatedEvents.add(new ServerEvent(EventType.OS_KERNEL_NAME_CHANGED));
+            }
+            if(!original.kernelRelease.equals(discovered.kernelRelease)) {
+                logger.info("OS Kernel release changed! Generating event...");
+                generatedEvents.add(new ServerEvent(EventType.OS_KERNEL_RELEASE_CHANGED));
+            }
+            if(!original.name.equals(discovered.name)) {
+                logger.info("OS name platform changed! Generating event...");
+                generatedEvents.add(new ServerEvent(EventType.OS_NAME_CHANGED));
+            }
+        }
+        return generatedEvents;
     }
 }

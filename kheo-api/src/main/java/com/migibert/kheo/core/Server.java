@@ -51,6 +51,14 @@ public class Server {
     public List<ServerEvent> eventLog;
 
     public Server() {
+        this.id = "";
+        this.hostname = "";
+        this.host = "";
+        this.user = "";
+        this.password = "";
+        this.privateKey = "";
+        this.ram = 0;
+        this.cpu = 0;
         this.os = new OperatingSystem();
         this.networkInterfaces = new ArrayList<>();
         this.services = new ArrayList<>();
@@ -71,12 +79,20 @@ public class Server {
     }
 
     @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + cpu;
+        result = prime * result + ((eventLog == null) ? 0 : eventLog.hashCode());
         result = prime * result + ((host == null) ? 0 : host.hashCode());
         result = prime * result + ((hostname == null) ? 0 : hostname.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((listeningProcesses == null) ? 0 : listeningProcesses.hashCode());
         result = prime * result + ((networkInterfaces == null) ? 0 : networkInterfaces.hashCode());
         result = prime * result + ((os == null) ? 0 : os.hashCode());
         result = prime * result + ((password == null) ? 0 : password.hashCode());
@@ -98,6 +114,11 @@ public class Server {
         Server other = (Server) obj;
         if (cpu != other.cpu)
             return false;
+        if (eventLog == null) {
+            if (other.eventLog != null)
+                return false;
+        } else if (!eventLog.equals(other.eventLog))
+            return false;
         if (host == null) {
             if (other.host != null)
                 return false;
@@ -107,6 +128,16 @@ public class Server {
             if (other.hostname != null)
                 return false;
         } else if (!hostname.equals(other.hostname))
+            return false;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (listeningProcesses == null) {
+            if (other.listeningProcesses != null)
+                return false;
+        } else if (!listeningProcesses.equals(other.listeningProcesses))
             return false;
         if (networkInterfaces == null) {
             if (other.networkInterfaces != null)
@@ -143,8 +174,4 @@ public class Server {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
 }
