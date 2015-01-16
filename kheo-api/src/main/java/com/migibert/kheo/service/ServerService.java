@@ -2,10 +2,8 @@ package com.migibert.kheo.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import org.bouncycastle.asn1.cmp.OOBCertHash;
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,6 +68,7 @@ public class ServerService {
         try {
             Server discovered = new Server(server.hostname, server.host, server.user, server.password, server.privateKey, server.ram, server.cpu);
             discovered.id = server.id;
+            discovered.eventLog = new ArrayList<ServerEvent>(server.eventLog);
 
             logger.info("OS discovery");
             discovered.os = discoverOperatingSystem(server);

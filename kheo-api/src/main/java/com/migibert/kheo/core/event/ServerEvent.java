@@ -26,6 +26,8 @@ public class ServerEvent {
     public ServerEvent(EventType eventType, String oldValue, String newValue) {
         this.date = new Date();
         this.eventType = eventType.name();
+        this.oldValue = oldValue;
+        this.newValue = newValue;
     }
 
     @Override
