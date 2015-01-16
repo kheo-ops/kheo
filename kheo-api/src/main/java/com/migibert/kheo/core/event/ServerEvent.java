@@ -15,15 +15,15 @@ public class ServerEvent {
     public String eventType;
 
     @JsonProperty
-    public String oldValue;
+    public Object oldValue;
 
     @JsonProperty
-    public String newValue;
+    public Object newValue;
 
     public ServerEvent() {
     }
 
-    public ServerEvent(EventType eventType, String oldValue, String newValue) {
+    public ServerEvent(EventType eventType, Object oldValue, Object newValue) {
         this.date = new Date();
         this.eventType = eventType.name();
         this.oldValue = oldValue;
