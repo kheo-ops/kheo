@@ -1,10 +1,10 @@
 package com.migibert.kheo;
 
-import org.quartz.impl.StdSchedulerFactory;
-
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+
+import org.quartz.impl.StdSchedulerFactory;
 
 import com.migibert.kheo.exception.mapping.ServerAlreadyExistExceptionMapper;
 import com.migibert.kheo.exception.mapping.ServerNotFoundExceptionMapper;
@@ -16,36 +16,36 @@ import com.migibert.kheo.resources.ServerResource;
 
 public class KheoApplication extends Application<KheoConfiguration> {
 
-	public static void main(String[] args) throws Exception {
-		new KheoApplication().run(args);
-	}
+    public static void main(String[] args) throws Exception {
+        new KheoApplication().run(args);
+    }
 
-	@Override
-	public void run(KheoConfiguration configuration, Environment environment) throws Exception {
+    @Override
+    public void run(KheoConfiguration configuration, Environment environment) throws Exception {
 
-		ManagedMongo managedMongo = new ManagedMongo(configuration.mongo);
-		ManagedScheduler managedScheduler = new ManagedScheduler(StdSchedulerFactory.getDefaultScheduler());
-				
-		environment.lifecycle().manage(managedMongo);
-		environment.lifecycle().manage(managedScheduler);
+        ManagedMongo managedMongo = new ManagedMongo(configuration.mongo);
+        ManagedScheduler managedScheduler = new ManagedScheduler(StdSchedulerFactory.getDefaultScheduler());
 
-		environment.jersey().register(ServerAlreadyExistExceptionMapper.class);
-		environment.jersey().register(ServerNotFoundExceptionMapper.class);
-		environment.jersey().register(new ServerResource(managedMongo.getJongo().getCollection(configuration.mongo.serverCollection)));
+        environment.lifecycle().manage(managedMongo);
+        environment.lifecycle().manage(managedScheduler);
 
-		environment.healthChecks().register("Mongo connection", new MongoHealthcheck(managedMongo.getJongo()));
-		environment.healthChecks().register("Scheduler", new SchedulerHealthcheck(managedScheduler.getScheduler()));
-		
-		managedScheduler.registerJobs();
-	}
+        environment.jersey().register(ServerAlreadyExistExceptionMapper.class);
+        environment.jersey().register(ServerNotFoundExceptionMapper.class);
+        environment.jersey().register(new ServerResource(managedMongo.getJongo().getCollection(configuration.mongo.serverCollection)));
 
-	@Override
-	public String getName() {
-		return "kheo";
-	}
+        environment.healthChecks().register("Mongo connection", new MongoHealthcheck(managedMongo.getJongo()));
+        environment.healthChecks().register("Scheduler", new SchedulerHealthcheck(managedScheduler.getScheduler()));
 
-	@Override
-	public void initialize(Bootstrap<KheoConfiguration> bootstrap) {
-	}
+        managedScheduler.registerJobs();
+    }
+
+    @Override
+    public String getName() {
+        return "kheo";
+    }
+
+    @Override
+    public void initialize(Bootstrap<KheoConfiguration> bootstrap) {
+    }
 
 }
