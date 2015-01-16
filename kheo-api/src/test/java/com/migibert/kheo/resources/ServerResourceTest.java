@@ -3,7 +3,6 @@ package com.migibert.kheo.resources;
 import static org.assertj.core.api.Assertions.assertThat;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.client.Client;

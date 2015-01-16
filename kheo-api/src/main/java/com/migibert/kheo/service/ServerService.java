@@ -124,22 +124,25 @@ public class ServerService {
     private List<ServerEvent> generateOsEvents(String serverId, OperatingSystem original, OperatingSystem discovered) {
         List<ServerEvent> generatedEvents = new ArrayList<>();
         
+        logger.info("OS Found: " + discovered);
+        logger.info("OS original: " + original);
+        
         if (!original.equals(discovered)) {
             if (!original.hardwarePlatform.equals(discovered.hardwarePlatform)) {
                 logger.info("OS Hardware platform changed! Generating event...");
-                generatedEvents.add(new ServerEvent(EventType.OS_HARDWARE_PLATFORM_CHANGED));
+                generatedEvents.add(new ServerEvent(EventType.OS_HARDWARE_PLATFORM_CHANGED, original.hardwarePlatform, discovered.hardwarePlatform));
             }
             if(!original.kernelName.equals(discovered.kernelName)) {
                 logger.info("OS Kernel name changed! Generating event...");
-                generatedEvents.add(new ServerEvent(EventType.OS_KERNEL_NAME_CHANGED));
+                generatedEvents.add(new ServerEvent(EventType.OS_KERNEL_NAME_CHANGED, original.kernelName, discovered.kernelName));
             }
             if(!original.kernelRelease.equals(discovered.kernelRelease)) {
                 logger.info("OS Kernel release changed! Generating event...");
-                generatedEvents.add(new ServerEvent(EventType.OS_KERNEL_RELEASE_CHANGED));
+                generatedEvents.add(new ServerEvent(EventType.OS_KERNEL_RELEASE_CHANGED, original.kernelRelease, discovered.kernelRelease));
             }
             if(!original.name.equals(discovered.name)) {
                 logger.info("OS name platform changed! Generating event...");
-                generatedEvents.add(new ServerEvent(EventType.OS_NAME_CHANGED));
+                generatedEvents.add(new ServerEvent(EventType.OS_NAME_CHANGED, original.name, discovered.name));
             }
         }
         return generatedEvents;

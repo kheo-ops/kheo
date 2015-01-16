@@ -14,10 +14,16 @@ public class ServerEvent {
     @JsonProperty
     public String eventType;
 
+    @JsonProperty
+    public String oldValue;
+
+    @JsonProperty
+    public String newValue;
+
     public ServerEvent() {
     }
 
-    public ServerEvent(EventType eventType) {
+    public ServerEvent(EventType eventType, String oldValue, String newValue) {
         this.date = new Date();
         this.eventType = eventType.name();
     }
@@ -28,6 +34,8 @@ public class ServerEvent {
         int result = 1;
         result = prime * result + ((date == null) ? 0 : date.hashCode());
         result = prime * result + ((eventType == null) ? 0 : eventType.hashCode());
+        result = prime * result + ((newValue == null) ? 0 : newValue.hashCode());
+        result = prime * result + ((oldValue == null) ? 0 : oldValue.hashCode());
         return result;
     }
 
@@ -50,9 +58,19 @@ public class ServerEvent {
                 return false;
         } else if (!eventType.equals(other.eventType))
             return false;
+        if (newValue == null) {
+            if (other.newValue != null)
+                return false;
+        } else if (!newValue.equals(other.newValue))
+            return false;
+        if (oldValue == null) {
+            if (other.oldValue != null)
+                return false;
+        } else if (!oldValue.equals(other.oldValue))
+            return false;
         return true;
     }
-    
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
