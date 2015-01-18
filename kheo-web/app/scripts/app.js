@@ -1,13 +1,5 @@
 'use strict';
 
-/**
- * @ngdoc overview
- * @name kheoApp
- * @description
- * # kheoApp
- *
- * Main module of the application.
- */
 angular
     .module('kheoApp', [
     'ngResource',
@@ -30,6 +22,10 @@ angular
       .when('/servers', {
         templateUrl: 'views/server-list.html',
         controller: 'ServerListCtrl'
+      })
+      .when('/servers/new', {
+        templateUrl: 'views/server-new.html',
+        controller: 'ServerNewCtrl'
       })
       .when('/servers/:hostname', {
         templateUrl: 'views/server-detail.html',

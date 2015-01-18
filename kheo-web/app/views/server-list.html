@@ -1,11 +1,13 @@
-<div class="table-responsive">    
+<div>
+    <a href="#/servers/new" class="btn btn-default btn-block">Create</a>
+</div>
+<div class="table-responsive">
     <table class="table table-striped table-hover table-condensed table-truncate">
         <thead>
             <tr>
                 <th>Host</th>
                 <th>User</th>
                 <th>Password</th>
-                <th>Key</th>
                 <th>Ram</th>
                 <th>Cpu</th>
             </tr>
@@ -15,9 +17,8 @@
                 <td>{{server.hostname}}</td>
                 <td>{{server.user}}</td>
                 <td>{{server.password}}</td>
-                <td>{{server.privateKey}}</td>
                 <td>{{server.ram}}</td>
-                <td>{{server.password}}</td>
+                <td>{{server.cpu}}</td>
             </tr>
         </tbody>
     </table>
