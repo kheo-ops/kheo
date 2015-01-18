@@ -27,8 +27,8 @@ public class ServerResource {
 
     private ServerService service;
 
-    public ServerResource(MongoCollection collection) {
-        this.service = new ServerService(collection);
+    public ServerResource(MongoCollection serverCollection) {
+        this.service = new ServerService(serverCollection);
     }
 
     @GET

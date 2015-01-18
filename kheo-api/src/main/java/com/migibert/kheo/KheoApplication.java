@@ -40,8 +40,6 @@ public class KheoApplication extends Application<KheoConfiguration> {
 		filter.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
 		filter.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, "true");
 
-		
-		
 		environment.lifecycle().manage(managedMongo);
 		environment.lifecycle().manage(managedScheduler);
 
@@ -63,5 +61,4 @@ public class KheoApplication extends Application<KheoConfiguration> {
 	@Override
 	public void initialize(Bootstrap<KheoConfiguration> bootstrap) {
 	}
-
 }
