@@ -10,6 +10,7 @@
                 <th>Password</th>
                 <th>Ram</th>
                 <th>Cpu</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -20,12 +21,15 @@
                 <td>{{server.ram}}</td>
                 <td>{{server.cpu}}</td>
                 <td>
-                  <a ng-href="#/servers/{{server.hostname}}">
-                    <span class="glyphicon glyphicon-edit"></span>    
-                  </a>
-                </td>
-                <td>                  
-                  <span class="glyphicon glyphicon-edit" ng-click="delete(server.hostname)"></span>
+                  <div>
+                    <a ng-href="#/servers/{{server.hostname}}/detail">
+                      <span class="glyphicon glyphicon-info-sign"></span>    
+                    </a>                
+                    <a ng-href="#/servers/{{server.hostname}}/edit">
+                      <span class="glyphicon glyphicon-edit"></span>    
+                    </a>                
+                    <span class="glyphicon glyphicon-remove" ng-click="delete(server.hostname)"></span>
+                  </div>
                 </td>
             </tr>
         </tbody>

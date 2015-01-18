@@ -27,9 +27,13 @@ angular
         templateUrl: 'views/server-new.html',
         controller: 'ServerNewCtrl'
       })
-      .when('/servers/:hostname', {
+      .when('/servers/:hostname/detail', {
         templateUrl: 'views/server-detail.html',
         controller: 'ServerDetailCtrl'
+      })
+      .when('/servers/:hostname/edit', {
+        templateUrl: 'views/server-edit.html',
+        controller: 'ServerEditCtrl'
       })
       .otherwise({
         redirectTo: '/'
