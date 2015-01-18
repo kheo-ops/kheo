@@ -1,10 +1,16 @@
 package com.migibert.kheo;
 
-import org.quartz.impl.StdSchedulerFactory;
-
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration.Dynamic;
+
+import org.eclipse.jetty.servlets.CrossOriginFilter;
+import org.quartz.impl.StdSchedulerFactory;
 
 import com.migibert.kheo.exception.mapping.ServerAlreadyExistExceptionMapper;
 import com.migibert.kheo.exception.mapping.ServerNotFoundExceptionMapper;
@@ -25,7 +31,17 @@ public class KheoApplication extends Application<KheoConfiguration> {
 
 		ManagedMongo managedMongo = new ManagedMongo(configuration.mongo);
 		ManagedScheduler managedScheduler = new ManagedScheduler(StdSchedulerFactory.getDefaultScheduler());
-				
+
+		Dynamic filter = environment.servlets().addFilter("cors", new CrossOriginFilter());
+		filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+		filter.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "GET,PUT,POST,DELETE,OPTIONS");
+		filter.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
+		filter.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, "*");
+		filter.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
+		filter.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, "true");
+
+		
+		
 		environment.lifecycle().manage(managedMongo);
 		environment.lifecycle().manage(managedScheduler);
 
@@ -35,7 +51,7 @@ public class KheoApplication extends Application<KheoConfiguration> {
 
 		environment.healthChecks().register("Mongo connection", new MongoHealthcheck(managedMongo.getJongo()));
 		environment.healthChecks().register("Scheduler", new SchedulerHealthcheck(managedScheduler.getScheduler()));
-		
+
 		managedScheduler.registerJobs();
 	}
 
