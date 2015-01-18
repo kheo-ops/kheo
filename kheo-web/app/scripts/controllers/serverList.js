@@ -1,17 +1,18 @@
 'use strict';
 
-/**
- * @ngdoc function
- * @name kheoApp.controller:ServersCtrl
- * @description
- * # ServersCtrl
- * Controller of the kheoApp
- */
-angular.module('kheoApp')
-  .controller('ServerListCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+var module = angular.module('kheoApp');
+
+module.controller('ServerListCtrl', ['$scope', '$resource', function ($scope, $resource) {
+    $scope.servers = [];
+
+    $scope.init = function() {
+        $scope.servers = $resource('http://localhost:8080/servers').query();
+    }
+
+    $scope.delete = function(serverHostname) {
+        $resource('http://localhost:8080/servers/' + serverHostname).delete();
+        $scope.init();
+    }
+    
+    $scope.init(); 
+}]);

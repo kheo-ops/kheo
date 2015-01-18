@@ -1,17 +1,6 @@
 'use strict';
+var module = angular.module('kheoApp');
 
-/**
- * @ngdoc function
- * @name kheoApp.controller:ServerCtrl
- * @description
- * # ServerCtrl
- * Controller of the kheoApp
- */
-angular.module('kheoApp')
-  .controller('ServerDetailCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
-  });
+module.controller('ServerDetailCtrl', ['$scope', '$resource', '$routeParams', function ($scope, $resource, $routeParams) {
+  $scope.server = $resource('http://localhost:8080/servers/' + $routeParams.hostname).get();   
+}]);

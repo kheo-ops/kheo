@@ -1,4 +1,37 @@
-<h3 class="text-muted">Servers</h3>
-<div class="row marketing">
-    <h4>Inventory</h4>
+<div>
+    <a href="#/servers/new" class="btn btn-default btn-block">Create</a>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-condensed table-truncate">
+        <thead>
+            <tr>
+                <th>Host</th>
+                <th>User</th>
+                <th>Password</th>
+                <th>Ram</th>
+                <th>Cpu</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="server in servers">
+                <td>{{server.hostname}}</td>
+                <td>{{server.user}}</td>
+                <td>{{server.password}}</td>
+                <td>{{server.ram}}</td>
+                <td>{{server.cpu}}</td>
+                <td>
+                  <div>
+                    <a ng-href="#/servers/{{server.hostname}}/detail">
+                      <span class="glyphicon glyphicon-info-sign"></span>    
+                    </a>                
+                    <a ng-href="#/servers/{{server.hostname}}/edit">
+                      <span class="glyphicon glyphicon-edit"></span>    
+                    </a>                
+                    <span class="glyphicon glyphicon-remove" ng-click="delete(server.hostname)"></span>
+                  </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
