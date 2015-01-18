@@ -8,6 +8,11 @@ module.controller('ServerListCtrl', ['$scope', '$resource', function ($scope, $r
     $scope.init = function() {
         $scope.servers = $resource('http://localhost:8080/servers').query();
     }
+
+    $scope.delete = function(serverHostname) {
+        $resource('http://localhost:8080/servers/' + serverHostname).delete();
+        $scope.init();
+    }
     
     $scope.init(); 
 }]);

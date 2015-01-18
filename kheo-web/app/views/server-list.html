@@ -19,6 +19,14 @@
                 <td>{{server.password}}</td>
                 <td>{{server.ram}}</td>
                 <td>{{server.cpu}}</td>
+                <td>
+                  <a ng-href="#/servers/{{server.hostname}}">
+                    <span class="glyphicon glyphicon-edit"></span>    
+                  </a>
+                </td>
+                <td>                  
+                  <span class="glyphicon glyphicon-edit" ng-click="delete(server.hostname)"></span>
+                </td>
             </tr>
         </tbody>
     </table>
