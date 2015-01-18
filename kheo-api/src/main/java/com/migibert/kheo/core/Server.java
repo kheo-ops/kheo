@@ -5,39 +5,53 @@ import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.migibert.kheo.configuration.ViewDetail;
+import com.migibert.kheo.configuration.ViewList;
 
 public class Server {
 
+	@JsonView({ ViewList.class, ViewDetail.class })
 	@JsonProperty
 	public String hostname;
 
+	@JsonView({ ViewList.class, ViewDetail.class })
 	@JsonProperty
 	public String host;
 
+	@JsonView({ ViewList.class, ViewDetail.class })
 	@JsonProperty
 	public String user;
 
+	@JsonView({ ViewList.class, ViewDetail.class })
 	@JsonProperty
 	public String password;
 
+	@JsonView({ ViewList.class, ViewDetail.class })
 	@JsonProperty
 	public String privateKey;
 
+	@JsonView({ ViewList.class, ViewDetail.class })
 	@JsonProperty
 	public int ram;
 
+	@JsonView({ ViewList.class, ViewDetail.class })
 	@JsonProperty
 	public int cpu;
 
+	@JsonView(ViewDetail.class)
 	@JsonProperty
 	public OperatingSystem os;
 
+	@JsonView(ViewDetail.class)
 	@JsonProperty
 	public List<NetworkInterface> networkInterfaces;
 
+	@JsonView(ViewDetail.class)
 	@JsonProperty
 	public List<Service> services;
 
+	@JsonView(ViewDetail.class)
 	@JsonProperty
 	public List<ListeningProcess> listeningProcesses;
 

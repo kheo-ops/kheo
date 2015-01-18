@@ -15,6 +15,9 @@ import javax.ws.rs.core.Response.Status;
 import org.jongo.MongoCollection;
 
 import com.codahale.metrics.annotation.Timed;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.migibert.kheo.configuration.ViewDetail;
+import com.migibert.kheo.configuration.ViewList;
 import com.migibert.kheo.core.Server;
 import com.migibert.kheo.service.ServerService;
 
@@ -30,6 +33,7 @@ public class ServerResource {
 
     @GET
     @Timed
+    @JsonView(ViewList.class)
     public Response getServers() {
         return Response.status(Status.OK).entity(service.readAll()).build();
     }
@@ -37,6 +41,7 @@ public class ServerResource {
     @GET
     @Timed
     @Path("/{hostname}")
+    @JsonView(ViewDetail.class)
     public Response getServer(@PathParam("hostname") String hostname) {
         Server server = service.read(hostname);
         if (server == null) {
@@ -48,6 +53,7 @@ public class ServerResource {
     @GET
     @Timed
     @Path("/{hostname}/discover")
+    @JsonView(ViewDetail.class)
     public Response discoverServer(@PathParam("hostname") String hostname) {
         Server server = service.read(hostname);
         if (server == null) {
@@ -60,6 +66,7 @@ public class ServerResource {
 
     @POST
     @Timed
+    @JsonView(ViewDetail.class)
     public Response createServer(Server server) {
         service.create(server);
         return Response.status(Status.CREATED).build();
@@ -68,6 +75,7 @@ public class ServerResource {
     @PUT
     @Timed
     @Path("/{hostname}")
+    @JsonView(ViewDetail.class)
     public Response updateServer(@PathParam("hostname") String hostname, Server server) {
         if (!hostname.equals(server.hostname)) {
             throw new BadRequestException("Hostnames does not match.");
