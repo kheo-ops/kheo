@@ -1,7 +1,7 @@
 package com.migibert.kheo.managed;
 
+import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
-import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 import io.dropwizard.lifecycle.Managed;
 
@@ -33,10 +33,10 @@ public class ManagedScheduler implements Managed {
 		scheduler.shutdown();
 	}
 
-	public void registerJobs() {
+	public void registerJobs(String cronExpression) {
 		JobDetail job = newJob(ConfigurationDiscoveryJob.class).build();
-		Trigger trigger = newTrigger().withSchedule(simpleSchedule().withIntervalInMinutes(5).repeatForever()).build();
 		try {
+			Trigger trigger = newTrigger().withSchedule(cronSchedule(cronExpression)).build();
 			scheduler.scheduleJob(job, trigger);
 		} catch (SchedulerException e) {
 			logger.error(e.getMessage(), e);
