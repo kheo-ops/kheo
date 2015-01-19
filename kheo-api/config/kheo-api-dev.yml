@@ -4,4 +4,4 @@ mongo:
     db: kheo
     serverCollection: servers
 scheduler:
-    cronExpression: 0 35 23 * * ?
+    cronExpression: 0 0 12 * * ?
