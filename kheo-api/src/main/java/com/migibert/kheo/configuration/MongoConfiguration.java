@@ -18,7 +18,4 @@ public class MongoConfiguration {
 	@NotNull
 	public String serverCollection = "servers";
 	
-	@NotNull 
-	public String eventCollection = "events";
-	
 }

@@ -3,3 +3,5 @@ mongo:
     port: 12345
     db: kheo
     serverCollection: servers
+scheduler:
+    cronExpression: 0 0 12 * * ?

@@ -50,7 +50,7 @@ public class KheoApplication extends Application<KheoConfiguration> {
 		environment.healthChecks().register("Mongo connection", new MongoHealthcheck(managedMongo.getJongo()));
 		environment.healthChecks().register("Scheduler", new SchedulerHealthcheck(managedScheduler.getScheduler()));
 
-		managedScheduler.registerJobs();
+		managedScheduler.registerJobs(configuration.scheduler.cronExpression);
 	}
 
 	@Override
