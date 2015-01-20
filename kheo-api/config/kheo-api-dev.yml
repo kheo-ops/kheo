@@ -5,3 +5,22 @@ mongo:
     serverCollection: servers
 scheduler:
     cronExpression: 0 0 12 * * ?
+cors:
+    allowedMethods:
+    - GET
+    - PUT
+    - POST
+    - DELETE
+    - OPTIONS
+    allowedOrigins:
+    - all
+    accessControlAllowOrigin: all
+    allowedHeaders:
+    - Content-Type
+    - Authorization
+    - X-Requested-With
+    - Content-Length
+    - Accept
+    - Origin
+    allowCredentials: true
+
