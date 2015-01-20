@@ -12,6 +12,7 @@ import javax.servlet.FilterRegistration.Dynamic;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.quartz.impl.StdSchedulerFactory;
 
+import com.google.common.base.Joiner;
 import com.migibert.kheo.exception.mapping.ServerAlreadyExistExceptionMapper;
 import com.migibert.kheo.exception.mapping.ServerNotFoundExceptionMapper;
 import com.migibert.kheo.healtcheck.MongoHealthcheck;
@@ -34,10 +35,12 @@ public class KheoApplication extends Application<KheoConfiguration> {
 
 		Dynamic filter = environment.servlets().addFilter("cors", new CrossOriginFilter());
 		filter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
-		filter.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, configuration.cors.allowedMethods);
-		filter.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, configuration.cors.allowedOrigins);
-		filter.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, configuration.cors.accessControlAllowOrigin);
-		filter.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, configuration.cors.allowedHeaders);
+		String allowedOrigins = configuration.cors.allowedOrigins.contains("all") ? "*" : Joiner.on(",").join(configuration.cors.allowedOrigins);
+		filter.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, allowedOrigins);
+		filter.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, Joiner.on(",").join(configuration.cors.allowedMethods));		
+		String accessControlAllowOrigin = configuration.cors.accessControlAllowOrigin.equals("all") ? "*" : configuration.cors.accessControlAllowOrigin;
+		filter.setInitParameter(CrossOriginFilter.ACCESS_CONTROL_ALLOW_ORIGIN_HEADER, accessControlAllowOrigin);
+		filter.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, Joiner.on(",").join(configuration.cors.allowedHeaders));
 		filter.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, configuration.cors.allowCredentials);
 
 		environment.lifecycle().manage(managedMongo);
