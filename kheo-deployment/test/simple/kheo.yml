@@ -1,16 +1,28 @@
-- hosts: all
+- hosts: kheo
   tasks:
   - name: Update apt
     command: apt-get update
 
 - hosts: kheo-db
   roles:
-    - lesmyrmidons.mongodb
+    - role: bennojoy.mongo_mongod
+      mongod_datadir_prefix: "/data/"
+      mongod_replication: false
+      mongod_port: 27017
 
 - hosts: kheo-api
   roles:
-    - smola.java
+    - role: ANXS.oracle-jdk
+      oracle_jdk_java_version_default: 7
 
 - hosts: kheo-web
   roles:
-    - bennojoy.nginx
+    - role: jdauphant.nginx
+      nginx_http_params:
+      - access_log /var/log/nginx/access.log
+      nginx_sites:
+        foo:
+        - listen 80
+        - server_name localhost
+        - root /var/www/html
+        - location / { try_files $uri $uri/ /index.html; }
