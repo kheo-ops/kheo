@@ -1,11 +1,11 @@
 [kheo-db]
-db ansible_ssh_host=192.168.50.5
+db ansible_ssh_host=192.168.0.5
 
 [kheo-api]
-api ansible_ssh_host=192.168.50.6
+api ansible_ssh_host=192.168.0.6
 
 [kheo-web]
-web ansible_ssh_host=192.168.50.7
+web ansible_ssh_host=192.168.0.7
 
 [kheo:children]
 kheo-db

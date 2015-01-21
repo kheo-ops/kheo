@@ -7,28 +7,28 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "ubuntu-precise_14.04_x64"
   config.vm.box_url = "https://oss-binaries.phusionpassenger.com/vagrant/boxes/latest/ubuntu-14.04-amd64-vbox.box"
 
-  config.vm.define "db" do |db|
-    db.vm.network "private_network", ip: "192.168.50.5"
+  config.vm.define "kheo-db" do |db|
+    db.vm.network "private_network", ip: "192.168.0.5"
     db.vm.provider :virtualbox do |vb|
-      vb.name = "db"
+      vb.name = "khe-db"
       vb.customize ["modifyvm", :id, "--cpus", "1"]
       vb.customize ["modifyvm", :id, "--memory", "512"]
     end 
   end
 
-  config.vm.define "api" do |api|
-    api.vm.network "private_network", ip: "192.168.50.6"
+  config.vm.define "kheo-api" do |api|
+    api.vm.network "private_network", ip: "192.168.0.6"
     api.vm.provider :virtualbox do |vb|
-      vb.name = "api"
+      vb.name = "kheo-api"
       vb.customize ["modifyvm", :id, "--cpus", "1"]
       vb.customize ["modifyvm", :id, "--memory", "512"]
     end 
   end
 
-  config.vm.define "web" do |web|
-    web.vm.network "private_network", ip: "192.168.50.7"
+  config.vm.define "kheo-web" do |web|
+    web.vm.network "private_network", ip: "192.168.0.7"
     web.vm.provider :virtualbox do |vb|
-      vb.name = "web"
+      vb.name = "kheo-web"
       vb.customize ["modifyvm", :id, "--cpus", "1"]
       vb.customize ["modifyvm", :id, "--memory", "512"]
     end 
