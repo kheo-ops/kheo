@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "kheo-db" do |db|
     db.vm.network "private_network", ip: "192.168.0.5"
     db.vm.provider :virtualbox do |vb|
-      vb.name = "khe-db"
+      vb.name = "kheo-db"
       vb.customize ["modifyvm", :id, "--cpus", "1"]
       vb.customize ["modifyvm", :id, "--memory", "512"]
     end 

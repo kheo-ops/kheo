@@ -37,15 +37,16 @@ To make it easier to use, there is a fig config file that let you start each lay
 `sudo fig up -d`
 
 ## Deployment
-Kheo comes with an Ansible playbook that deploys components through your machines. 
+Kheo comes with sample Ansible playbooks that deploys components through your machines.
+
+There are sample playbooks for those topologies:
+- all-in-one: All Kheo components are deployed on one machine
+- simple: Each component is deployed on a machine
+- ha: Each component is deployed at least 2 times to provide high availability, and HAProxy is deployed to provide load balancing and failure discovery.
 
 You can execute the playbook following these steps:
 - sudo ansible-galaxy install lesmyrmidons.mongodb
 - sudo ansible-galaxy install bennojoy.nginx
 - sudo ansible-galaxy install smola.java
-- ansible-playbook -i inventory kheo.yml
+- ansible-playbook -i inventory kheo.yml --private-key=<key>
 
-Inventory file must define the following groups:
-- kheo-db
-- kheo-api
-- kheo-web
