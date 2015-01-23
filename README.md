@@ -18,6 +18,8 @@ Once your servers have been registered, you can obtain informations like:
 - Resources (ram, disk, cpu, ...)
 - Running processes
 - Installed packages
+ 
+Moreover, Kheo discovers your servers configuration at regular intervals and stores delta between configuration as events. You can select events you want to store and those that do not have interest for you.
 
 ## Underlying technologies
 Kheo is build with the following technologies:
