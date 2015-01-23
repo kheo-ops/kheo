@@ -3,15 +3,21 @@ machine:
     - docker
 
 dependencies:
-  override:
+  pre:
     - cd kheo-api && mvn clean package -DskipTests && cd ..
-    - cd kheo-web && npm install && bower install && grunt build
+    - cd kheo-web && npm install && bower install && grunt build && cd ..
+  override:
     - docker build -t kheo-api kheo-api
-    - docker build -t kheo-web kheo-web
+    - docker pull dockerfile/nginx 
     - docker pull mongo:latest
+  post:
+    - ls -al
 
 test:
-  override:
-    - docker run -d -p 27017:27017 mongo:latest
+  pre:
+    - netstat -ntlp 
+    - docker run -d -p 37017:27017 mongo:latest
     - docker run -d -p 8080:8080 -p 8081:8081 kheo-api
-    - docker run -d -p 80:80 kheo-web
+    - docker run -d -p 80:80 -v `pwd`/kheo-web/dist:/var/www/html dockerfile/nginx
+  override:
+    - sleep 10
