@@ -42,7 +42,6 @@ Kheo comes with sample Ansible playbooks that deploys components through your ma
 There are sample playbooks for those topologies:
 - all-in-one: All Kheo components are deployed on one machine
 - simple: Each component is deployed on a machine
-- ha: Each component is deployed at least 2 times to provide high availability, and HAProxy is deployed to provide load balancing and failure discovery.
 
 You can execute the playbook following these steps:
 - sudo ansible-galaxy install lesmyrmidons.mongodb
