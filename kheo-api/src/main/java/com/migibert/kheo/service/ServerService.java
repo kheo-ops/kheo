@@ -39,14 +39,14 @@ public class ServerService {
 	}
 
 	public void create(Server server) {
-		if (exists(server.hostname)) {
+		if (exists(server.host)) {
 			throw new ServerAlreadyExistException(server);
 		}
 		serverCollection.insert(server);
 	}
 
-	public Server read(String hostname) {
-		return serverCollection.findOne("{hostname:#}", hostname).as(Server.class);
+	public Server read(String host) {
+		return serverCollection.findOne("{host:#}", host).as(Server.class);
 	}
 
 	public List<Server> readAll() {
@@ -54,19 +54,19 @@ public class ServerService {
 	}
 
 	public void update(Server server) {
-		serverCollection.update("{hostname:#}", server.hostname).with(server);
+		serverCollection.update("{host:#}", server.host).with(server);
 	}
 
-	public void delete(String hostname) {
-		if (!exists(hostname)) {
-			throw new ServerNotFoundException(hostname);
+	public void delete(String host) {
+		if (!exists(host)) {
+			throw new ServerNotFoundException(host);
 		}
-		serverCollection.remove("{hostname:#}", hostname);
+		serverCollection.remove("{host:#}", host);
 	}
 
 	public Server discover(Server server) {
 		try {
-			Server discovered = new Server(server.hostname, server.host, server.user, server.password, server.privateKey, server.ram, server.cpu);
+			Server discovered = new Server(server.host, server.user, server.password, server.privateKey, server.ram, server.cpu);
 			discovered.id = server.id;
 			discovered.eventLog = new ArrayList<ServerEvent>(server.eventLog);
 
@@ -88,12 +88,12 @@ public class ServerService {
 			return discovered;
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
-			throw new ServerConnectionException(server.hostname);
+			throw new ServerConnectionException(server.host);
 		}
 	}
 
-	private boolean exists(String hostname) {
-		return serverCollection.count("{hostname:#}", hostname) > 0;
+	private boolean exists(String host) {
+		return serverCollection.count("{host:#}", host) > 0;
 	}
 
 	private List<NetworkInterface> discoverNetworkInterfaces(Server server) throws IOException {
