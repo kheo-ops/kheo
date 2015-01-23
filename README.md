@@ -46,8 +46,8 @@ There are sample playbooks for those topologies:
 - simple: Each component is deployed on a machine
 
 You can execute the playbook following these steps:
-- sudo ansible-galaxy install lesmyrmidons.mongodb
-- sudo ansible-galaxy install bennojoy.nginx
-- sudo ansible-galaxy install smola.java
+- sudo ansible-galaxy install bennojoy.mongo_mongod
+- sudo ansible-galaxy install jdauphant.nginx
+- sudo ansible-galaxy install ANXS.oracle-jdk
 - ansible-playbook -i inventory kheo.yml --private-key=<key>
 
