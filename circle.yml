@@ -1,0 +1,15 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker build -t kheo-api kheo-api
+    - docker build -t kheo-web kheo-web
+    - docker pull mongo:latest
+
+test:
+  override:
+    - docker run -d -p 27017:27017 mongo:latest
+    - docker run -d -p 8080:8080 -p 8081:8081 kheo-api
+    - docker run -d -p 80:80 kheo-web
