@@ -10,8 +10,7 @@ module.controller('ServerListCtrl', ['$scope', '$resource', function ($scope, $r
     }
 
     $scope.delete = function(serverHostname) {
-        $resource('http://localhost:8080/servers/' + serverHostname).delete();
-        $scope.init();
+        $resource('http://localhost:8080/servers/' + serverHostname).delete().$promise.then(function() { $scope.init(); })
     }
     
     $scope.init(); 
