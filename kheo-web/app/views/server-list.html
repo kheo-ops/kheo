@@ -6,7 +6,7 @@
         <thead>
             <tr>
                 <th>Host</th>
-                <th>User</th>                
+                <th>User</th>
                 <th>Ram</th>
                 <th>Cpu</th>
                 <th>Actions</th>
@@ -14,19 +14,19 @@
         </thead>
         <tbody>
             <tr ng-repeat="server in servers">
-                <td>{{server.hostname}}</td>
-                <td>{{server.user}}</td>                
+                <td>{{server.host}}</td>
+                <td>{{server.user}}</td>
                 <td>{{server.ram}}</td>
                 <td>{{server.cpu}}</td>
                 <td>
                   <div>
-                    <a ng-href="#/servers/{{server.hostname}}/detail">
-                      <span class="glyphicon glyphicon-info-sign"></span>    
-                    </a>                
-                    <a ng-href="#/servers/{{server.hostname}}/edit">
-                      <span class="glyphicon glyphicon-edit"></span>    
-                    </a>                
-                    <span class="glyphicon glyphicon-remove" ng-click="delete(server.hostname)"></span>
+                    <a ng-href="#/servers/{{server.host}}/detail">
+                      <span class="glyphicon glyphicon-info-sign"></span>
+                    </a>
+                    <a ng-href="#/servers/{{server.host}}/edit">
+                      <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                    <span class="glyphicon glyphicon-remove" ng-click="delete(server.host)"></span>
                   </div>
                 </td>
             </tr>

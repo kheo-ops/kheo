@@ -34,10 +34,10 @@ public class ConfigurationDiscoveryJob implements Job {
 		Set<Server> servers = getServersResponse.readEntity(new GenericType<Set<Server>>() {
 		});
 		for (Server server : servers) {
-			Response discoveryResponse = client.target("http://localhost:8080").path("servers/" + server.hostname + "/discover").request().get();
+			Response discoveryResponse = client.target("http://localhost:8080").path("servers/" + server.host + "/discover").request().get();
 			if (discoveryResponse.getStatus() == Status.OK.getStatusCode()) {
 				Server discoveredServer = discoveryResponse.readEntity(Server.class);
-				client.target("http://localhost:8080").path("servers/" + server.hostname).request()
+				client.target("http://localhost:8080").path("servers/" + server.host).request()
 						.put(Entity.entity(discoveredServer, MediaType.APPLICATION_JSON));
 			}
 		}
