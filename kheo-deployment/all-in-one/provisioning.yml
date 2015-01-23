@@ -1,0 +1,20 @@
+- hosts: kheo
+  tasks:
+  - name: Update apt
+    command: apt-get update
+  roles:
+    - role: bennojoy.mongo_mongod
+      mongod_datadir_prefix: "/data/"
+      mongod_replication: false
+      mongod_port: 27017
+    - role: ANXS.oracle-jdk
+      oracle_jdk_java_version_default: 7
+    - role: jdauphant.nginx
+      nginx_http_params:
+      - access_log /var/log/nginx/access.log
+      nginx_sites:
+        foo:
+        - listen 80
+        - server_name localhost
+        - root /usr/share/nginx/html
+        - location / { try_files $uri $uri/ /index.html; }

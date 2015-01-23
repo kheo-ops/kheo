@@ -1,0 +1,19 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|  
+  config.vm.box = "ubuntu-precise_14.04_x64"
+  config.vm.box_url = "https://oss-binaries.phusionpassenger.com/vagrant/boxes/latest/ubuntu-14.04-amd64-vbox.box"
+
+  config.vm.define "kheo" do |kheo|
+    kheo.vm.network "private_network", ip: "192.168.0.5"
+    kheo.vm.provider :virtualbox do |vb|
+      vb.name = "kheo"
+      vb.customize ["modifyvm", :id, "--cpus", "1"]
+      vb.customize ["modifyvm", :id, "--memory", "512"]
+    end 
+  end
+  config.vm.provision "shell", inline: 'cat /vagrant/key.pub >> /root/.ssh/authorized_keys'
+end

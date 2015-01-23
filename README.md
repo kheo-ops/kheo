@@ -35,3 +35,17 @@ sudo docker run -d -p 27017:27017 mongo:latest
 
 To make it easier to use, there is a fig config file that let you start each layer inside a container:
 `sudo fig up -d`
+
+## Deployment
+Kheo comes with sample Ansible playbooks that deploys components through your machines.
+
+There are sample playbooks for those topologies:
+- all-in-one: All Kheo components are deployed on one machine
+- simple: Each component is deployed on a machine
+
+You can execute the playbook following these steps:
+- sudo ansible-galaxy install lesmyrmidons.mongodb
+- sudo ansible-galaxy install bennojoy.nginx
+- sudo ansible-galaxy install smola.java
+- ansible-playbook -i inventory kheo.yml --private-key=<key>
+
