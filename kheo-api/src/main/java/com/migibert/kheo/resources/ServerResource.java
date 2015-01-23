@@ -40,10 +40,10 @@ public class ServerResource {
 
     @GET
     @Timed
-    @Path("/{hostname}")
+    @Path("/{host}")
     @JsonView(ViewDetail.class)
-    public Response getServer(@PathParam("hostname") String hostname) {
-        Server server = service.read(hostname);
+    public Response getServer(@PathParam("host") String host) {
+        Server server = service.read(host);
         if (server == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -52,10 +52,10 @@ public class ServerResource {
 
     @GET
     @Timed
-    @Path("/{hostname}/discover")
+    @Path("/{host}/discover")
     @JsonView(ViewDetail.class)
-    public Response discoverServer(@PathParam("hostname") String hostname) {
-        Server server = service.read(hostname);
+    public Response discoverServer(@PathParam("host") String host) {
+        Server server = service.read(host);
         if (server == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -74,11 +74,11 @@ public class ServerResource {
 
     @PUT
     @Timed
-    @Path("/{hostname}")
+    @Path("/{host}")
     @JsonView(ViewDetail.class)
-    public Response updateServer(@PathParam("hostname") String hostname, Server server) {
-        if (!hostname.equals(server.hostname)) {
-            throw new BadRequestException("Hostnames does not match.");
+    public Response updateServer(@PathParam("host") String host, Server server) {
+        if (!host.equals(server.host)) {
+            throw new BadRequestException("Hosts does not match.");
         }
         service.update(server);
         return Response.status(Status.NO_CONTENT).build();
@@ -86,9 +86,9 @@ public class ServerResource {
 
     @DELETE
     @Timed
-    @Path("/{hostname}")
-    public Response deleteServer(@PathParam("hostname") String hostname) {
-        service.delete(hostname);
+    @Path("/{host}")
+    public Response deleteServer(@PathParam("host") String host) {
+        service.delete(host);
         return Response.status(Status.NO_CONTENT).build();
     }
 
