@@ -60,7 +60,7 @@ public class ServerResource {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        Server discoveredServer = service.discover(server);
+        Server discoveredServer = service.discover(server, false);
         return Response.status(Status.OK).entity(discoveredServer).build();
     }
 
