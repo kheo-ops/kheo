@@ -1,6 +1,6 @@
 # kheo
 ====
-[![Circle CI](https://circleci.com/gh/migibert/kheo/tree/master.svg?style=svg)](https://circleci.com/gh/migibert/kheo/tree/master)
+Functional tests: [![Circle CI](https://circleci.com/gh/migibert/kheo/tree/master.svg?style=svg)](https://circleci.com/gh/migibert/kheo/tree/master)
 ====
 ## Overview
 Kheo is an agentless application dedicated to servers management, including softwares inventory, os and network informations.
