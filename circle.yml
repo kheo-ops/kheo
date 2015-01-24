@@ -20,4 +20,5 @@ test:
     - docker run -d -p 8080:8080 -p 8081:8081 kheo-api
     - docker run -d -p 80:80 -v `pwd`/kheo-web/dist:/var/www/html dockerfile/nginx
   override:
-    - sleep 10
+    - ./kheo-test/functional/test-api.sh
+    - ./kheo-test/functional/test-ui.sh
