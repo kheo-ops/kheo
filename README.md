@@ -1,8 +1,9 @@
 # kheo
 ====
-Functional tests: [![Circle CI](https://circleci.com/gh/migibert/kheo/tree/master.svg?style=svg)](https://circleci.com/gh/migibert/kheo/tree/master)
-====
+
 ## Overview
+Functional tests: [![Circle CI](https://circleci.com/gh/migibert/kheo/tree/master.svg?style=svg)](https://circleci.com/gh/migibert/kheo/tree/master)
+
 Kheo is an agentless application dedicated to servers management, including softwares inventory, os and network informations.
 
 Kheo relies on SSH to communicate with the servers to manage so it does not need any specific configuration. As a constraint, it needs a key to contact remote hosts.
