@@ -10,15 +10,15 @@ dependencies:
     - docker build -t kheo-api kheo-api
     - docker pull dockerfile/nginx 
     - docker pull mongo:latest
-  post:
-    - ls -al
 
 test:
   pre:
-    - netstat -ntlp 
+    - chmod a+x kheo-test/functional/test-api.sh
+    - chmod a+x kheo-test/functional/test-ui.sh
     - docker run -d -p 37017:27017 mongo:latest
     - docker run -d -p 8080:8080 -p 8081:8081 kheo-api
     - docker run -d -p 80:80 -v `pwd`/kheo-web/dist:/var/www/html dockerfile/nginx
   override:
     - ./kheo-test/functional/test-api.sh
     - ./kheo-test/functional/test-ui.sh
+
