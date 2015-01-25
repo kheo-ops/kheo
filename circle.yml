@@ -2,6 +2,8 @@ dependencies:
   pre:
     - cd kheo-api && mvn clean package -DskipTests && cd ..
     - cd kheo-web && npm install && bower install && grunt build && cd ..
+  post:
+    - gem install cucumber
 
 test:
   pre:
