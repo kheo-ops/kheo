@@ -4,14 +4,12 @@ dependencies:
     - cd kheo-web && npm install && bower install && grunt build && cd ..
   post:
     - gem install cucumber
+    - gem install httparty
 
 test:
   pre:
-    - chmod a+x kheo-test/functional/test-api.sh
-    - chmod a+x kheo-test/functional/test-ui.sh
     - java -jar kheo-api/target/kheo-api.jar server kheo-api/config/kheo-api-ci.yml:
         background: true
 
   override:
-    - ./kheo-test/functional/test-api.sh
-    - ./kheo-test/functional/test-ui.sh
+    - cd kheo-test && cucumber
