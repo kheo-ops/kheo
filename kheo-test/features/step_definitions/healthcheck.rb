@@ -1,5 +1,5 @@
 require 'httparty'
-
+require 'test/unit'
 
 Given(/^I am on the healthcheck page$/) do
   @response = HTTParty.get('http://localhost:8081/healthcheck')
