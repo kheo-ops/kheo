@@ -1,4 +1,7 @@
 require 'httparty'
+require 'test/unit/assertions'
+
+World(Test::Unit::Assertions)
 
 Given(/^A server "(.*?)" with access enabled to "(.*?)" with "(.*?)"$/) do |host, user, password|
     @response = HTTParty.post('http://localhost:8080/servers',

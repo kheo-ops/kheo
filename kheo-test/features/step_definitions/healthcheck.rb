@@ -1,5 +1,7 @@
 require 'httparty'
-require 'test/unit'
+require 'test/unit/assertions'
+
+World(Test::Unit::Assertions)
 
 Given(/^I am on the healthcheck page$/) do
   @response = HTTParty.get('http://localhost:8081/healthcheck')
