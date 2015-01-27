@@ -26,6 +26,6 @@ Then(/^I can retrieve the server "(.*?)"$/) do |host|
         })
 end
 
-Then(/^SSH connectivity is "(.*?)"$/) do |connectivity|
-    assert_equal(JSON.parse(@response.body)['sshConnectionValidity'], connectivity)        
+Then(/^SSH connectivity is "(.*?)"$/) do |expectedSshConnectivity|
+    assert_equal(expectedSshConnectivity, JSON.parse(@response.body)['sshConnectionValidity'].to_s)
 end
