@@ -1,7 +1,12 @@
+machine:
+  services:
+    - docker
+
 dependencies:
   pre:
     - cd kheo-api && mvn clean package -DskipTests && cd ..
     - cd kheo-web && npm install && bower install && grunt build && cd ..
+    - docker pull stephens/sshd
   post:
     - gem install cucumber
     - gem install httparty
@@ -11,6 +16,7 @@ test:
     - chmod a+x kheo-test/wait_for_server.sh
     - java -jar kheo-api/target/kheo-api.jar server kheo-api/config/kheo-api-ci.yml:
         background: true
+    - docker run -d -p 22222:22 stephens/sshd
 
   override:
     - ./kheo-test/wait_for_server.sh 
