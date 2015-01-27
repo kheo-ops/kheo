@@ -15,7 +15,7 @@ public class SshClient {
     public static String execute(Server server, String command) throws IOException {
         try (SSHClient ssh = new SSHClient();) {
             ssh.addHostKeyVerifier(new PromiscuousVerifier());
-            ssh.connect(server.host);
+            ssh.connect(server.host, server.sshPort);
             ssh.authPassword(server.user, server.password);
             try (Session session = ssh.startSession()) {
                 Command cmd = session.exec(command);

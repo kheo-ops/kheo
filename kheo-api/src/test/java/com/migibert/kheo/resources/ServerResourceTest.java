@@ -49,6 +49,7 @@ public class ServerResourceTest {
         NetworkInterface lo = new NetworkInterface("127.0.0.1", "", "Local loopback", "lo", "", "255.0.0.0", "aa:bb:cc:dd:ee:ff");
         Server server = new Server("127.0.0.1", "root", "password", "", 4096, 2);
         server.networkInterfaces = Lists.newArrayList(eth0, lo);
+        server.sshPort = 22222;
 
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("http://localhost:" + RULE.getLocalPort() + "/servers");
@@ -70,7 +71,7 @@ public class ServerResourceTest {
         NetworkInterface eth0 = new NetworkInterface("10.0.2.15", "fe80::a00:27ff:fe09:ac9d/64", "Ethernet", "eth0", "10.0.2.255", "255.255.255.0",
                                                      "aa:bb:cc:dd:ee:ff");
         NetworkInterface lo = new NetworkInterface("127.0.0.1", "", "Local loopback", "lo", "", "255.0.0.0", "aa:bb:cc:dd:ee:ff");
-        Server server = new Server("127.0.0.1", "root", "password", "", 4096, 2);
+        Server server = new Server("127.0.0.1", "mika", "password", "", 4096, 2);
         server.networkInterfaces = Lists.newArrayList(eth0, lo);
 
         Server serverConflict = new Server("127.0.0.1", "root", "password", "", 2048, 1);
