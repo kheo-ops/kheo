@@ -3,15 +3,16 @@ require 'test/unit/assertions'
 
 World(Test::Unit::Assertions)
 
-Given(/^A server "(.*?)" with access enabled to "(.*?)" with "(.*?)"$/) do |host, user, password|
+Given(/^A server "(.*?)" with access enabled to "(.*?)" with "(.*?)" on port (.*?)"$/) do |host, user, password, port|
     @server = {
         "host" => host,
         "user" => user,
-        "password" => password
+        "password" => password,
+        "sshPort" => port
     }
 end
 
-When(/^I add a "(.*?)" server with access enabled to "(.*?)" with "(.*?)"$/) do |host, user, password|
+When(/^I add a "(.*?)" server with access enabled to "(.*?)" with "(.*?) on port (.*?)"$/) do |host, user, password, port|
     HTTParty.post('http://localhost:8080/servers',
         {
             :body => @server.to_json,
