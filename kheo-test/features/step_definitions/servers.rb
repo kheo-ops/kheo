@@ -1,16 +1,15 @@
 require 'httparty'
 require 'test/unit/assertions'
+require 'json'
 
 World(Test::Unit::Assertions)
 
 Given(/^A server "(.*?)" with access enabled to "(.*?)" with "(.*?)" on port "(.*?)"$/) do |host, user, password, port|
-    puts port
-    puts port.to_i
     @server = {
         "host" => host,
         "user" => user,
         "password" => password,
-        "sshPort" => port.to_i
+        "sshPort" => port
     }
 end
 
@@ -20,8 +19,8 @@ When(/^I add a "(.*?)" server with access enabled to "(.*?)" with "(.*?)" on por
             :body => @server.to_json,
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' }
         })
-    puts @toto.body
-    puts @toto.code
+    puts @toto.request.inspect
+    puts @toto.inspect
 end
 
 
@@ -30,8 +29,6 @@ Then(/^I can retrieve the server "(.*?)"$/) do |host|
         {
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' }
         })
-    puts @response.body
-    puts @response.code
 end
 
 Then(/^SSH connectivity is "(.*?)"$/) do |expectedSshConnectivity|
