@@ -12,7 +12,7 @@ Given(/^A server "(.*?)" with access enabled to "(.*?)" with "(.*?)" on port "(.
     }
 end
 
-When(/^I add a "(.*?)" server with access enabled to "(.*?)" with "(.*?)" on port "(.*?)"$/) do |host, user, password, port|
+When(/^I add a "(.*?)" server with user "(.*?)" and password "(.*?)" on port "(.*?)"$/) do |host, user, password, port|
     HTTParty.post('http://localhost:8080/servers',
         {
             :body => @server.to_json,
@@ -31,6 +31,15 @@ end
 Then(/^SSH connectivity is "(.*?)"$/) do |expectedSshConnectivity|
     assert_equal(expectedSshConnectivity, JSON.parse(@response.body)['sshConnectionValidity'].to_s)
 end
+
+Given(/^A server "(.*?)" with access disabled to "(.*?)" with "(.*?)" on port "(.*?)"$/) do |host, user, password, port|
+     HTTParty.post('http://localhost:8080/servers',
+        {
+            :body => @server.to_json,
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' }
+        })
+end
+
 
 Given(/^An existing server "(.*?)"$/) do |host|
     HTTParty.post('http://localhost:8080/servers',
