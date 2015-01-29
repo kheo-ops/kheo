@@ -72,3 +72,16 @@ Then(/^"(.*?)" is not found$/) do |host|
     assert_equal(404, @response.code)
 end
 
+When(/^I update "(.*?)" with user "(.*?)" and password "(.*?)"$/) do |host, user, password|
+    @response = HTTParty.put('http://localhost:8080/servers/' + host,
+        {
+            :body => { "host" => host, "user" => user, "password" => password }.to_json,
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' }
+        })
+end
+
+Then(/^"(.*?)" user is "(.*?)" and password is "(.*?)"$/) do |host, user, password|
+    assert_equal(user, JSON.parse(@response.body)['user'])
+    assert_equal(password, JSON.parse(@response.body)['password'])
+end
+
