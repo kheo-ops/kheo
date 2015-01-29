@@ -33,11 +33,12 @@ Then(/^SSH connectivity is "(.*?)"$/) do |expectedSshConnectivity|
 end
 
 Given(/^A server "(.*?)" with access disabled to "(.*?)" with "(.*?)" on port "(.*?)"$/) do |host, user, password, port|
-     HTTParty.post('http://localhost:8080/servers',
-        {
-            :body => @server.to_json,
-            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' }
-        })
+    @server = {
+        "host" => host,
+        "user" => user,
+        "password" => password,
+        "sshPort" => port
+    }
 end
 
 

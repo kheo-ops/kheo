@@ -7,9 +7,9 @@ Feature: Manage servers
         And SSH connectivity is "true"
 
     Scenario: As a user, I can add a non connectable server
-        Given A server "localhost" with access disabled to "root" with "password" on port "22"
-        When I add a "localhost" server with user "root" and password "password" on port "22"
-        Then I can retrieve the server "localhost"
+        Given A server "non_connectable_server" with access disabled to "root" with "password" on port "22"
+        When I add a "non_connectable_server" server with user "root" and password "password" on port "22"
+        Then I can retrieve the server "non_connectable_server"
         And SSH connectivity is "false"
 
     Scenario: As a user, I can remove an existing server
