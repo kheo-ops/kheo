@@ -1,4 +1,4 @@
-# kheo
+# kheo [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 ====
 
 ## Statistics
@@ -8,7 +8,6 @@ Functional tests    [![Circle CI](https://circleci.com/gh/migibert/kheo/tree/mas
 [![Issue Stats](http://issuestats.com/github/migibert/kheo/badge/issue)](http://issuestats.com/github/migibert/kheo)
 
 ## Overview
-[![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)
 Kheo is an agentless application dedicated to servers management, including softwares inventory, os and network informations. It performs connections in background in order to generate events that represent changes on servers (differences since the last connection).
 
 In addition, it will discover routes between servers and display them as a graph in the web ui.
