@@ -19,6 +19,9 @@ public abstract class AbstractSshCommand<T> implements SshCommand<T> {
     
     @Override
     public String execute(Server target, String command) throws IOException {
-        return SshClient.execute(target, command);
+        if(target.sudo) {
+        	command = "sudo " + command;
+        }
+    	return SshClient.execute(target, command);
     }
 }
