@@ -5,7 +5,7 @@ machine:
 dependencies:
   pre:
     - cd kheo-api && mvn clean package && cd ..
-    - cd kheo-web && npm install && bower install && grunt build && cd ..
+    - cd kheo-web && npm install && bower install && grunt replace:ci && grunt build && cd ..
     - docker pull stephens/sshd
   post:
     - gem install cucumber

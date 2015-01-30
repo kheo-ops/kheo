@@ -8,10 +8,5 @@
  * Controller of the kheoApp
  */
 angular.module('kheoApp')
-  .controller('ContactCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('ContactCtrl', function ($scope) {    
   });

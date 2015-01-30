@@ -2,7 +2,7 @@
 
 var module = angular.module('kheoApp');
 
-module.controller('ServerNewCtrl', ['$scope', '$resource', '$location', function ($scope, $resource, $location) {
+module.controller('ServerNewCtrl', ['$scope', '$resource', '$location', 'configuration' function ($scope, $resource, $location, configuration) {
     $scope.server = {};
 
     $scope.save = function() {
@@ -10,6 +10,6 @@ module.controller('ServerNewCtrl', ['$scope', '$resource', '$location', function
             return;
         }
 
-        $resource('http://localhost:8080/servers').save($scope.server, function() { $location.path('servers'); });
+        $resource(configuration.backend + '/servers').save($scope.server, function() { $location.path('servers'); });
     };  
 }]);
