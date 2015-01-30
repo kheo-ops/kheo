@@ -32,6 +32,19 @@ Then(/^SSH connectivity is "(.*?)"$/) do |expectedSshConnectivity|
     assert_equal(expectedSshConnectivity, JSON.parse(@response.body)['sshConnectionValidity'].to_s)
 end
 
+Then(/^user is "(.*?)"$/) do |expectedUser|
+    assert_equal(expectedUser, JSON.parse(@response.body)['user'].to_s)
+end
+
+Then(/^password is "(.*?)"$/) do |expectedPassword|
+    assert_equal(expectedPassword, JSON.parse(@response.body)['password'].to_s)
+end
+
+Then(/^port is "(.*?)"$/) do |expectedPort|
+    assert_equal(expectedPort, JSON.parse(@response.body)['sshPort'].to_s)
+end
+
+
 Then(/^"(.*?)" process listens on port "(.*?)" with protocol "(.*?)"$/) do |programName, port, protocol|    
     processes = JSON.parse(@response.body)['listeningProcesses']
     foundProcesses = processes.select { |process| process['programName'] == '/' + programName && process['port'] == port && process['protocol'] == protocol }

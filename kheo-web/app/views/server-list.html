@@ -7,8 +7,8 @@
             <tr>
                 <th>Host</th>
                 <th>User</th>
-                <th>Ram</th>
-                <th>Cpu</th>
+                <th>Port</th>
+                <th>Connectivity</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -16,8 +16,13 @@
             <tr ng-repeat="server in servers">
                 <td>{{server.host}}</td>
                 <td>{{server.user}}</td>
-                <td>{{server.ram}}</td>
-                <td>{{server.cpu}}</td>
+                <td>{{server.sshPort}}</td>
+                <td ng-show="{{server.sshConnectionValidity === true}}">
+                    <span class="glyphicon glyphicon-ok"></span>
+                </td>
+                <td ng-show="{{server.sshConnectionValidity === false}}">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </td>
                 <td>
                   <div>
                     <a ng-href="#/servers/{{server.host}}/detail">

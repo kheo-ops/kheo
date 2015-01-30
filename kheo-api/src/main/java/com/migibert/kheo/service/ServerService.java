@@ -73,6 +73,7 @@ public class ServerService {
     public Server discover(Server server, boolean firstDiscovery) {
         try {
             Server discovered = new Server(server.host, server.user, server.password, server.privateKey, server.ram, server.cpu);
+            discovered.sshPort = server.sshPort;
             discovered.sshConnectionValidity = false;
 
             discovered.id = server.id;
