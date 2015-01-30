@@ -1,5 +1,7 @@
 package com.migibert.kheo.core;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,46 +28,13 @@ public class ListeningProcess {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((pid == null) ? 0 : pid.hashCode());
-        result = prime * result + ((port == null) ? 0 : port.hashCode());
-        result = prime * result + ((programName == null) ? 0 : programName.hashCode());
-        result = prime * result + ((protocol == null) ? 0 : protocol.hashCode());
-        return result;
-    }
-
-    @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ListeningProcess other = (ListeningProcess) obj;
-        if (pid == null) {
-            if (other.pid != null)
-                return false;
-        } else if (!pid.equals(other.pid))
-            return false;
-        if (port == null) {
-            if (other.port != null)
-                return false;
-        } else if (!port.equals(other.port))
-            return false;
-        if (programName == null) {
-            if (other.programName != null)
-                return false;
-        } else if (!programName.equals(other.programName))
-            return false;
-        if (protocol == null) {
-            if (other.protocol != null)
-                return false;
-        } else if (!protocol.equals(other.protocol))
-            return false;
-        return true;
+    	return EqualsBuilder.reflectionEquals(this, obj, false);
+    }
+    
+    @Override
+    public int hashCode() {
+    	return HashCodeBuilder.reflectionHashCode(this, false);
     }
 
     @Override
