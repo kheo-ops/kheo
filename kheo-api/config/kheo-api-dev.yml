@@ -1,5 +1,5 @@
 mongo:
-    host: kheo-db
+    host: localhost
     port: 27017
     db: kheo
     serverCollection: servers
