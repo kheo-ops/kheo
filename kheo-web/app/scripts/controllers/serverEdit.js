@@ -9,5 +9,6 @@ module.controller('ServerEditCtrl', ['$scope', '$resource', '$routeParams', func
                   {host: '@host'}, 
                   {'update': { method: 'PUT'}})
         .update($scope.server);
-    }
+    };
+    
 }]);
