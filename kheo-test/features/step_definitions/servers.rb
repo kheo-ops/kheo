@@ -32,6 +32,12 @@ Then(/^SSH connectivity is "(.*?)"$/) do |expectedSshConnectivity|
     assert_equal(expectedSshConnectivity, JSON.parse(@response.body)['sshConnectionValidity'].to_s)
 end
 
+Then(/^"(.*?)" process listens on port "(.*?)" with protocol "(.*?)"$/) do |programName, port, protocol|    
+    processes = JSON.parse(@response.body)['listeningProcesses']
+    foundProcesses = processes.select { |process| process['programName'] == '/' + programName && process['port'] == port && process['protocol'] == protocol }
+    assert_equal(1, foundProcesses.length)
+end
+
 Given(/^A server "(.*?)" with access disabled to "(.*?)" with "(.*?)" on port "(.*?)"$/) do |host, user, password, port|
     @server = {
         "host" => host,
@@ -40,7 +46,6 @@ Given(/^A server "(.*?)" with access disabled to "(.*?)" with "(.*?)" on port "(
         "sshPort" => port
     }
 end
-
 
 Given(/^An existing server "(.*?)"$/) do |host|
     HTTParty.post('http://localhost:8080/servers',
@@ -85,4 +90,5 @@ Then(/^"(.*?)" user is "(.*?)" and password is "(.*?)"$/) do |host, user, passwo
     assert_equal(user, JSON.parse(@response.body)['user'])
     assert_equal(password, JSON.parse(@response.body)['password'])
 end
+
 

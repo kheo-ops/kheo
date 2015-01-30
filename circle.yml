@@ -4,7 +4,7 @@ machine:
 
 dependencies:
   pre:
-    - cd kheo-api && mvn clean package -DskipTests && cd ..
+    - cd kheo-api && mvn clean package && cd ..
     - cd kheo-web && npm install && bower install && grunt build && cd ..
     - docker pull stephens/sshd
   post:
