@@ -2,15 +2,15 @@
 
 var module = angular.module('kheoApp');
 
-module.controller('ServerListCtrl', ['$scope', '$resource', function ($scope, $resource) {
+module.controller('ServerListCtrl', ['$scope', '$resource', 'configuration', function ($scope, $resource, configuration) {
     $scope.servers = [];
 
     $scope.init = function() {
-        $scope.servers = $resource('http://localhost:8080/servers').query();
+        $scope.servers = $resource(configuration.backend + '/servers').query();
     };
 
     $scope.delete = function(serverHostname) {
-        $resource('http://localhost:8080/servers/' + serverHostname).delete().$promise.then(function() { $scope.init(); });
+        $resource(configuration.backend + '/servers/' + serverHostname).delete().$promise.then(function() { $scope.init(); });
     };
     
     $scope.init(); 
