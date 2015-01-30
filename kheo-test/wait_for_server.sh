@@ -1,5 +1,4 @@
 #!/bin/bash
-echo "test api"
 
 # Tries a command 10 times sleeping 3 seconds between tries
 # $1 : command
@@ -27,3 +26,4 @@ function wait_for_server {
 }
 
 wait_for_server
+

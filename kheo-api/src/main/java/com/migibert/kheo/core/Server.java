@@ -23,7 +23,7 @@ public class Server {
     public String host;
     
     @JsonView({ ViewList.class, ViewDetail.class })
-    public int sshPort = 22;
+    public int sshPort;
 
     @JsonView({ ViewList.class, ViewDetail.class })
     @JsonProperty
@@ -74,6 +74,7 @@ public class Server {
         this.host = "";
         this.user = "";
         this.password = "";
+        this.sshPort = 22;
         this.privateKey = "";
         this.ram = 0;
         this.cpu = 0;

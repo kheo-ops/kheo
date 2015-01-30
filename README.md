@@ -54,8 +54,10 @@ You can execute the playbook following these steps:
 sudo ansible-galaxy install bennojoy.mongo_mongod
 sudo ansible-galaxy install jdauphant.nginx
 sudo ansible-galaxy install ANXS.oracle-jdk
-ansible-playbook -i inventory kheo.yml --private-key=<key>
+ansible-playbook -i inventory kheo.yml --private-key=key
 ```
 
 ## Testing
 Cucumber is used to validate API behavior. CircleCI runs Cucumber tests at each build. 
+
+To run it in local, use the script `local.sh`

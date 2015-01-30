@@ -80,6 +80,10 @@ public class ServerResource {
         if (!host.equals(server.host)) {
             throw new BadRequestException("Hosts does not match.");
         }
+        Server readServer = service.read(host);
+        if (readServer == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
         service.update(server);
         return Response.status(Status.NO_CONTENT).build();
     }
