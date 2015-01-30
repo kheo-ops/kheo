@@ -2,7 +2,7 @@
 ====
 
 ## Statistics
-Functional tests: [![Circle CI](https://circleci.com/gh/migibert/kheo/tree/master.svg?style=svg)](https://circleci.com/gh/migibert/kheo/tree/master)
+Functional tests    [![Circle CI](https://circleci.com/gh/migibert/kheo/tree/master.svg?style=svg)](https://circleci.com/gh/migibert/kheo/tree/master)
 
 [![Issue Stats](http://issuestats.com/github/migibert/kheo/badge/pr)](http://issuestats.com/github/migibert/kheo)
 [![Issue Stats](http://issuestats.com/github/migibert/kheo/badge/issue)](http://issuestats.com/github/migibert/kheo)
