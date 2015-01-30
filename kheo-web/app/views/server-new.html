@@ -11,6 +11,10 @@
     <label class="control-label" for="password">Password</label>
     <input id="password" type="password" class="form-control" ng-model="server.password" />
   </div>
+  <div class="form-group">
+    <label class="control-label" for="password">Port</label>
+    <input id="sshPort" type="text" class="form-control" ng-model="server.sshPort" />
+  </div>
   <div class="row">
     <div class="col-sm-3 col-md-3 col-lg-2">
       <button id="submit" class="btn btn-block" ng-click="save()">Save</button>

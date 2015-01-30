@@ -5,6 +5,9 @@ Feature: Manage servers
         When I add a "localhost" server with user "root" and password "password" on port "22222"
         Then I can retrieve the server "localhost"
         And SSH connectivity is "true"
+        And user is "root"
+        And password is "password"
+        And port is "22222"
         And "sshd" process listens on port "22" with protocol "tcp"
         And "sshd" process listens on port "22" with protocol "tcp6"
 
