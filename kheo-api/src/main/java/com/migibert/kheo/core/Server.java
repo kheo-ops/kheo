@@ -38,6 +38,10 @@ public class Server {
     @JsonView({ ViewList.class, ViewDetail.class })
     @JsonProperty
     public String privateKey;
+    
+    @JsonView({ ViewList.class, ViewDetail.class })
+    @JsonProperty
+    public boolean sudo;
 
     @JsonView({ ViewList.class, ViewDetail.class })
     @JsonProperty
