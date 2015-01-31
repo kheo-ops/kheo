@@ -1,17 +1,72 @@
-<form role="form">
-  <div class="form-group">
-    <label class="control-label" for="host">Host</label>
-    <label id="host" type="text" class="form-control">{{server.host}}</label>
-  </div>  
-  <div class="form-group">
-    <label class="control-label" for="user">User</label>
-    <label id="user" type="text" class="form-control">{{server.user}}
-  </div>
-  <div class="form-group">
-    <label class="control-label" for="user">Port</label>
-    <label id="user" type="text" class="form-control">{{server.sshPort}}
-  </div>
-  <div class="form-group">
-    <input id="sudo" type="checkbox" ng-model="server.sudo" disabled="true"/> Sudo
-  </div>
-</form>
+<tabset>
+  <tab heading="Informations">
+    <div role="form">
+      <div class="form-group">
+        <label class="control-label" for="host">Host</label>
+        <label id="host" type="text" class="form-control">{{server.host}}</label>
+      </div>  
+      <div class="form-group">
+        <label class="control-label" for="user">User</label>
+        <label id="user" type="text" class="form-control">{{server.user}}</label>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="user">Port</label>
+        <label id="user" type="text" class="form-control">{{server.sshPort}}</label>
+      </div>
+      <div class="form-group">
+        <input id="sudo" type="checkbox" ng-model="server.sudo" disabled="true"/> Sudo </input>
+      </div>    
+    </div>
+  </tab>
+  <tab heading="OS">
+    <div role="form">
+      <div class="form-group">
+        <label class="control-label" for="os-name">Name</label>
+        <label id="os-name" type="text" class="form-control">{{server.os.name}}</label>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="os-kernel-version">Kernel name</label>
+        <label id="os-kernel-version" type="text" class="form-control">{{server.os.kernelName}}</label>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="os-kernel-release">Kernel release</label>
+        <label id="os-kernel-release" type="text" class="form-control">{{server.os.kernelRelease}}</label>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="os-hardware-platform">Harware platform</label>
+        <label id="os-hardware-platform" type="text" class="form-control">{{server.os.hardwarePlatform}}</label>
+      </div>
+    </div>
+  </tab>
+  <tab heading="Interfaces">
+    <div class="panel panel-default" ng-repeat="networkInterface in server.networkInterfaces">
+      <div class="panel-heading">{{networkInterface.name}}</div>      
+      <div class="panel-body">
+        <div class="form-group">
+          <label class="control-label">IP v4</label>
+          <label type="text" class="form-control">{{networkInterface.inetAddress}}</label>
+        </div>
+        <div class="form-group">
+          <label class="control-label">IP v6</label>
+          <label type="text" class="form-control">{{networkInterface.inet6Address}}</label>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Encapsulation type</label>
+          <label type="text" class="form-control">{{networkInterface.encapsulationType}}</label>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Broadcast</label>
+          <label type="text" class="form-control">{{networkInterface.broadcast}}</label>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Mask</label>
+          <label type="text" class="form-control">{{networkInterface.mask}}</label>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Mac Address</label>
+          <label type="text" class="form-control">{{networkInterface.macAddress}}</label>
+        </div>
+      </div>
+    </div>
+  </tab>
+</tabset>

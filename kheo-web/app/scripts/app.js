@@ -4,6 +4,7 @@ angular
     .module('kheoApp', [
     'ngResource',
     'ngRoute',
+    'ui.bootstrap',
     'services.config'
   ])
   .config(function ($routeProvider) {
