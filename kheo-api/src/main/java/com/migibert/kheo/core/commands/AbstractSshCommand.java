@@ -20,8 +20,8 @@ public abstract class AbstractSshCommand<T> implements SshCommand<T> {
     
     public T executeAndParse(Server target) throws IOException {
         logger.info("Executing {} on {}", command, target.host);
-    	String result = execute(target, command);    	
-    	logger.info("Result is {}", result);
+        String result = execute(target, command);    	
+        logger.info("Result is {}", result);
         return parse(result);
     }
     
