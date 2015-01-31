@@ -13,8 +13,9 @@
         <label class="control-label" for="user">Port</label>
         <label id="user" type="text" class="form-control">{{server.sshPort}}</label>
       </div>
-      <div class="form-group">
-        <input id="sudo" type="checkbox" ng-model="server.sudo" disabled="true"/> Sudo </input>
+      <div class="form-group">     
+        <label class="control-label" for="password">Sudo</label>  
+        <input id="sudo" type="checkbox" ng-model="server.sudo" disabled="true"/>
       </div>    
     </div>
   </tab>
