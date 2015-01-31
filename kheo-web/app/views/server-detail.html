@@ -69,4 +69,32 @@
       </div>
     </div>
   </tab>
+  <tab heading="Services">
+    <div ng-repeat="service in server.services">
+      <label type="text" class="form-control">{{service.name}}</label>
+    </div>
+  </tab>
+  <tab heading="Listening processes">
+    <div class="panel panel-default" ng-repeat="listeningProcess in server.listeningProcesses">
+      <div class="panel-heading">{{listeningProcess.programName}}</div>  
+      <div class="panel-body">        
+        <div class="form-group">
+          <label class="control-label">Port</label>
+          <label type="text" class="form-control">{{listeningProcess.port}}</label>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Protocol</label>
+          <label type="text" class="form-control">{{listeningProcess.protocol}}</label>
+        </div>
+        <div class="form-group">
+          <label class="control-label">Program name</label>
+          <label type="text" class="form-control">{{listeningProcess.programName}}</label>
+        </div>
+        <div class="form-group">
+          <label class="control-label">PID</label>
+          <label type="text" class="form-control">{{listeningProcess.pid}}</label>
+        </div>
+      </div>
+    </div>
+  </tab>
 </tabset>
