@@ -74,6 +74,7 @@ public class ServerService {
         try {
             Server discovered = new Server(server.host, server.user, server.password, server.privateKey, server.ram, server.cpu);
             discovered.sshPort = server.sshPort;
+            discovered.sudo = server.sudo;
             discovered.sshConnectionValidity = false;
 
             discovered.id = server.id;

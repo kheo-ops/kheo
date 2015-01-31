@@ -13,8 +13,11 @@
   </div>  
   <div class="form-inline">
     <label class="control-label" for="sshPort">Port</label>
-    <input id="password" type="text" class="form-control" ng-model="server.sshPort" />    
-    <input id="sudo" type="checkbox" ng-model="server.sudo" /> Sudo
+    <input id="password" type="text" class="form-control" ng-model="server.sshPort" />        
+  </div>
+  <div class="form-group">
+    <label class="control-label" for="password">Sudo</label>
+    <input id="sudo" type="checkbox" ng-model="server.sudo" />
   </div>
   <div class="row">
     <button id="submit" class="btn btn-block" ng-click="save()">Save</button>
