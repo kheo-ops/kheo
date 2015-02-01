@@ -42,6 +42,10 @@ public class Server {
     @JsonView({ ViewList.class, ViewDetail.class })
     @JsonProperty
     public boolean sudo;
+    
+    @JsonView({ ViewDetail.class, ViewList.class })
+    @JsonProperty
+    public boolean sshConnectionValidity;
 
     @JsonView({ ViewDetail.class })
     @JsonProperty
@@ -50,10 +54,10 @@ public class Server {
     @JsonView({ ViewDetail.class })
     @JsonProperty
     public int cpu;
-
-    @JsonView({ ViewDetail.class, ViewList.class })
+    
+    @JsonView({ ViewDetail.class })
     @JsonProperty
-    public boolean sshConnectionValidity;
+    public DiscoverySettings discoverySettings;
 
     @JsonView(ViewDetail.class)
     @JsonProperty
@@ -85,6 +89,7 @@ public class Server {
         this.ram = 0;
         this.cpu = 0;
         this.os = new OperatingSystem();
+        this.discoverySettings = new DiscoverySettings();
         this.networkInterfaces = new ArrayList<>();
         this.services = new ArrayList<>();
         this.listeningProcesses = new ArrayList<>();
