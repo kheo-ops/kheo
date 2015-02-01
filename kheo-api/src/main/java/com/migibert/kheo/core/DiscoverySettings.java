@@ -5,14 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class DiscoverySettings {
 	
 	@JsonProperty
-	public boolean discoverListeningProcesses;
+	public boolean discoverListeningProcesses = true;
 	
 	@JsonProperty
-	public boolean discoverNetworkInterfaces;
+	public boolean discoverNetworkInterfaces = true;
 	
 	@JsonProperty
-	public boolean discoverOperatingSystem;
+	public boolean discoverOperatingSystem = true;
 	
 	@JsonProperty
-	public boolean discoverServices;
+	public boolean discoverServices = true;
 }
