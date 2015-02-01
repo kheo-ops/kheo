@@ -43,11 +43,11 @@ public class Server {
     @JsonProperty
     public boolean sudo;
 
-    @JsonView({ ViewList.class, ViewDetail.class })
+    @JsonView({ ViewDetail.class })
     @JsonProperty
     public int ram;
 
-    @JsonView({ ViewList.class, ViewDetail.class })
+    @JsonView({ ViewDetail.class })
     @JsonProperty
     public int cpu;
 
