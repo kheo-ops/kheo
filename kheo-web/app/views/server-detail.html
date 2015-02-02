@@ -1,22 +1,44 @@
-<tabset>
+<tabset>  
   <tab heading="Informations">
-    <div role="form">
+    <div role="panel panel-default">
+      <div role="panel-heading">Connection settings</div>
+      <div role="form">
+        <div class="form-group">
+          <label class="control-label" for="host">Host</label>
+          <label id="host" type="text" class="form-control">{{server.host}}</label>
+        </div>  
+        <div class="form-group">
+          <label class="control-label" for="user">User</label>
+          <label id="user" type="text" class="form-control">{{server.user}}</label>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="ssh-port">Port</label>
+          <label id="ssh-port" type="text" class="form-control">{{server.sshPort}}</label>
+        </div>
+        <div class="form-group">     
+          <label class="control-label" for="sudo">Sudo</label>  
+          <input id="sudo" type="checkbox" ng-model="server.sudo" disabled="true"/>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">Discovery settings</div>
       <div class="form-group">
-        <label class="control-label" for="host">Host</label>
-        <label id="host" type="text" class="form-control">{{server.host}}</label>
-      </div>  
-      <div class="form-group">
-        <label class="control-label" for="user">User</label>
-        <label id="user" type="text" class="form-control">{{server.user}}</label>
+        <label class="control-label" for="discover-listening-processes">Listening processes</label>
+        <input id="discover-listening-processes" type="checkbox" ng-model="server.discoverySettings.discoverListeningProcesses" disabled="true"/>
       </div>
       <div class="form-group">
-        <label class="control-label" for="user">Port</label>
-        <label id="user" type="text" class="form-control">{{server.sshPort}}</label>
+        <label class="control-label" for="discover-network-interfaces">Network interfaces</label>
+        <input id="discover-network-interfaces" type="checkbox" ng-model="server.discoverySettings.discoverNetworkInterfaces" disabled="true"/>
       </div>
-      <div class="form-group">     
-        <label class="control-label" for="password">Sudo</label>  
-        <input id="sudo" type="checkbox" ng-model="server.sudo" disabled="true"/>
-      </div>    
+      <div class="form-group">
+        <label class="control-label" for="discover-operating-system">Operating system</label>
+        <input id="discover-operating-system" type="checkbox" ng-model="server.discoverySettings.discoverOperatingSystem" disabled="true"/>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="discover-services">Services</label>
+        <input id="discover-services" type="checkbox" ng-model="server.discoverySettings.discoverServices" disabled="true"/>
+      </div>
     </div>
   </tab>
   <tab heading="OS">

@@ -76,9 +76,8 @@ public class ServerService {
             discovered.sshPort = server.sshPort;
             discovered.sudo = server.sudo;
             discovered.sshConnectionValidity = false;
-
-            discovered.id = server.id;
             discovered.eventLog = new ArrayList<ServerEvent>(server.eventLog);
+            discovered.discoverySettings = server.discoverySettings;
 
             logger.info("OS discovery for server {}", server.host);
             discovered.os = discoverOperatingSystem(server);
@@ -112,19 +111,31 @@ public class ServerService {
     }
 
     private List<NetworkInterface> discoverNetworkInterfaces(Server server) throws IOException {
-        return ifconfigCommand.executeAndParse(server);
+    	if(server.discoverySettings.discoverNetworkInterfaces) {
+    		return ifconfigCommand.executeAndParse(server);	
+    	}
+        return new ArrayList<>();
     }
 
     private OperatingSystem discoverOperatingSystem(Server server) throws IOException {
-        return unameCommand.executeAndParse(server);
+        if(server.discoverySettings.discoverOperatingSystem) {
+    	    return unameCommand.executeAndParse(server);
+        }
+        return new OperatingSystem();
     }
 
     private List<Service> discoverServices(Server server) throws IOException {
-        return serviceCommand.executeAndParse(server);
+        if(server.discoverySettings.discoverServices) {
+    	    return serviceCommand.executeAndParse(server);
+        }
+        return new ArrayList<>();
     }
 
     private List<ListeningProcess> discoverListeningProcesses(Server server) throws IOException {
-        return netstatCommand.executeAndParse(server);
+        if(server.discoverySettings.discoverListeningProcesses) {
+    	    return netstatCommand.executeAndParse(server);
+        }
+        return new ArrayList<>();
     }
 
     private List<ServerEvent> generateEvents(Server original, Server discovered) {

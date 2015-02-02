@@ -1,26 +1,50 @@
-<form role="form">
-  <div class="form-group">
-    <label class="control-label" for="host">Host</label>
-    <input id="host" type="text" class="form-control" ng-model="server.host" />
-  </div>  
-  <div class="form-group">
-    <label class="control-label" for="user">User</label>
-    <input id="user" type="text" class="form-control" ng-model="server.user" />
-  </div>
-  <div class="form-group">
-    <label class="control-label" for="password">Password</label>
-    <input id="password" type="password" class="form-control" ng-model="server.password" />
-  </div>  
-  <div class="form-inline">
-    <label class="control-label" for="sshPort">Port</label>
-    <input id="password" type="text" class="form-control" ng-model="server.sshPort" />        
-  </div>
-  <div class="form-group">
-    <label class="control-label" for="password">Sudo</label>
-    <input id="sudo" type="checkbox" ng-model="server.sudo" />
-  </div>
-  <div class="row">
-    <button id="submit" class="btn btn-block" ng-click="save()">Save</button>
-    <a class="btn btn-block col-md-6" href="#/servers">Cancel</a>      
-  </div>
-</form>
+<tabset>
+  <tab heading="Connection settings">
+    <div role="form">
+      <div class="form-group">
+        <label class="control-label" for="host">Host</label>
+        <input id="host" type="text" class="form-control" ng-model="server.host" />
+      </div>  
+      <div class="form-group">
+        <label class="control-label" for="user">User</label>
+        <input id="user" type="text" class="form-control" ng-model="server.user" />
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="password">Password</label>
+        <input id="password" type="password" class="form-control" ng-model="server.password" />
+      </div>  
+      <div class="form-inline">
+        <label class="control-label" for="sshPort">Port</label>
+        <input id="password" type="text" class="form-control" ng-model="server.sshPort" />        
+      </div>      
+    </div>
+  </tab>
+  <tab heading="Discovery settings">
+      <div class="form-group">
+        <label class="control-label" for="discover-listening-processes">Listening processes</label>
+        <input id="discover-listening-processes" type="checkbox" ng-model="server.discoverySettings.discoverListeningProcesses"/>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="discover-network-interfaces">Network interfaces</label>
+        <input id="discover-network-interfaces" type="checkbox" ng-model="server.discoverySettings.discoverNetworkInterfaces"/>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="discover-operating-system">Operating system</label>
+        <input id="discover-operating-system" type="checkbox" ng-model="server.discoverySettings.discoverOperatingSystem"/>
+      </div>
+      <div class="form-group">
+        <label class="control-label" for="discover-services">Services</label>
+        <input id="discover-services" type="checkbox" ng-model="server.discoverySettings.discoverServices"/>
+      </div>
+    </div>
+  </tab>
+</tabset>
+
+<div class="form-group">
+  <label class="control-label" for="password">Sudo</label>
+  <input id="sudo" type="checkbox" ng-model="server.sudo" />
+</div>
+<div class="row">
+  <button id="submit" class="btn btn-block" ng-click="save()">Save</button>
+  <a class="btn btn-block col-md-6" href="#/servers">Cancel</a>      
+</div>
