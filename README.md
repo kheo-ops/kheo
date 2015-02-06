@@ -2,7 +2,7 @@
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)  
 [![Issue Stats](http://issuestats.com/github/migibert/kheo/badge/pr)](http://issuestats.com/github/migibert/kheo)  
 [![Issue Stats](http://issuestats.com/github/migibert/kheo/badge/issue)](http://issuestats.com/github/migibert/kheo)  
-[![Circle CI](https://circleci.com/gh/migibert/kheo/tree/master.svg?style=shield)](https://circleci.com/gh/migibert/kheo.png?style=shield&circle-token=3f61e5986930eee6b581853142b63886c7181869)  
+[![Circle CI](https://circleci.com/gh/migibert/kheo/tree/master.svg?style=shield)](https://circleci.com/gh/migibert/kheo)  
 
 ====
 ## Overview
