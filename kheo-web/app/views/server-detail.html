@@ -39,6 +39,31 @@
           <input class="form-control" id="{{property.key}}{{key}}" disabled="true" type="text" ng-model="property[key]" />          
         </div>
       </div>
-    </div>
-  </tab>  
+    </div>  
+  </tab>
+  <tab heading="Event log">
+    <div class="panel panel-default">
+      <div>
+         <timeline>
+          <timeline-node side="left" ng-repeat="eventLog in server.eventLog">
+            <timeline-badge class="info"></timeline-badge>
+            <timeline-panel>
+              <timeline-heading>
+                <timeline-title>{{eventLog.eventType}}</timeline-title>
+                <p>
+                  <small class="text-muted"><i class="glyphicon glyphicon-time"></i> At {{eventLog.date}}</small>
+                </p>                
+              </timeline-heading>
+              <timeline-content>
+                <p>
+                  Old value: {{eventLog.oldValue || 'no value'}}<br/>
+                  New value: {{eventLog.newValue || 'no value'}}<br/>
+                </p>
+              </timeline-content>
+            </timeline-panel>
+          </timeline-node>
+        </timeline>
+      </div>
+    </div>  
+  </tab>
 </tabset>

@@ -12,7 +12,8 @@ angular
     'ui.bootstrap',
     'services.config',
     'pasvaz.bindonce',
-    'underscore'
+    'underscore',
+    'angular-timeline'
   ])
   .config(function ($routeProvider) {
     $routeProvider
