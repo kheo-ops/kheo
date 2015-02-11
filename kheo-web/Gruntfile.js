@@ -225,6 +225,19 @@ module.exports = function (grunt) {
           dest: '<%= yeoman.app %>/scripts/services/'
         }]
       },
+      fig: {
+        options: {
+          patterns: [{
+            json: grunt.file.readJSON('./config/environments/fig.json')
+          }]
+        },
+        files: [{
+          expand: true,
+          flatten: true,
+          src: ['./config/config.js'],
+          dest: '<%= yeoman.app %>/scripts/services/'
+        }]
+      },
       ci: {
         options: {
           patterns: [{
