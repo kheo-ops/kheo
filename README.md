@@ -24,21 +24,55 @@ Once your servers have been registered, you can obtain informations like:
 - Resources (ram, disk, cpu, ...)
 - Running processes
 - Installed packages
- 
+
 Moreover, Kheo discovers your servers configuration at regular intervals and stores delta between configuration as events. You can select events you want to store and those that do not have interest for you.
 
 ## Underlying technologies
 Kheo is build with the following technologies:
 - MongoDB
 - AngularJS
-- Dropwizard   
+- Dropwizard
+
+## Build
+
+### API Backend
+
+Set the mongo host IP address in `kheo-api/config/kheo-api-dev.yml`. Basically, the IP of the docker host.
+
+Then, build the API image
+```
+docker build -t kheo-api kheo-api
+```
+
+### Web frontend
+
+Set the backend API IP in `kheo-web/config/environments/development.json`. Basically, the IP of the docker host.
+
+Then, build the application
+```
+npm install
+bower install
+grunt replace:development
+grunt build
+```
 
 ## Running
-Run application layers with docker containers:
+
+Run application layers in docker containers:
+
+The database must be run first.
 ```
-sudo docker build -t kheo-api kheo-api && sudo docker run -d -p 8080:8080 -p 8081:8081 --name kheo-api --link kheo-db:kheo-db kheo-api
-sudo docker build -t kheo-web kheo-web && sudo docker run -d -p 80:80 --name kheo-web --link kheo-api:kheo-api kheo-web
-sudo docker run -d -p 27017:27017 --name kheo-db mongo:latest
+docker run -d -p 27017:27017 --name kheo-db mongo:latest
+```
+
+The backend container linked to the `kheo-db` container
+```
+docker run -d -p 8080:8080 -p 8081:8081 --name kheo-api --link kheo-db:kheo-db kheo-api
+```
+
+The web frontend container linked to the `kheo-api` container
+```
+docker run -d -p 8000:80 -v ${PWD}/kheo-web/dist:/var/www/html --name kheo-web --link kheo-api:kheo-api dockerfile/nginx
 ```
 
 To make it easier to use, there is a fig config file that let you start each layer inside a container:
@@ -60,6 +94,6 @@ ansible-playbook -i inventory kheo.yml --private-key=key
 ```
 
 ## Testing
-Cucumber is used to validate API behavior. CircleCI runs Cucumber tests at each build. 
+Cucumber is used to validate API behavior. CircleCI runs Cucumber tests at each build.
 
 To run it in local, use the script `local.sh`
