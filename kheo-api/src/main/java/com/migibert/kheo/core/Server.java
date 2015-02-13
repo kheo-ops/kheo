@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.migibert.kheo.configuration.ViewDetail;
 import com.migibert.kheo.configuration.ViewList;
 import com.migibert.kheo.core.event.ServerEvent;
+import com.migibert.kheo.core.plugin.ServerProperty;
 
 public class Server {
 
@@ -65,7 +66,7 @@ public class Server {
 
     @JsonView(ViewDetail.class)
     @JsonProperty
-    public List<NetworkInterface> networkInterfaces;
+    public List<ServerProperty> serverProperties;
 
     @JsonView(ViewDetail.class)
     @JsonProperty
@@ -90,7 +91,7 @@ public class Server {
         this.cpu = 0;
         this.os = new OperatingSystem();
         this.discoverySettings = new DiscoverySettings();
-        this.networkInterfaces = new ArrayList<>();
+        this.serverProperties = new ArrayList<ServerProperty>();
         this.services = new ArrayList<>();
         this.listeningProcesses = new ArrayList<>();
         this.eventLog = new ArrayList<>();

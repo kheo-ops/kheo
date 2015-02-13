@@ -1,13 +1,12 @@
-package com.migibert.kheo.core.commands;
+package com.migibert.kheo.core.plugin.network.interfaces;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Strings;
-import com.migibert.kheo.core.NetworkInterface;
+import com.migibert.kheo.core.commands.AbstractSshCommand;
 
-public class IfconfigCommand extends AbstractSshCommand<List<NetworkInterface>> {
-
+public class NetworkInterfaceCommand extends AbstractSshCommand<List<NetworkInterfaceServerProperty>> {
 	private static final String BROADCAST_TOKEN = "Bcast:";
 	private static final String ENCAPSULATION_TYPE_TOKEN = "Link encap:";
 	private static final String INET6_ADDR_TOKEN = "inet6 addr:";
@@ -15,13 +14,13 @@ public class IfconfigCommand extends AbstractSshCommand<List<NetworkInterface>> 
 	private static final String HWADDR_TOKEN = "HWaddr";
 	private static final String MASK_TOKEN = "Mask:";
 
-	public IfconfigCommand() {
-		super("ifconfig -a");	
+	public NetworkInterfaceCommand() {
+		super("ifconfig -a");
 	}
-	
+
 	@Override
-	public List<NetworkInterface> parse(String result) {
-		List<NetworkInterface> interfaces = new ArrayList<NetworkInterface>();
+	public List<NetworkInterfaceServerProperty> parse(String result) {
+		List<NetworkInterfaceServerProperty> interfaces = new ArrayList<>();
 		String[] interfacesData = result.split("\n\n");
 		for (String interfaceData : interfacesData) {
 			interfaces.add(parseInterface(interfaceData));
@@ -29,8 +28,8 @@ public class IfconfigCommand extends AbstractSshCommand<List<NetworkInterface>> 
 		return interfaces;
 	}
 
-	private NetworkInterface parseInterface(String interfaceData) {
-		NetworkInterface result = new NetworkInterface();
+	private NetworkInterfaceServerProperty parseInterface(String interfaceData) {
+		NetworkInterfaceServerProperty result = new NetworkInterfaceServerProperty();
 		int firstIndexOfSpace = interfaceData.indexOf(" ");
 		result.name = interfaceData.substring(0, firstIndexOfSpace);
 
@@ -60,4 +59,5 @@ public class IfconfigCommand extends AbstractSshCommand<List<NetworkInterface>> 
 		}
 		return "";
 	}
+
 }
