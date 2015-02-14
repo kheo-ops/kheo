@@ -2,7 +2,7 @@ package com.migibert.kheo.core.plugin.os;
 
 import com.migibert.kheo.core.plugin.KheoPlugin;
 
-public class OsPlugin implements KheoPlugin<OsServerProperty, OsCommand, OsEventGenerator>{
+public class OsPlugin implements KheoPlugin<OsServerProperty> {
 
 	@Override
 	public OsCommand getSshCommand() {

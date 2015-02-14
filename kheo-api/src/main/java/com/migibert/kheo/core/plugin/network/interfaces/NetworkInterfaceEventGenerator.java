@@ -7,14 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.migibert.kheo.core.ServerEvent;
-import com.migibert.kheo.core.plugin.EventGenerator;
+import com.migibert.kheo.core.plugin.AbstractEventGenerator;
 
-public class NetworkInterfaceEventGenerator implements EventGenerator<NetworkInterfaceServerProperty> {
+public class NetworkInterfaceEventGenerator extends AbstractEventGenerator<NetworkInterfaceServerProperty> {
 	
 	private Logger logger = LoggerFactory.getLogger(NetworkInterfaceEventGenerator.class);
 
 	@Override
-	public List<ServerEvent> generateEvents(List<NetworkInterfaceServerProperty> original, List<NetworkInterfaceServerProperty> discovered) {
+	public List<ServerEvent> generateSpecificEvents(List<NetworkInterfaceServerProperty> original, List<NetworkInterfaceServerProperty> discovered) {
 		List<ServerEvent> generatedEvents = new ArrayList<>();
 
 		boolean found = false;

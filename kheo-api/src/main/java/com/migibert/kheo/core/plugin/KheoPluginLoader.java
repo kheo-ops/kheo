@@ -1,14 +1,18 @@
 package com.migibert.kheo.core.plugin;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import org.assertj.core.util.Lists;
 
 import com.migibert.kheo.configuration.PluginConfiguration;
-import com.migibert.kheo.core.AbstractSshCommand;
+import com.migibert.kheo.core.plugin.network.interfaces.NetworkInterfacePlugin;
+import com.migibert.kheo.core.plugin.network.process.ListeningProcessPlugin;
+import com.migibert.kheo.core.plugin.os.OsPlugin;
+import com.migibert.kheo.core.plugin.services.ServicePlugin;
 
 public class KheoPluginLoader {
 
-	public static List<KheoPlugin<ServerProperty, AbstractSshCommand<List<ServerProperty>>, EventGenerator<ServerProperty>>> loadKheoPlugins(PluginConfiguration pluginConfiguration) {
-		return new ArrayList<>();
+	public static ArrayList<KheoPlugin<? extends ServerProperty>> loadKheoPlugins(PluginConfiguration pluginConfiguration) {
+		return Lists.newArrayList(new OsPlugin(), new ListeningProcessPlugin(), new ServicePlugin(), new NetworkInterfacePlugin());
 	}
 }

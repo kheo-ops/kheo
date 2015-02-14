@@ -4,9 +4,10 @@ import java.util.List;
 
 import com.migibert.kheo.core.AbstractSshCommand;
 
-public interface KheoPlugin<P extends ServerProperty, C extends AbstractSshCommand<List<P>>, E extends EventGenerator<P>> {
+public interface KheoPlugin<P extends ServerProperty> {
 	
-	C getSshCommand();
+	AbstractSshCommand<List<P>> getSshCommand();
 	
-	E getEventGenerator();
+	AbstractEventGenerator<P> getEventGenerator();
+	
 }

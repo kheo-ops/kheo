@@ -7,14 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.migibert.kheo.core.ServerEvent;
-import com.migibert.kheo.core.plugin.EventGenerator;
+import com.migibert.kheo.core.plugin.AbstractEventGenerator;
 
-public class OsEventGenerator implements EventGenerator<OsServerProperty> {
+public class OsEventGenerator extends AbstractEventGenerator<OsServerProperty> {
 
 	private Logger logger = LoggerFactory.getLogger(OsEventGenerator.class);
 
 	@Override
-	public List<ServerEvent> generateEvents(List<OsServerProperty> original, List<OsServerProperty> discovered) {
+	public List<ServerEvent> generateSpecificEvents(List<OsServerProperty> original, List<OsServerProperty> discovered) {
 		List<ServerEvent> generatedEvents = new ArrayList<>();
 //
 //		if (!original.equals(discovered)) {

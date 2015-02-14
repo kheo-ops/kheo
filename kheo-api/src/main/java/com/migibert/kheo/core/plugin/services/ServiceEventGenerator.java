@@ -7,14 +7,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.migibert.kheo.core.ServerEvent;
-import com.migibert.kheo.core.plugin.EventGenerator;
+import com.migibert.kheo.core.plugin.AbstractEventGenerator;
 
-public class ServiceEventGenerator implements EventGenerator<ServiceServerProperty> {
+public class ServiceEventGenerator extends AbstractEventGenerator<ServiceServerProperty> {
 
 	private Logger logger = LoggerFactory.getLogger(ServiceEventGenerator.class);
 
 	@Override
-	public List<ServerEvent> generateEvents(List<ServiceServerProperty> original, List<ServiceServerProperty> discovered) {
+	public List<ServerEvent> generateSpecificEvents(List<ServiceServerProperty> original, List<ServiceServerProperty> discovered) {
 		List<ServerEvent> generatedEvents = new ArrayList<>();
 
 		for (ServiceServerProperty svc : original) {

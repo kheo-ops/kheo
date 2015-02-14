@@ -11,10 +11,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
-import com.migibert.kheo.core.AbstractSshCommand;
 import com.migibert.kheo.core.Server;
 import com.migibert.kheo.core.ServerEvent;
-import com.migibert.kheo.core.plugin.EventGenerator;
 import com.migibert.kheo.core.plugin.KheoPlugin;
 import com.migibert.kheo.core.plugin.ServerProperty;
 import com.migibert.kheo.exception.ServerAlreadyExistException;
@@ -26,11 +24,11 @@ public class ServerService {
 	private Logger logger = LoggerFactory.getLogger(ServerService.class);
 	private MongoCollection serverCollection;
 
-	private List<KheoPlugin<ServerProperty, AbstractSshCommand<List<ServerProperty>>, EventGenerator<ServerProperty>>> plugins;
+	private List<KheoPlugin<? extends ServerProperty>> plugins;
 
 
 	public ServerService(MongoCollection serverCollection,
-			List<KheoPlugin<ServerProperty, AbstractSshCommand<List<ServerProperty>>, EventGenerator<ServerProperty>>> plugins) {
+			ArrayList<KheoPlugin<? extends ServerProperty>> plugins) {
 		this.serverCollection = serverCollection;
 		this.plugins = plugins;
 	}
@@ -76,7 +74,7 @@ public class ServerService {
 			discovered.eventLog = new ArrayList<ServerEvent>(server.eventLog);
 			discovered.discoverySettings = server.discoverySettings;
 
-			for (KheoPlugin<ServerProperty, AbstractSshCommand<List<ServerProperty>>, EventGenerator<ServerProperty>> plugin : plugins) {
+			for (KheoPlugin<? extends ServerProperty> plugin : plugins) {
 				discovered.serverProperties.addAll(plugin.getSshCommand().executeAndParse(server));
 				if (firstDiscovery) {
 					logger.info("First discovery for {}, no event generation", server.host);

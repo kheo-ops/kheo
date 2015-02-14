@@ -2,7 +2,7 @@ package com.migibert.kheo.core.plugin.network.process;
 
 import com.migibert.kheo.core.plugin.KheoPlugin;
 
-public class ListeningProcessPlugin implements KheoPlugin<ListeningProcessServerProperty, ListeningProcessCommand, ListeningProcessEventGenerator>{
+public class ListeningProcessPlugin implements KheoPlugin<ListeningProcessServerProperty> {
 
 	@Override
 	public ListeningProcessCommand getSshCommand() {

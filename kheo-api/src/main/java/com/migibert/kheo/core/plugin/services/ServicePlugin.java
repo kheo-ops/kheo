@@ -2,7 +2,7 @@ package com.migibert.kheo.core.plugin.services;
 
 import com.migibert.kheo.core.plugin.KheoPlugin;
 
-public class ServicePlugin implements KheoPlugin<ServiceServerProperty, ServiceCommand, ServiceEventGenerator>{
+public class ServicePlugin implements KheoPlugin<ServiceServerProperty> {
 
 	@Override
 	public ServiceCommand getSshCommand() {
