@@ -70,14 +70,6 @@ public class Server {
 
     @JsonView(ViewDetail.class)
     @JsonProperty
-    public List<Service> services;
-
-    @JsonView(ViewDetail.class)
-    @JsonProperty
-    public List<ListeningProcess> listeningProcesses;
-
-    @JsonView(ViewDetail.class)
-    @JsonProperty
     public List<ServerEvent> eventLog;
 
     public Server() {
@@ -92,8 +84,6 @@ public class Server {
         this.os = new OperatingSystem();
         this.discoverySettings = new DiscoverySettings();
         this.serverProperties = new ArrayList<ServerProperty>();
-        this.services = new ArrayList<>();
-        this.listeningProcesses = new ArrayList<>();
         this.eventLog = new ArrayList<>();
     }
 

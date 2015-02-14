@@ -11,13 +11,9 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
-import com.migibert.kheo.core.ListeningProcess;
 import com.migibert.kheo.core.OperatingSystem;
 import com.migibert.kheo.core.Server;
-import com.migibert.kheo.core.Service;
 import com.migibert.kheo.core.commands.AbstractSshCommand;
-import com.migibert.kheo.core.commands.NetstatCommand;
-import com.migibert.kheo.core.commands.ServiceCommand;
 import com.migibert.kheo.core.commands.UnameCommand;
 import com.migibert.kheo.core.event.EventType;
 import com.migibert.kheo.core.event.ServerEvent;
@@ -36,8 +32,6 @@ public class ServerService {
 	private List<KheoPlugin<ServerProperty, AbstractSshCommand<List<ServerProperty>>, EventGenerator<ServerProperty>>> plugins;
 
 	private UnameCommand unameCommand = new UnameCommand();
-	private ServiceCommand serviceCommand = new ServiceCommand();
-	private NetstatCommand netstatCommand = new NetstatCommand();
 
 	public ServerService(MongoCollection serverCollection,
 			List<KheoPlugin<ServerProperty, AbstractSshCommand<List<ServerProperty>>, EventGenerator<ServerProperty>>> plugins) {
@@ -102,9 +96,6 @@ public class ServerService {
 				}
 			}
 
-			logger.info("Running services discovery for server {}", server.host);
-			discovered.services = discoverServices(server);
-
 			discovered.sshConnectionValidity = true;
 			return discovered;
 		} catch (IOException e) {
@@ -124,28 +115,6 @@ public class ServerService {
 		return new OperatingSystem();
 	}
 
-	private List<Service> discoverServices(Server server) throws IOException {
-		if (server.discoverySettings.discoverServices) {
-			return serviceCommand.executeAndParse(server);
-		}
-		return new ArrayList<>();
-	}
-
-	private List<ListeningProcess> discoverListeningProcesses(Server server) throws IOException {
-		if (server.discoverySettings.discoverListeningProcesses) {
-			return netstatCommand.executeAndParse(server);
-		}
-		return new ArrayList<>();
-	}
-
-	private List<ServerEvent> generateEvents(Server original, Server discovered) {
-		List<ServerEvent> generatedEvents = new ArrayList<>();
-
-		generatedEvents.addAll(generateOsEvents(original.os, discovered.os));
-		generatedEvents.addAll(generateServicesEvents(original.services, discovered.services));
-
-		return generatedEvents;
-	}
 
 	private List<ServerEvent> generateOsEvents(OperatingSystem original, OperatingSystem discovered) {
 		List<ServerEvent> generatedEvents = new ArrayList<>();
@@ -170,25 +139,4 @@ public class ServerService {
 		}
 		return generatedEvents;
 	}
-
-	private List<ServerEvent> generateServicesEvents(List<Service> original, List<Service> discovered) {
-		List<ServerEvent> generatedEvents = new ArrayList<>();
-
-		for (Service svc : original) {
-			if (!discovered.contains(svc)) {
-				logger.info("Service has been removed! Generating event...");
-				generatedEvents.add(new ServerEvent(EventType.SERVICE_REMOVED.name(), svc, null));
-			}
-		}
-
-		for (Service svc : discovered) {
-			if (!original.contains(svc)) {
-				logger.info("Service has been added! Generating event...");
-				generatedEvents.add(new ServerEvent(EventType.SERVICE_ADDED.name(), null, svc));
-			}
-		}
-
-		return generatedEvents;
-	}
-
 }
