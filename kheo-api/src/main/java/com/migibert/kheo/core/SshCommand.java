@@ -1,8 +1,6 @@
-package com.migibert.kheo.core.commands;
+package com.migibert.kheo.core;
 
 import java.io.IOException;
-
-import com.migibert.kheo.core.Server;
 
 public interface SshCommand<T> {
 

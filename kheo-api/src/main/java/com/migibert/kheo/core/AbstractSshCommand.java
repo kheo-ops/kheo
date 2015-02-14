@@ -1,4 +1,4 @@
-package com.migibert.kheo.core.commands;
+package com.migibert.kheo.core;
 
 import java.io.IOException;
 
@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.migibert.kheo.client.SshClient;
-import com.migibert.kheo.core.Server;
 
 public abstract class AbstractSshCommand<T> implements SshCommand<T> {
 	

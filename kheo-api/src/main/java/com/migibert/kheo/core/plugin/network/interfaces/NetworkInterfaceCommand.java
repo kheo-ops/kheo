@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Strings;
-import com.migibert.kheo.core.commands.AbstractSshCommand;
+import com.migibert.kheo.core.AbstractSshCommand;
 
 public class NetworkInterfaceCommand extends AbstractSshCommand<List<NetworkInterfaceServerProperty>> {
 	private static final String BROADCAST_TOKEN = "Bcast:";

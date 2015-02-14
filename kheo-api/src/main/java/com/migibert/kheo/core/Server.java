@@ -12,7 +12,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.migibert.kheo.configuration.ViewDetail;
 import com.migibert.kheo.configuration.ViewList;
-import com.migibert.kheo.core.event.ServerEvent;
 import com.migibert.kheo.core.plugin.ServerProperty;
 
 public class Server {
@@ -62,10 +61,6 @@ public class Server {
 
     @JsonView(ViewDetail.class)
     @JsonProperty
-    public OperatingSystem os;
-
-    @JsonView(ViewDetail.class)
-    @JsonProperty
     public List<ServerProperty> serverProperties;
 
     @JsonView(ViewDetail.class)
@@ -81,7 +76,6 @@ public class Server {
         this.privateKey = "";
         this.ram = 0;
         this.cpu = 0;
-        this.os = new OperatingSystem();
         this.discoverySettings = new DiscoverySettings();
         this.serverProperties = new ArrayList<ServerProperty>();
         this.eventLog = new ArrayList<>();

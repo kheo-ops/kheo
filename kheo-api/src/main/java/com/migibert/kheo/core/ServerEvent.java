@@ -1,4 +1,4 @@
-package com.migibert.kheo.core.event;
+package com.migibert.kheo.core;
 
 import java.util.Date;
 

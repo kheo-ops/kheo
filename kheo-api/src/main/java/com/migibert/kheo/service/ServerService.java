@@ -11,12 +11,9 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
-import com.migibert.kheo.core.OperatingSystem;
+import com.migibert.kheo.core.AbstractSshCommand;
 import com.migibert.kheo.core.Server;
-import com.migibert.kheo.core.commands.AbstractSshCommand;
-import com.migibert.kheo.core.commands.UnameCommand;
-import com.migibert.kheo.core.event.EventType;
-import com.migibert.kheo.core.event.ServerEvent;
+import com.migibert.kheo.core.ServerEvent;
 import com.migibert.kheo.core.plugin.EventGenerator;
 import com.migibert.kheo.core.plugin.KheoPlugin;
 import com.migibert.kheo.core.plugin.ServerProperty;
@@ -31,7 +28,6 @@ public class ServerService {
 
 	private List<KheoPlugin<ServerProperty, AbstractSshCommand<List<ServerProperty>>, EventGenerator<ServerProperty>>> plugins;
 
-	private UnameCommand unameCommand = new UnameCommand();
 
 	public ServerService(MongoCollection serverCollection,
 			List<KheoPlugin<ServerProperty, AbstractSshCommand<List<ServerProperty>>, EventGenerator<ServerProperty>>> plugins) {
@@ -80,9 +76,6 @@ public class ServerService {
 			discovered.eventLog = new ArrayList<ServerEvent>(server.eventLog);
 			discovered.discoverySettings = server.discoverySettings;
 
-			logger.info("OS discovery for server {}", server.host);
-			discovered.os = discoverOperatingSystem(server);
-
 			for (KheoPlugin<ServerProperty, AbstractSshCommand<List<ServerProperty>>, EventGenerator<ServerProperty>> plugin : plugins) {
 				discovered.serverProperties.addAll(plugin.getSshCommand().executeAndParse(server));
 				if (firstDiscovery) {
@@ -106,37 +99,5 @@ public class ServerService {
 
 	private boolean exists(String host) {
 		return serverCollection.count("{host:#}", host) > 0;
-	}
-
-	private OperatingSystem discoverOperatingSystem(Server server) throws IOException {
-		if (server.discoverySettings.discoverOperatingSystem) {
-			return unameCommand.executeAndParse(server);
-		}
-		return new OperatingSystem();
-	}
-
-
-	private List<ServerEvent> generateOsEvents(OperatingSystem original, OperatingSystem discovered) {
-		List<ServerEvent> generatedEvents = new ArrayList<>();
-
-		if (!original.equals(discovered)) {
-			if (!original.hardwarePlatform.equals(discovered.hardwarePlatform)) {
-				logger.info("OS Hardware platform changed! Generating event...");
-				generatedEvents.add(new ServerEvent(EventType.OS_HARDWARE_PLATFORM_CHANGED.name(), original.hardwarePlatform, discovered.hardwarePlatform));
-			}
-			if (!original.kernelName.equals(discovered.kernelName)) {
-				logger.info("OS Kernel name changed! Generating event...");
-				generatedEvents.add(new ServerEvent(EventType.OS_KERNEL_NAME_CHANGED.name(), original.kernelName, discovered.kernelName));
-			}
-			if (!original.kernelRelease.equals(discovered.kernelRelease)) {
-				logger.info("OS Kernel release changed! Generating event...");
-				generatedEvents.add(new ServerEvent(EventType.OS_KERNEL_RELEASE_CHANGED.name(), original.kernelRelease, discovered.kernelRelease));
-			}
-			if (!original.name.equals(discovered.name)) {
-				logger.info("OS name platform changed! Generating event...");
-				generatedEvents.add(new ServerEvent(EventType.OS_NAME_CHANGED.name(), original.name, discovered.name));
-			}
-		}
-		return generatedEvents;
 	}
 }

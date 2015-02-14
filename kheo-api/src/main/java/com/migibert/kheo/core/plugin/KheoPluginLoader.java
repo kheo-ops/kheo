@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.migibert.kheo.configuration.PluginConfiguration;
-import com.migibert.kheo.core.commands.AbstractSshCommand;
+import com.migibert.kheo.core.AbstractSshCommand;
 
 public class KheoPluginLoader {
 
