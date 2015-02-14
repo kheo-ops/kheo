@@ -8,7 +8,7 @@ import com.migibert.kheo.core.commands.AbstractSshCommand;
 
 public class KheoPluginLoader {
 
-	public List<KheoPlugin<ServerProperty, AbstractSshCommand<List<ServerProperty>>, EventGenerator<ServerProperty>>> loadKheoPlugins(PluginConfiguration pluginConfiguration) {
+	public static List<KheoPlugin<ServerProperty, AbstractSshCommand<List<ServerProperty>>, EventGenerator<ServerProperty>>> loadKheoPlugins(PluginConfiguration pluginConfiguration) {
 		return new ArrayList<>();
 	}
 }

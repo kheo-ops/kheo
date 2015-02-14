@@ -1,7 +1,6 @@
 package com.migibert.kheo.service;
 
 import java.io.IOException;
-import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,9 +105,6 @@ public class ServerService {
 			logger.info("Running services discovery for server {}", server.host);
 			discovered.services = discoverServices(server);
 
-			logger.info("Listening processes discovery for server {}", server.host);
-			discovered.listeningProcesses = discoverListeningProcesses(server);
-
 			discovered.sshConnectionValidity = true;
 			return discovered;
 		} catch (IOException e) {
@@ -146,9 +142,7 @@ public class ServerService {
 		List<ServerEvent> generatedEvents = new ArrayList<>();
 
 		generatedEvents.addAll(generateOsEvents(original.os, discovered.os));
-		generatedEvents.addAll(generateNetworkInterfacesEvents(original.networkInterfaces, discovered.networkInterfaces));
 		generatedEvents.addAll(generateServicesEvents(original.services, discovered.services));
-		generatedEvents.addAll(generateListeningProcessesEvents(original.listeningProcesses, discovered.listeningProcesses));
 
 		return generatedEvents;
 	}
@@ -159,19 +153,19 @@ public class ServerService {
 		if (!original.equals(discovered)) {
 			if (!original.hardwarePlatform.equals(discovered.hardwarePlatform)) {
 				logger.info("OS Hardware platform changed! Generating event...");
-				generatedEvents.add(new ServerEvent(EventType.OS_HARDWARE_PLATFORM_CHANGED, original.hardwarePlatform, discovered.hardwarePlatform));
+				generatedEvents.add(new ServerEvent(EventType.OS_HARDWARE_PLATFORM_CHANGED.name(), original.hardwarePlatform, discovered.hardwarePlatform));
 			}
 			if (!original.kernelName.equals(discovered.kernelName)) {
 				logger.info("OS Kernel name changed! Generating event...");
-				generatedEvents.add(new ServerEvent(EventType.OS_KERNEL_NAME_CHANGED, original.kernelName, discovered.kernelName));
+				generatedEvents.add(new ServerEvent(EventType.OS_KERNEL_NAME_CHANGED.name(), original.kernelName, discovered.kernelName));
 			}
 			if (!original.kernelRelease.equals(discovered.kernelRelease)) {
 				logger.info("OS Kernel release changed! Generating event...");
-				generatedEvents.add(new ServerEvent(EventType.OS_KERNEL_RELEASE_CHANGED, original.kernelRelease, discovered.kernelRelease));
+				generatedEvents.add(new ServerEvent(EventType.OS_KERNEL_RELEASE_CHANGED.name(), original.kernelRelease, discovered.kernelRelease));
 			}
 			if (!original.name.equals(discovered.name)) {
 				logger.info("OS name platform changed! Generating event...");
-				generatedEvents.add(new ServerEvent(EventType.OS_NAME_CHANGED, original.name, discovered.name));
+				generatedEvents.add(new ServerEvent(EventType.OS_NAME_CHANGED.name(), original.name, discovered.name));
 			}
 		}
 		return generatedEvents;
@@ -183,37 +177,18 @@ public class ServerService {
 		for (Service svc : original) {
 			if (!discovered.contains(svc)) {
 				logger.info("Service has been removed! Generating event...");
-				generatedEvents.add(new ServerEvent(EventType.SERVICE_REMOVED, svc, null));
+				generatedEvents.add(new ServerEvent(EventType.SERVICE_REMOVED.name(), svc, null));
 			}
 		}
 
 		for (Service svc : discovered) {
 			if (!original.contains(svc)) {
 				logger.info("Service has been added! Generating event...");
-				generatedEvents.add(new ServerEvent(EventType.SERVICE_ADDED, null, svc));
+				generatedEvents.add(new ServerEvent(EventType.SERVICE_ADDED.name(), null, svc));
 			}
 		}
 
 		return generatedEvents;
 	}
 
-	private List<ServerEvent> generateListeningProcessesEvents(List<ListeningProcess> original, List<ListeningProcess> discovered) {
-		List<ServerEvent> generatedEvents = new ArrayList<>();
-
-		for (ListeningProcess lp : original) {
-			if (!discovered.contains(lp)) {
-				logger.info("Listening process has been added! Generating event...");
-				generatedEvents.add(new ServerEvent(EventType.LISTENING_PROCESS_REMOVED, null, lp));
-			}
-		}
-
-		for (ListeningProcess lp : discovered) {
-			if (!original.contains(lp)) {
-				logger.info("Listening has been added! Generating event...");
-				generatedEvents.add(new ServerEvent(EventType.LISTENING_PROCESS_ADDED, null, lp));
-			}
-		}
-
-		return generatedEvents;
-	}
 }

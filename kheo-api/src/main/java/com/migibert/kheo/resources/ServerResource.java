@@ -1,5 +1,7 @@
 package com.migibert.kheo.resources;
 
+import java.util.List;
+
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -19,6 +21,10 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.migibert.kheo.configuration.ViewDetail;
 import com.migibert.kheo.configuration.ViewList;
 import com.migibert.kheo.core.Server;
+import com.migibert.kheo.core.commands.AbstractSshCommand;
+import com.migibert.kheo.core.plugin.EventGenerator;
+import com.migibert.kheo.core.plugin.KheoPlugin;
+import com.migibert.kheo.core.plugin.ServerProperty;
 import com.migibert.kheo.service.ServerService;
 
 @Path("servers")
@@ -27,8 +33,8 @@ public class ServerResource {
 
     private ServerService service;
 
-    public ServerResource(MongoCollection serverCollection) {
-        this.service = new ServerService(serverCollection);
+    public ServerResource(MongoCollection serverCollection, List<KheoPlugin<ServerProperty, AbstractSshCommand<List<ServerProperty>>, EventGenerator<ServerProperty>>> plugins) {
+        this.service = new ServerService(serverCollection, plugins);
     }
 
     @GET

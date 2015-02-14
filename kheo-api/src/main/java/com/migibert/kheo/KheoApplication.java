@@ -13,6 +13,7 @@ import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.quartz.impl.StdSchedulerFactory;
 
 import com.google.common.base.Joiner;
+import com.migibert.kheo.core.plugin.KheoPluginLoader;
 import com.migibert.kheo.exception.mapping.ServerAlreadyExistExceptionMapper;
 import com.migibert.kheo.exception.mapping.ServerNotFoundExceptionMapper;
 import com.migibert.kheo.healtcheck.MongoHealthcheck;
@@ -47,8 +48,8 @@ public class KheoApplication extends Application<KheoConfiguration> {
 		environment.lifecycle().manage(managedScheduler);
 
 		environment.jersey().register(ServerAlreadyExistExceptionMapper.class);
-		environment.jersey().register(ServerNotFoundExceptionMapper.class);
-		environment.jersey().register(new ServerResource(managedMongo.getJongo().getCollection(configuration.mongo.serverCollection)));
+		environment.jersey().register(ServerNotFoundExceptionMapper.class);				
+		environment.jersey().register(new ServerResource(managedMongo.getJongo().getCollection(configuration.mongo.serverCollection), KheoPluginLoader.loadKheoPlugins(configuration.plugin)));
 
 		environment.healthChecks().register("Mongo connection", new MongoHealthcheck(managedMongo.getJongo()));
 		environment.healthChecks().register("Scheduler", new SchedulerHealthcheck(managedScheduler.getScheduler()));
