@@ -36,16 +36,12 @@ public class ServerService {
 		if (exists(server.host)) {
 			throw new ServerAlreadyExistException(server);
 		}
-		
-		List<String> pluginNames = Lists.transform(plugins, new Function<KheoPlugin<?>, String>() {
-			@Override
-			public String apply(KheoPlugin<?> plugin) {
-				return plugin.getName();
+
+		List<String> pluginNames = getPluginsNames();
+		for (String pluginName : pluginNames) {
+			if (!server.discoverySettings.containsKey(pluginName)) {
+				server.discoverySettings.put(pluginName, true);
 			}
-		});
-		
-		for(String pluginName : pluginNames) {
-			server.discoverySettings.pluginSettings.put(pluginName, true);
 		}
 
 		logger.info("Adding server {}", server.host);
@@ -64,7 +60,6 @@ public class ServerService {
 	}
 
 	public void update(Server server) {
-		System.out.println(server);
 		serverCollection.update("{host:#}", server.host).with(server);
 	}
 
@@ -85,17 +80,19 @@ public class ServerService {
 			discovered.discoverySettings = server.discoverySettings;
 
 			for (KheoPlugin<? extends ServerProperty> plugin : plugins) {
-				discovered.serverProperties.addAll(plugin.getSshCommand().executeAndParse(server));
-				if (firstDiscovery) {
-					logger.info("First discovery for {}, no event generation", server.host);
-				} else {
-					logger.info("Adding new event to server event log");
-					List<ServerProperty> serverProperties = new ArrayList<ServerProperty>(Collections2.filter(server.serverProperties,
-							Predicates.instanceOf(plugin.getEventGenerator().getPropertyClass())));
-					List<ServerProperty> discoveredProperties = new ArrayList<ServerProperty>(Collections2.filter(discovered.serverProperties,
-							Predicates.instanceOf(plugin.getEventGenerator().getPropertyClass())));
-					List<ServerEvent> events = plugin.getEventGenerator().generateEvents(serverProperties, discoveredProperties);
-					discovered.eventLog.addAll(events);
+				if (server.discoverySettings.containsKey(plugin.getName()) && server.discoverySettings.get(plugin.getName())) {
+					logger.info("{} discovery has been disabled", plugin.getName());
+					discovered.serverProperties.addAll(plugin.getSshCommand().executeAndParse(server));
+					if (firstDiscovery) {
+						logger.info("First discovery for {}, no event generation", server.host);
+					} else {
+						List<ServerProperty> serverProperties = new ArrayList<ServerProperty>(Collections2.filter(server.serverProperties,
+								Predicates.instanceOf(plugin.getEventGenerator().getPropertyClass())));
+						List<ServerProperty> discoveredProperties = new ArrayList<ServerProperty>(Collections2.filter(discovered.serverProperties,
+								Predicates.instanceOf(plugin.getEventGenerator().getPropertyClass())));
+						List<ServerEvent> events = plugin.getEventGenerator().generateEvents(serverProperties, discoveredProperties);
+						discovered.eventLog.addAll(events);
+					}
 				}
 			}
 
@@ -110,5 +107,14 @@ public class ServerService {
 
 	private boolean exists(String host) {
 		return serverCollection.count("{host:#}", host) > 0;
+	}
+
+	public List<String> getPluginsNames() {
+		return Lists.transform(plugins, new Function<KheoPlugin<?>, String>() {
+			@Override
+			public String apply(KheoPlugin<?> plugin) {
+				return plugin.getName();
+			}
+		});
 	}
 }

@@ -68,7 +68,8 @@ public class ServerResource {
         }
 
         Server discoveredServer = service.discover(server, false);
-        return Response.status(Status.OK).entity(discoveredServer).build();
+        JsonNode serverData = ServerPropertyMetadataFilter.filter(discoveredServer);
+        return Response.status(Status.OK).entity(serverData).build();
     }
 
     @POST

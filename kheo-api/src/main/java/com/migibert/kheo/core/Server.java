@@ -1,7 +1,9 @@
 package com.migibert.kheo.core;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -57,7 +59,7 @@ public class Server {
     
     @JsonView({ ViewDetail.class })
     @JsonProperty
-    public DiscoverySettings discoverySettings;
+	public Map<String, Boolean> discoverySettings;
 
     @JsonView(ViewDetail.class)
     @JsonProperty
@@ -76,7 +78,7 @@ public class Server {
         this.privateKey = "";
         this.ram = 0;
         this.cpu = 0;
-        this.discoverySettings = new DiscoverySettings();
+        this.discoverySettings = new HashMap<>();
         this.serverProperties = new ArrayList<ServerProperty>();
         this.eventLog = new ArrayList<>();
     }

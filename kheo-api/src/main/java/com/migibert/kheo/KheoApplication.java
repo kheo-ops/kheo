@@ -23,7 +23,6 @@ import com.migibert.kheo.healtcheck.MongoHealthcheck;
 import com.migibert.kheo.healtcheck.SchedulerHealthcheck;
 import com.migibert.kheo.managed.ManagedMongo;
 import com.migibert.kheo.managed.ManagedScheduler;
-import com.migibert.kheo.resources.DiscoveryResource;
 import com.migibert.kheo.resources.PluginResource;
 import com.migibert.kheo.resources.ServerResource;
 
@@ -58,7 +57,6 @@ public class KheoApplication extends Application<KheoConfiguration> {
 		List<KheoPlugin<? extends ServerProperty>> plugins = KheoPluginLoader.loadKheoPlugins(configuration.plugin);
 		environment.jersey().register(new ServerResource(managedMongo.getJongo().getCollection(configuration.mongo.serverCollection), plugins));
 		environment.jersey().register(new PluginResource(plugins));
-		environment.jersey().register(new DiscoveryResource(plugins));
 
 		environment.healthChecks().register("Mongo connection", new MongoHealthcheck(managedMongo.getJongo()));
 		environment.healthChecks().register("Scheduler", new SchedulerHealthcheck(managedScheduler.getScheduler()));
