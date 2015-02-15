@@ -8,6 +8,7 @@ import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
@@ -26,9 +27,7 @@ public class ServerService {
 
 	private List<KheoPlugin<? extends ServerProperty>> plugins;
 
-
-	public ServerService(MongoCollection serverCollection,
-			ArrayList<KheoPlugin<? extends ServerProperty>> plugins) {
+	public ServerService(MongoCollection serverCollection, List<KheoPlugin<? extends ServerProperty>> plugins) {
 		this.serverCollection = serverCollection;
 		this.plugins = plugins;
 	}
@@ -36,6 +35,17 @@ public class ServerService {
 	public void create(Server server) {
 		if (exists(server.host)) {
 			throw new ServerAlreadyExistException(server);
+		}
+		
+		List<String> pluginNames = Lists.transform(plugins, new Function<KheoPlugin<?>, String>() {
+			@Override
+			public String apply(KheoPlugin<?> plugin) {
+				return plugin.getName();
+			}
+		});
+		
+		for(String pluginName : pluginNames) {
+			server.discoverySettings.pluginSettings.put(pluginName, true);
 		}
 
 		logger.info("Adding server {}", server.host);
@@ -54,6 +64,7 @@ public class ServerService {
 	}
 
 	public void update(Server server) {
+		System.out.println(server);
 		serverCollection.update("{host:#}", server.host).with(server);
 	}
 
@@ -79,8 +90,10 @@ public class ServerService {
 					logger.info("First discovery for {}, no event generation", server.host);
 				} else {
 					logger.info("Adding new event to server event log");
-					List<ServerProperty> serverProperties = new ArrayList<ServerProperty>(Collections2.filter(server.serverProperties, Predicates.instanceOf(plugin.getEventGenerator().getPropertyClass())));
-					List<ServerProperty> discoveredProperties = new ArrayList<ServerProperty>(Collections2.filter(discovered.serverProperties, Predicates.instanceOf(plugin.getEventGenerator().getPropertyClass())));
+					List<ServerProperty> serverProperties = new ArrayList<ServerProperty>(Collections2.filter(server.serverProperties,
+							Predicates.instanceOf(plugin.getEventGenerator().getPropertyClass())));
+					List<ServerProperty> discoveredProperties = new ArrayList<ServerProperty>(Collections2.filter(discovered.serverProperties,
+							Predicates.instanceOf(plugin.getEventGenerator().getPropertyClass())));
 					List<ServerEvent> events = plugin.getEventGenerator().generateEvents(serverProperties, discoveredProperties);
 					discovered.eventLog.addAll(events);
 				}

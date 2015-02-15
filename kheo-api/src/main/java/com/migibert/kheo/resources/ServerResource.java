@@ -1,6 +1,6 @@
 package com.migibert.kheo.resources;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.DELETE;
@@ -33,7 +33,7 @@ public class ServerResource {
 
     private ServerService service;
 
-    public ServerResource(MongoCollection serverCollection, ArrayList<KheoPlugin<? extends ServerProperty>> plugins) {
+    public ServerResource(MongoCollection serverCollection, List<KheoPlugin<? extends ServerProperty>> plugins) {
         this.service = new ServerService(serverCollection, plugins);
     }
 

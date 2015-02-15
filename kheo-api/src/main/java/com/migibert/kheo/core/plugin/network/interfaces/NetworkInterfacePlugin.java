@@ -13,5 +13,10 @@ public class NetworkInterfacePlugin implements KheoPlugin<NetworkInterfaceServer
 	public NetworkInterfaceEventGenerator getEventGenerator() {
 		return new NetworkInterfaceEventGenerator();
 	}
+	
+	@Override
+	public String getName() {
+		return NetworkInterfacePlugin.class.getSimpleName();
+	}
 
 }

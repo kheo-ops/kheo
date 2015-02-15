@@ -14,4 +14,8 @@ public class ListeningProcessPlugin implements KheoPlugin<ListeningProcessServer
 		return new ListeningProcessEventGenerator();
 	}
 
+	@Override
+	public String getName() {
+		return ListeningProcessPlugin.class.getSimpleName();
+	}
 }

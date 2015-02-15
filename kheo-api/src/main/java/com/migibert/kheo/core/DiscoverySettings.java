@@ -1,18 +1,19 @@
 package com.migibert.kheo.core;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class DiscoverySettings {
 	
 	@JsonProperty
-	public boolean discoverListeningProcesses = true;
+	public Map<String, Boolean> pluginSettings = new HashMap<>();
 	
-	@JsonProperty
-	public boolean discoverNetworkInterfaces = true;
-	
-	@JsonProperty
-	public boolean discoverOperatingSystem = true;
-	
-	@JsonProperty
-	public boolean discoverServices = true;
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
+	}
 }

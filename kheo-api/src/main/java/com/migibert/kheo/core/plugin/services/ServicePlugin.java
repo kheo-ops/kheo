@@ -14,4 +14,9 @@ public class ServicePlugin implements KheoPlugin<ServiceServerProperty> {
 		return new ServiceEventGenerator();
 	}
 
+	@Override
+	public String getName() {
+		return ServicePlugin.class.getSimpleName();
+	}
+
 }

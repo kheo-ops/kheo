@@ -9,5 +9,6 @@ public interface KheoPlugin<P extends ServerProperty> {
 	AbstractSshCommand<List<P>> getSshCommand();
 	
 	AbstractEventGenerator<P> getEventGenerator();
-	
+
+	String getName();
 }

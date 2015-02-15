@@ -13,5 +13,10 @@ public class OsPlugin implements KheoPlugin<OsServerProperty> {
 	public OsEventGenerator getEventGenerator() {
 		return new OsEventGenerator();
 	}
+	
+	@Override
+	public String getName() {
+		return OsPlugin.class.getSimpleName();
+	}
 
 }
