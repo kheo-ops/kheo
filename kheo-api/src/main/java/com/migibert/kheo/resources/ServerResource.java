@@ -18,6 +18,9 @@ import org.jongo.MongoCollection;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.migibert.kheo.configuration.ViewDetail;
 import com.migibert.kheo.configuration.ViewList;
 import com.migibert.kheo.core.Server;
@@ -51,7 +54,15 @@ public class ServerResource {
         if (server == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        return Response.status(Status.OK).entity(server).build();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+        try {
+			String jsonValue = mapper.writeValueAsString(server);
+			return Response.status(Status.OK).entity(jsonValue).build();
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}        
     }
 
     @GET
