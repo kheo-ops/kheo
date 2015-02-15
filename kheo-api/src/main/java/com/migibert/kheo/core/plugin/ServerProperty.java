@@ -8,7 +8,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@kheo-class")
 public abstract class ServerProperty {
-		
+
+	public String type = getClass().getSimpleName();
+
 	@Override
 	public boolean equals(Object obj) {
 		return EqualsBuilder.reflectionEquals(this, obj, false);
