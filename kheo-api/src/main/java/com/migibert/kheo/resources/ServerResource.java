@@ -18,15 +18,14 @@ import org.jongo.MongoCollection;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.migibert.kheo.configuration.ViewDetail;
 import com.migibert.kheo.configuration.ViewList;
 import com.migibert.kheo.core.Server;
 import com.migibert.kheo.core.plugin.KheoPlugin;
 import com.migibert.kheo.core.plugin.ServerProperty;
 import com.migibert.kheo.service.ServerService;
+import com.migibert.kheo.util.ServerPropertyMetadataFilter;
 
 @Path("servers")
 @Produces(MediaType.APPLICATION_JSON)
@@ -54,15 +53,8 @@ public class ServerResource {
         if (server == null) {
             return Response.status(Status.NOT_FOUND).build();
         }
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-        try {
-			String jsonValue = mapper.writeValueAsString(server);
-			return Response.status(Status.OK).entity(jsonValue).build();
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}        
+        JsonNode serverData = ServerPropertyMetadataFilter.filter(server);
+        return Response.status(Status.OK).entity(serverData).build();		
     }
 
     @GET

@@ -4,7 +4,6 @@ import java.util.Set;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -34,12 +33,7 @@ public class ConfigurationDiscoveryJob implements Job {
 		Set<Server> servers = getServersResponse.readEntity(new GenericType<Set<Server>>() {
 		});
 		for (Server server : servers) {
-			Response discoveryResponse = client.target("http://localhost:8080").path("servers/" + server.host + "/discover").request().get();
-			if (discoveryResponse.getStatus() == Status.OK.getStatusCode()) {
-				Server discoveredServer = discoveryResponse.readEntity(Server.class);
-				client.target("http://localhost:8080").path("servers/" + server.host).request()
-						.put(Entity.entity(discoveredServer, MediaType.APPLICATION_JSON));
-			}
+			client.target("http://localhost:8080").path("servers/" + server.host + "/discover").request().get();
 		}
 		logger.info("Ending discovery job");
 	}

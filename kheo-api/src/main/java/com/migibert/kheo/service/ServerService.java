@@ -42,8 +42,7 @@ public class ServerService {
 		serverCollection.insert(server);
 
 		logger.info("Initializing server {} data with first discovery", server.host);
-		Server discoveredServer = discover(server, true);
-		update(discoveredServer);
+		discover(server, true);
 	}
 
 	public Server read(String host) {
@@ -88,6 +87,7 @@ public class ServerService {
 			}
 
 			discovered.sshConnectionValidity = true;
+			update(discovered);
 			return discovered;
 		} catch (IOException e) {
 			logger.error(e.getMessage(), e);
