@@ -12,7 +12,6 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
-import com.migibert.kheo.MyClassLoader;
 import com.migibert.kheo.core.Server;
 import com.migibert.kheo.core.ServerEvent;
 import com.migibert.kheo.core.plugin.KheoPlugin;
@@ -20,6 +19,7 @@ import com.migibert.kheo.core.plugin.ServerProperty;
 import com.migibert.kheo.exception.ServerAlreadyExistException;
 import com.migibert.kheo.exception.ServerConnectionException;
 import com.migibert.kheo.exception.ServerNotFoundException;
+import com.migibert.kheo.util.KheoPluginClassLoader;
 
 public class ServerService {
 
@@ -53,7 +53,7 @@ public class ServerService {
 	}
 
 	public Server read(String host) {
-		Thread.currentThread().setContextClassLoader(MyClassLoader.instance);
+		Thread.currentThread().setContextClassLoader(KheoPluginClassLoader.getInstance());
 		return serverCollection.findOne("{host:#}", host).as(Server.class);
 	}
 

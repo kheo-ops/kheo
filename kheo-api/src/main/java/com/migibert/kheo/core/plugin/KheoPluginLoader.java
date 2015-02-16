@@ -16,8 +16,8 @@ import java.util.jar.JarFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.migibert.kheo.MyClassLoader;
 import com.migibert.kheo.configuration.PluginConfiguration;
+import com.migibert.kheo.util.KheoPluginClassLoader;
 
 public class KheoPluginLoader {
 	private static final Logger logger = LoggerFactory.getLogger(KheoPluginLoader.class);
@@ -40,8 +40,7 @@ public class KheoPluginLoader {
 			}
 			
 		}
-		URLClassLoader classLoader = new URLClassLoader(urls, KheoPluginLoader.class.getClassLoader());
-		MyClassLoader.instance = classLoader;
+		URLClassLoader classLoader = KheoPluginClassLoader.getInstance(urls);
 		List<KheoPlugin<?>> result = new ArrayList<KheoPlugin<?>>();
 		for (int i = 0; i < plugins.length; i++) {
 			try(JarFile plugin = new JarFile(plugins[i])) {				
@@ -57,12 +56,11 @@ public class KheoPluginLoader {
 					}
 				}
 			} catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				logger.warn("Unable to load plugin at {}", plugins[i].getAbsolutePath());
-				e.printStackTrace();
+				logger.error("Unable to load plugin at {}", plugins[i].getAbsolutePath());				
 			}
 		}
 
-		logger.info("Plugin loaded : {}", result.toString());
+		logger.info("Plugins loaded : {}", result.toString());
 		return result;
 	}
 }

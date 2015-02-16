@@ -31,77 +31,77 @@ import com.migibert.kheo.util.ServerPropertyMetadataFilter;
 @Produces(MediaType.APPLICATION_JSON)
 public class ServerResource {
 
-    private ServerService service;
+	private ServerService service;
 
-    public ServerResource(MongoCollection serverCollection, List<KheoPlugin<? extends ServerProperty>> plugins) {
-        this.service = new ServerService(serverCollection, plugins);
-    }
+	public ServerResource(MongoCollection serverCollection, List<KheoPlugin<? extends ServerProperty>> plugins) {
+		this.service = new ServerService(serverCollection, plugins);
+	}
 
-    @GET
-    @Timed
-    @JsonView(ViewList.class)
-    public Response getServers() {
-        return Response.status(Status.OK).entity(service.readAll()).build();
-    }
+	@GET
+	@Timed
+	@JsonView(ViewList.class)
+	public Response getServers() {
+		return Response.status(Status.OK).entity(service.readAll()).build();
+	}
 
-    @GET
-    @Timed
-    @Path("/{host}")
-    @JsonView(ViewDetail.class)
-    public Response getServer(@PathParam("host") String host) {
-        Server server = service.read(host);
-        if (server == null) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        JsonNode serverData = ServerPropertyMetadataFilter.filter(server);
-        return Response.status(Status.OK).entity(serverData).build();		
-    }
+	@GET
+	@Timed
+	@Path("/{host}")
+	@JsonView(ViewDetail.class)
+	public Response getServer(@PathParam("host") String host) {
+		Server server = service.read(host);
+		if (server == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		JsonNode serverData = ServerPropertyMetadataFilter.filter(server);
+		return Response.status(Status.OK).entity(serverData).build();
+	}
 
-    @GET
-    @Timed
-    @Path("/{host}/discover")
-    @JsonView(ViewDetail.class)
-    public Response discoverServer(@PathParam("host") String host) {
-        Server server = service.read(host);
-        if (server == null) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
+	@GET
+	@Timed
+	@Path("/{host}/discover")
+	@JsonView(ViewDetail.class)
+	public Response discoverServer(@PathParam("host") String host) {
+		Server server = service.read(host);
+		if (server == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
 
-        Server discoveredServer = service.discover(server, false);
-        JsonNode serverData = ServerPropertyMetadataFilter.filter(discoveredServer);
-        return Response.status(Status.OK).entity(serverData).build();
-    }
+		Server discoveredServer = service.discover(server, false);
+		JsonNode serverData = ServerPropertyMetadataFilter.filter(discoveredServer);
+		return Response.status(Status.OK).entity(serverData).build();
+	}
 
-    @POST
-    @Timed
-    @JsonView(ViewDetail.class)
-    public Response createServer(Server server) {
-        service.create(server);
-        return Response.status(Status.CREATED).build();
-    }
+	@POST
+	@Timed
+	@JsonView(ViewList.class)
+	public Response createServer(Server server) {
+		service.create(server);
+		return Response.status(Status.CREATED).build();
+	}
 
-    @PUT
-    @Timed
-    @Path("/{host}")
-    @JsonView(ViewDetail.class)
-    public Response updateServer(@PathParam("host") String host, Server server) {
-        if (!host.equals(server.host)) {
-            throw new BadRequestException("Hosts does not match.");
-        }
-        Server readServer = service.read(host);
-        if (readServer == null) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        service.update(server);
-        return Response.status(Status.NO_CONTENT).build();
-    }
+	@PUT
+	@Timed
+	@Path("/{host}")
+	@JsonView(ViewList.class)
+	public Response updateServer(@PathParam("host") String host, Server server) {
+		if (!host.equals(server.host)) {
+			throw new BadRequestException("Hosts does not match.");
+		}
+		Server readServer = service.read(host);
+		if (readServer == null) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+		service.update(server);
+		return Response.status(Status.NO_CONTENT).build();
+	}
 
-    @DELETE
-    @Timed
-    @Path("/{host}")
-    public Response deleteServer(@PathParam("host") String host) {
-        service.delete(host);
-        return Response.status(Status.NO_CONTENT).build();
-    }
+	@DELETE
+	@Timed
+	@Path("/{host}")
+	public Response deleteServer(@PathParam("host") String host) {
+		service.delete(host);
+		return Response.status(Status.NO_CONTENT).build();
+	}
 
 }
