@@ -8,8 +8,6 @@ Feature: Manage servers
         And user is "root"
         And password is "password"
         And port is "22222"
-        And "sshd" process listens on port "22" with protocol "tcp"
-        And "sshd" process listens on port "22" with protocol "tcp6"
 
     Scenario: As a user, I can add a non connectable server
         Given A server "non_connectable_server" with access disabled to "root" with "password" on port "22"
