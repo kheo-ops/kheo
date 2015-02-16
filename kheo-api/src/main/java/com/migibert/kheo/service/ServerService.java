@@ -12,6 +12,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
+import com.migibert.kheo.MyClassLoader;
 import com.migibert.kheo.core.Server;
 import com.migibert.kheo.core.ServerEvent;
 import com.migibert.kheo.core.plugin.KheoPlugin;
@@ -52,6 +53,7 @@ public class ServerService {
 	}
 
 	public Server read(String host) {
+		Thread.currentThread().setContextClassLoader(MyClassLoader.instance);
 		return serverCollection.findOne("{host:#}", host).as(Server.class);
 	}
 

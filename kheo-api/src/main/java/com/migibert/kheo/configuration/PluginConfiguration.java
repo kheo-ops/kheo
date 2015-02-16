@@ -8,6 +8,6 @@ public class PluginConfiguration {
 	
 	@NotNull
 	@NotEmpty
-	public String pluginDirectory = ".kheo";
+	public String directory = ".kheo";
 
 }
