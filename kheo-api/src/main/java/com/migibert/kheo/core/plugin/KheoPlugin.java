@@ -13,4 +13,7 @@ public interface KheoPlugin<P extends ServerProperty> {
 
 	@JsonProperty
 	String getName();
+	
+	@JsonProperty
+	String getPropertyName();
 }

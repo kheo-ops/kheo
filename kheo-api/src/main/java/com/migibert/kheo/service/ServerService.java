@@ -58,6 +58,7 @@ public class ServerService {
 	}
 
 	public List<Server> readAll() {
+		Thread.currentThread().setContextClassLoader(KheoPluginClassLoader.getInstance());
 		return Lists.newArrayList(serverCollection.find().as(Server.class).iterator());
 	}
 

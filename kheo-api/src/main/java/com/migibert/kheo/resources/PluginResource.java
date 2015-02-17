@@ -13,6 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.migibert.kheo.core.PluginDTO;
 import com.migibert.kheo.core.plugin.KheoPlugin;
 import com.migibert.kheo.core.plugin.ServerProperty;
 
@@ -29,19 +30,17 @@ public class PluginResource {
 	public Response listPlugins() {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			List<String> pluginsName = Lists.transform(plugins, new Function<KheoPlugin<?>, String>() {
+			List<PluginDTO> pluginsName = Lists.transform(plugins, new Function<KheoPlugin<?>, PluginDTO>() {
 				@Override
-				public String apply(KheoPlugin<?> plugin) {
-					return plugin.getName();
+				public PluginDTO apply(KheoPlugin<?> plugin) {
+					return new PluginDTO(plugin);
 				}
 			});
 			String value = mapper.writeValueAsString(pluginsName);
 			return Response.status(Status.OK.getStatusCode()).entity(value).build();
 		} catch (JsonProcessingException e) {
-			e.printStackTrace();
 			throw new RuntimeException(e);
-		}
-		
+		}		
 	}
 	
 }
