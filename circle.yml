@@ -18,6 +18,7 @@ test:
         background: true
     - docker run -d -p 22222:22 stephens/sshd
     - mkdir -p $CIRCLE_TEST_REPORTS/cucumber
+    - mkdir /tmp/.kheo
 
   override:
     - ./kheo-test/wait_for_server.sh 

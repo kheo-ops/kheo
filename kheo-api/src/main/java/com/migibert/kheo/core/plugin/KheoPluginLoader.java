@@ -31,6 +31,9 @@ public class KheoPluginLoader {
 			}
 		});
 
+		if(plugins == null || plugins.length == 0) {
+			return new ArrayList<KheoPlugin<?>>();
+		}
 		URL[] urls = new URL[plugins.length];
 		for(int i=0 ;i<plugins.length; i++) {
 			try {

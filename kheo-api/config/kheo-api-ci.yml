@@ -23,4 +23,6 @@ cors:
     - Accept
     - Origin
     allowCredentials: true
+plugin:
+  directory: /tmp/.kheo
 

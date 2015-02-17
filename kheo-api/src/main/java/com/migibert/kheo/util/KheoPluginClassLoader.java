@@ -17,7 +17,7 @@ public class KheoPluginClassLoader {
 	
 	public static URLClassLoader getInstance() {
 		if(instance == null) {
-			throw new NullPointerException();
+			instance = new URLClassLoader(new URL[0]);
 		}
 		return instance;
 	}
