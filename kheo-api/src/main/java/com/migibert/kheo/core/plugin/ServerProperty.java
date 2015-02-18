@@ -10,6 +10,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 public abstract class ServerProperty {
 
 	public String type = getClass().getSimpleName();
+	
+	public String key = getKey();
+	
+	public abstract String getKey();
 
 	@Override
 	public boolean equals(Object obj) {

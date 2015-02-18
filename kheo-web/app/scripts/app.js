@@ -5,7 +5,8 @@ angular
     'ngResource',
     'ngRoute',
     'ui.bootstrap',
-    'services.config'
+    'services.config',
+    'pasvaz.bindonce'
   ])
   .config(function ($routeProvider) {
     $routeProvider

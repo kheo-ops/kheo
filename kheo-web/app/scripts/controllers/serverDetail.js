@@ -9,18 +9,12 @@ module.controller('ServerDetailCtrl', ['$scope', '$resource', '$routeParams', 'c
     $scope.filterPluginProperties = function(plugin) {    	
     	$scope.pluginProperties = _.filter($scope.server.serverProperties, function(property) {
           return property.type == plugin.propertyName;
-    	});    	    	
+    	});
     }
 
-    $scope.extractKeyValue = function(property) {
-    	var res = [];
-    	for(var key in property) {            
-            var keyValue = { 
-              key: key,
-              value: property[key]
-            };
-            res.push(keyValue);
-    	}
-    	return res;
+    $scope.getKeys = function(property) {
+        return _.reject(_.keys(property), function(element) {
+            return element === 'type' || element === '$$hashKey' || element === 'key';
+        });        
     }
 }]);

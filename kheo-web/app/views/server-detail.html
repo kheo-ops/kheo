@@ -42,10 +42,14 @@
       </div>
     </div>
   </tab>
-  <tab heading="{{plugin.name}}" ng-repeat="plugin in plugins" select="filterPluginProperties(plugin)">
+  <tab ng-repeat="plugin in plugins" heading="{{plugin.name}}" select="filterPluginProperties(plugin)">
     <div role="form">
-      <div class="form-group" ng-repeat="property in pluginProperties">
-        {{property}}
+      <div class="panel panel-default" ng-repeat="property in pluginProperties">
+        <div class="panel-heading">{{property.key}}</div>
+        <div class="form-group" ng-repeat="key in getKeys(property)">
+            <label class="control-label" for="{{property.key}}{{key}}">{{key}}</label>
+            <input class="form-control" id="{{property.key}}{{key}}" disabled="true" type="text" ng-model="property[key]" />          
+        </div>
       </div>
     </div>
   </tab>  
