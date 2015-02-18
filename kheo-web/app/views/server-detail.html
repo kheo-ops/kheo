@@ -23,22 +23,10 @@
     </div>
   </tab>
   <tab heading="Discovery">
-    <div class="panel panel-default">
-      <div class="form-group">
-        <label class="control-label" for="discover-listening-processes">Listening processes</label>
-        <input id="discover-listening-processes" type="checkbox" ng-model="server.discoverySettings.discoverListeningProcesses" disabled="true"/>
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="discover-network-interfaces">Network interfaces</label>
-        <input id="discover-network-interfaces" type="checkbox" ng-model="server.discoverySettings.discoverNetworkInterfaces" disabled="true"/>
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="discover-operating-system">Operating system</label>
-        <input id="discover-operating-system" type="checkbox" ng-model="server.discoverySettings.discoverOperatingSystem" disabled="true"/>
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="discover-services">Services</label>
-        <input id="discover-services" type="checkbox" ng-model="server.discoverySettings.discoverServices" disabled="true"/>
+    <div class="panel panel-default">      
+      <div class="form-group" ng-repeat="key in getKeys(server.discoverySettings)">
+        <label class="control-label" for="{{key}}">{{key}}</label>
+        <input id="{{key}}" type="checkbox" ng-model="server.discoverySettings[key]" disabled="true"/>
       </div>
     </div>
   </tab>
@@ -47,8 +35,8 @@
       <div class="panel panel-default" ng-repeat="property in pluginProperties">
         <div class="panel-heading">{{property.key}}</div>
         <div class="form-group" ng-repeat="key in getKeys(property)">
-            <label class="control-label" for="{{property.key}}{{key}}">{{key}}</label>
-            <input class="form-control" id="{{property.key}}{{key}}" disabled="true" type="text" ng-model="property[key]" />          
+          <label class="control-label" for="{{property.key}}{{key}}">{{key}}</label>
+          <input class="form-control" id="{{property.key}}{{key}}" disabled="true" type="text" ng-model="property[key]" />          
         </div>
       </div>
     </div>

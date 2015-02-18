@@ -10,5 +10,11 @@ module.controller('ServerEditCtrl', ['$scope', '$resource', '$routeParams', 'con
                   {'update': { method: 'PUT'}})
         .update($scope.server);
     };
+
+    $scope.getKeys = function(property) {
+        return _.reject(_.keys(property), function(element) {
+            return element === 'type' || element === '$$hashKey' || element === 'key';
+        });
+    }
     
 }]);

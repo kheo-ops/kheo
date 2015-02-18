@@ -15,6 +15,6 @@ module.controller('ServerDetailCtrl', ['$scope', '$resource', '$routeParams', 'c
     $scope.getKeys = function(property) {
         return _.reject(_.keys(property), function(element) {
             return element === 'type' || element === '$$hashKey' || element === 'key';
-        });        
+        });
     }
 }]);
