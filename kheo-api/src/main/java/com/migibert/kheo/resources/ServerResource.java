@@ -92,6 +92,8 @@ public class ServerResource {
 		if (readServer == null) {
 			return Response.status(Status.NOT_FOUND).build();
 		}
+		server.serverProperties = readServer.serverProperties;
+		server.eventLog = readServer.eventLog;
 		service.update(server);
 		return Response.status(Status.NO_CONTENT).build();
 	}

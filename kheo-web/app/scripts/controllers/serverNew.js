@@ -20,10 +20,11 @@ module.controller('ServerNewCtrl', ['$scope', '$resource', '$location', 'configu
     }
 
     $scope.initSettings = function() {
-        if($scope.server[discoverySettings] === undefined) {
-            $scope.server.discoverySettings = {};
-            for(var plugin in $scope.plugins) {            	
-                $scope.discoverySettings[plugin.name] = true;
+        if($scope.server.hasOwnProperty('discoverySettings') === false) {        	            
+            $scope.server['discoverySettings'] = {};
+
+            for(var i=0; i<$scope.plugins.length; i++) {            	
+                $scope.server.discoverySettings[$scope.plugins[i].name] = true;
             }
         }
     };

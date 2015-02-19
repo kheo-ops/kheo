@@ -5,6 +5,9 @@ module.controller('ServerEditCtrl', ['$scope', '$resource', '$routeParams', 'con
     $scope.server = $resource(configuration.backend + '/servers/' + $routeParams.hostname).get();
 
     $scope.save = function() {
+    	$scope.server.serverProperties = [];
+    	$scope.server.eventLog = [];
+
         $resource(configuration.backend + '/servers/:host', 
                   {host: '@host'}, 
                   {'update': { method: 'PUT'}})

@@ -23,7 +23,7 @@
       </div>      
     </form>
   </tab>
-  <tab heading="Discovery settings">          
+  <tab heading="Discovery settings" select="initSettings()">          
     <div class="panel panel-default">      
       <div class="form-group" ng-repeat="key in getKeys(server.discoverySettings)">
         <label class="control-label" for="{{key}}">{{key}}</label>

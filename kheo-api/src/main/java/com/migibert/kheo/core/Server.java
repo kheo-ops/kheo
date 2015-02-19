@@ -59,7 +59,7 @@ public class Server {
     
     @JsonView({ ViewDetail.class })
     @JsonProperty
-	public Map<String, Boolean> discoverySettings;
+	public HashMap<String, Boolean> discoverySettings;
 
     @JsonView(ViewDetail.class)
     @JsonProperty

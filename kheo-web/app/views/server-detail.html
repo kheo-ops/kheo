@@ -30,7 +30,7 @@
       </div>
     </div>
   </tab>
-  <tab ng-repeat="plugin in plugins" heading="{{plugin.name}}" select="filterPluginProperties(plugin)">
+  <tab ng-repeat="plugin in plugins" heading="{{plugin.name}}" select="filterPluginProperties(plugin)" ng-show="server.discoverySettings[plugin.name] === true">    
     <div role="form">
       <div class="panel panel-default" ng-repeat="property in pluginProperties">
         <div class="panel-heading">{{property.key}}</div>
