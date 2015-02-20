@@ -5,9 +5,15 @@ import java.util.Date;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.migibert.kheo.util.DateJsonDeserializer;
+import com.migibert.kheo.util.DateJsonSerializer;
 
 public class ServerEvent {
 
+    @JsonSerialize(using=DateJsonSerializer.class)
+    @JsonDeserialize(using=DateJsonDeserializer.class)
     @JsonProperty
     public Date date;
 

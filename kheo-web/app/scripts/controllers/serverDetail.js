@@ -19,4 +19,16 @@ module.controller('ServerDetailCtrl', ['$scope', '$resource', '$routeParams', 'c
             return element === 'type' || element === '$$hashKey' || element === 'key';
         });
     };
+
+    $scope.stringValue = function(obj) {
+        if(obj === null) {
+            return 'no value';
+        }                        
+        var value = _.map(_.filter(_.keys(obj), function(item) {
+            return item !== 'type';
+        }), function(item) {
+            return item + '=' + obj[item];
+        });        
+        return value.join(', ');
+    }
 }]);

@@ -2,5 +2,5 @@
 
 angular.module('services.config', [])
   .constant('configuration', {
-    backend: 'http://api:8080'
+    backend: 'http://localhost:8080'
   });
