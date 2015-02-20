@@ -5,6 +5,7 @@ import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
 import java.util.EnumSet;
+import java.util.List;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration.Dynamic;
@@ -13,12 +14,16 @@ import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.quartz.impl.StdSchedulerFactory;
 
 import com.google.common.base.Joiner;
+import com.migibert.kheo.core.plugin.KheoPlugin;
+import com.migibert.kheo.core.plugin.KheoPluginLoader;
+import com.migibert.kheo.core.plugin.ServerProperty;
 import com.migibert.kheo.exception.mapping.ServerAlreadyExistExceptionMapper;
 import com.migibert.kheo.exception.mapping.ServerNotFoundExceptionMapper;
 import com.migibert.kheo.healtcheck.MongoHealthcheck;
 import com.migibert.kheo.healtcheck.SchedulerHealthcheck;
 import com.migibert.kheo.managed.ManagedMongo;
 import com.migibert.kheo.managed.ManagedScheduler;
+import com.migibert.kheo.resources.PluginResource;
 import com.migibert.kheo.resources.ServerResource;
 
 public class KheoApplication extends Application<KheoConfiguration> {
@@ -47,8 +52,11 @@ public class KheoApplication extends Application<KheoConfiguration> {
 		environment.lifecycle().manage(managedScheduler);
 
 		environment.jersey().register(ServerAlreadyExistExceptionMapper.class);
-		environment.jersey().register(ServerNotFoundExceptionMapper.class);
-		environment.jersey().register(new ServerResource(managedMongo.getJongo().getCollection(configuration.mongo.serverCollection)));
+		environment.jersey().register(ServerNotFoundExceptionMapper.class);				
+		
+		List<KheoPlugin<? extends ServerProperty>> plugins = KheoPluginLoader.loadKheoPlugins(configuration.plugin);
+		environment.jersey().register(new ServerResource(managedMongo.getJongo().getCollection(configuration.mongo.serverCollection), plugins));
+		environment.jersey().register(new PluginResource(plugins));
 
 		environment.healthChecks().register("Mongo connection", new MongoHealthcheck(managedMongo.getJongo()));
 		environment.healthChecks().register("Scheduler", new SchedulerHealthcheck(managedScheduler.getScheduler()));

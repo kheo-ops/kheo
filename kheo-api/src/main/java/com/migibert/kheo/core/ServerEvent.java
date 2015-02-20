@@ -1,4 +1,4 @@
-package com.migibert.kheo.core.event;
+package com.migibert.kheo.core;
 
 import java.util.Date;
 
@@ -23,9 +23,9 @@ public class ServerEvent {
     public ServerEvent() {
     }
 
-    public ServerEvent(EventType eventType, Object oldValue, Object newValue) {
+    public ServerEvent(String eventType, Object oldValue, Object newValue) {
         this.date = new Date();
-        this.eventType = eventType.name();
+        this.eventType = eventType;
         this.oldValue = oldValue;
         this.newValue = newValue;
     }

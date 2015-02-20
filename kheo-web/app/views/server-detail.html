@@ -21,103 +21,24 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">Discovery settings</div>
-      <div class="form-group">
-        <label class="control-label" for="discover-listening-processes">Listening processes</label>
-        <input id="discover-listening-processes" type="checkbox" ng-model="server.discoverySettings.discoverListeningProcesses" disabled="true"/>
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="discover-network-interfaces">Network interfaces</label>
-        <input id="discover-network-interfaces" type="checkbox" ng-model="server.discoverySettings.discoverNetworkInterfaces" disabled="true"/>
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="discover-operating-system">Operating system</label>
-        <input id="discover-operating-system" type="checkbox" ng-model="server.discoverySettings.discoverOperatingSystem" disabled="true"/>
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="discover-services">Services</label>
-        <input id="discover-services" type="checkbox" ng-model="server.discoverySettings.discoverServices" disabled="true"/>
+  </tab>
+  <tab heading="Discovery">
+    <div class="panel panel-default">      
+      <div class="form-group" ng-repeat="key in getKeys(server.discoverySettings)">
+        <label class="control-label" for="{{key}}">{{key}}</label>
+        <input id="{{key}}" type="checkbox" ng-model="server.discoverySettings[key]" disabled="true"/>
       </div>
     </div>
   </tab>
-  <tab heading="OS">
+  <tab ng-repeat="plugin in plugins" heading="{{plugin.name}}" select="filterPluginProperties(plugin)" ng-show="server.discoverySettings[plugin.name] === true">    
     <div role="form">
-      <div class="form-group">
-        <label class="control-label" for="os-name">Name</label>
-        <label id="os-name" type="text" class="form-control">{{server.os.name}}</label>
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="os-kernel-version">Kernel name</label>
-        <label id="os-kernel-version" type="text" class="form-control">{{server.os.kernelName}}</label>
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="os-kernel-release">Kernel release</label>
-        <label id="os-kernel-release" type="text" class="form-control">{{server.os.kernelRelease}}</label>
-      </div>
-      <div class="form-group">
-        <label class="control-label" for="os-hardware-platform">Harware platform</label>
-        <label id="os-hardware-platform" type="text" class="form-control">{{server.os.hardwarePlatform}}</label>
-      </div>
-    </div>
-  </tab>
-  <tab heading="Interfaces">
-    <div class="panel panel-default" ng-repeat="networkInterface in server.networkInterfaces">
-      <div class="panel-heading">{{networkInterface.name}}</div>      
-      <div class="panel-body">
-        <div class="form-group">
-          <label class="control-label">IP v4</label>
-          <label type="text" class="form-control">{{networkInterface.inetAddress}}</label>
-        </div>
-        <div class="form-group">
-          <label class="control-label">IP v6</label>
-          <label type="text" class="form-control">{{networkInterface.inet6Address}}</label>
-        </div>
-        <div class="form-group">
-          <label class="control-label">Encapsulation type</label>
-          <label type="text" class="form-control">{{networkInterface.encapsulationType}}</label>
-        </div>
-        <div class="form-group">
-          <label class="control-label">Broadcast</label>
-          <label type="text" class="form-control">{{networkInterface.broadcast}}</label>
-        </div>
-        <div class="form-group">
-          <label class="control-label">Mask</label>
-          <label type="text" class="form-control">{{networkInterface.mask}}</label>
-        </div>
-        <div class="form-group">
-          <label class="control-label">Mac Address</label>
-          <label type="text" class="form-control">{{networkInterface.macAddress}}</label>
+      <div class="panel panel-default" ng-repeat="property in pluginProperties">
+        <div class="panel-heading">{{property.key}}</div>
+        <div class="form-group" ng-repeat="key in getKeys(property)">
+          <label class="control-label" for="{{property.key}}{{key}}">{{key}}</label>
+          <input class="form-control" id="{{property.key}}{{key}}" disabled="true" type="text" ng-model="property[key]" />          
         </div>
       </div>
     </div>
-  </tab>
-  <tab heading="Services">
-    <div ng-repeat="service in server.services">
-      <label type="text" class="form-control">{{service.name}}</label>
-    </div>
-  </tab>
-  <tab heading="Listening processes">
-    <div class="panel panel-default" ng-repeat="listeningProcess in server.listeningProcesses">
-      <div class="panel-heading">{{listeningProcess.programName}}</div>  
-      <div class="panel-body">        
-        <div class="form-group">
-          <label class="control-label">Port</label>
-          <label type="text" class="form-control">{{listeningProcess.port}}</label>
-        </div>
-        <div class="form-group">
-          <label class="control-label">Protocol</label>
-          <label type="text" class="form-control">{{listeningProcess.protocol}}</label>
-        </div>
-        <div class="form-group">
-          <label class="control-label">Program name</label>
-          <label type="text" class="form-control">{{listeningProcess.programName}}</label>
-        </div>
-        <div class="form-group">
-          <label class="control-label">PID</label>
-          <label type="text" class="form-control">{{listeningProcess.pid}}</label>
-        </div>
-      </div>
-    </div>
-  </tab>
+  </tab>  
 </tabset>

@@ -8,14 +8,11 @@ Feature: Manage servers
         And user is "root"
         And password is "password"
         And port is "22222"
-        And "sshd" process listens on port "22" with protocol "tcp"
-        And "sshd" process listens on port "22" with protocol "tcp6"
 
     Scenario: As a user, I can add a non connectable server
         Given A server "non_connectable_server" with access disabled to "root" with "password" on port "22"
         When I add a "non_connectable_server" server with user "root" and password "password" on port "22"
         Then I can retrieve the server "non_connectable_server"
-        And SSH connectivity is "false"
 
     Scenario: As a user, I can remove an existing server
         Given An existing server "server_to_remove"

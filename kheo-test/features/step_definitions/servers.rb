@@ -8,7 +8,8 @@ Given(/^A server "(.*?)" with access enabled to "(.*?)" with "(.*?)" on port "(.
         "host" => host,
         "user" => user,
         "password" => password,
-        "sshPort" => port
+        "sshPort" => port,
+        "sudo" => true
     }
 end
 
@@ -46,7 +47,10 @@ end
 
 
 Then(/^"(.*?)" process listens on port "(.*?)" with protocol "(.*?)"$/) do |programName, port, protocol|    
-    processes = JSON.parse(@response.body)['listeningProcesses']
+    properties = JSON.parse(@response.body)['serverProperties']
+    processes = properties.select { |property| property['type'] == 'ListeningProcessServerProperty' }
+    puts processes
+
     foundProcesses = processes.select { |process| process['programName'] == '/' + programName && process['port'] == port && process['protocol'] == protocol }
     assert_equal(1, foundProcesses.length)
 end

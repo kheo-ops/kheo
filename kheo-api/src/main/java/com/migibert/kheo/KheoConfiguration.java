@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.migibert.kheo.configuration.CorsConfiguration;
 import com.migibert.kheo.configuration.MongoConfiguration;
+import com.migibert.kheo.configuration.PluginConfiguration;
 import com.migibert.kheo.configuration.SchedulerConfiguration;
 
 public class KheoConfiguration extends Configuration {
@@ -22,4 +23,9 @@ public class KheoConfiguration extends Configuration {
 	@JsonProperty
 	@Valid
 	public CorsConfiguration cors = new CorsConfiguration();
+	
+	@JsonProperty
+	@Valid
+	public PluginConfiguration plugin = new PluginConfiguration();
+	
 }
