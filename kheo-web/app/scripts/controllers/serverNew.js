@@ -2,7 +2,7 @@
 
 var module = angular.module('kheoApp');
 
-module.controller('ServerNewCtrl', ['$scope', '$resource', '$location', 'configuration', function ($scope, $resource, $location, configuration) {    
+module.controller('ServerNewCtrl', ['$scope', '$resource', '$location', 'configuration', '_', function ($scope, $resource, $location, configuration, _) {
     $scope.plugins = $resource(configuration.backend + '/plugins').query();
     $scope.server = {};
 

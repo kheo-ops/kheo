@@ -1,12 +1,18 @@
 'use strict';
 
+var underscore = angular.module('underscore', []);
+underscore.factory('_', function() {
+  return window._; //Underscore must already be loaded on the page
+});
+
 angular
     .module('kheoApp', [
     'ngResource',
     'ngRoute',
     'ui.bootstrap',
     'services.config',
-    'pasvaz.bindonce'
+    'pasvaz.bindonce',
+    'underscore'
   ])
   .config(function ($routeProvider) {
     $routeProvider

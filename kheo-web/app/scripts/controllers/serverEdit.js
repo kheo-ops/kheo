@@ -1,7 +1,7 @@
 'use strict';
 var module = angular.module('kheoApp');
 
-module.controller('ServerEditCtrl', ['$scope', '$resource', '$routeParams', 'configuration', function ($scope, $resource, $routeParams, configuration) {
+module.controller('ServerEditCtrl', ['$scope', '$resource', '$routeParams', 'configuration', '_', function ($scope, $resource, $routeParams, configuration, _) {
     $scope.server = $resource(configuration.backend + '/servers/' + $routeParams.hostname).get();
 
     $scope.save = function() {
@@ -18,6 +18,6 @@ module.controller('ServerEditCtrl', ['$scope', '$resource', '$routeParams', 'con
         return _.reject(_.keys(property), function(element) {
             return element === 'type' || element === '$$hashKey' || element === 'key';
         });
-    }
+    };
     
 }]);
