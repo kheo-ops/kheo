@@ -16,6 +16,7 @@ import com.google.common.collect.Lists;
 import com.migibert.kheo.core.PluginDTO;
 import com.migibert.kheo.core.plugin.KheoPlugin;
 import com.migibert.kheo.core.plugin.ServerProperty;
+import com.migibert.kheo.util.KheoUtils;
 
 @Path("plugins")
 @Produces(MediaType.APPLICATION_JSON)
@@ -30,13 +31,8 @@ public class PluginResource {
 	public Response listPlugins() {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			List<PluginDTO> pluginsName = Lists.transform(plugins, new Function<KheoPlugin<?>, PluginDTO>() {
-				@Override
-				public PluginDTO apply(KheoPlugin<?> plugin) {
-					return new PluginDTO(plugin);
-				}
-			});
-			String value = mapper.writeValueAsString(pluginsName);
+			List<PluginDTO> pluginsDto = KheoUtils.convertPluginsToPluginDTO(plugins);
+			String value = mapper.writeValueAsString(pluginsDto);
 			return Response.status(Status.OK.getStatusCode()).entity(value).build();
 		} catch (JsonProcessingException e) {
 			throw new RuntimeException(e);

@@ -8,7 +8,6 @@ import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
@@ -20,6 +19,7 @@ import com.migibert.kheo.exception.ServerAlreadyExistException;
 import com.migibert.kheo.exception.ServerConnectionException;
 import com.migibert.kheo.exception.ServerNotFoundException;
 import com.migibert.kheo.util.KheoPluginClassLoader;
+import com.migibert.kheo.util.KheoUtils;
 
 public class ServerService {
 
@@ -38,10 +38,10 @@ public class ServerService {
 			throw new ServerAlreadyExistException(server);
 		}
 
-		List<String> pluginNames = getPluginsNames();
+		List<String> pluginNames = KheoUtils.getPluginsNames(plugins);
 		for (String pluginName : pluginNames) {
 			if (!server.discoverySettings.containsKey(pluginName)) {
-				server.discoverySettings.put(pluginName, true);
+				server.discoverySettings.put(pluginName, false);
 			}
 		}
 
@@ -89,10 +89,8 @@ public class ServerService {
 					if (firstDiscovery) {
 						logger.info("First discovery for {}, no event generation", server.host);
 					} else {
-						List<ServerProperty> serverProperties = new ArrayList<ServerProperty>(Collections2.filter(server.serverProperties,
-								Predicates.instanceOf(plugin.getEventGenerator().getPropertyClass())));
-						List<ServerProperty> discoveredProperties = new ArrayList<ServerProperty>(Collections2.filter(discovered.serverProperties,
-								Predicates.instanceOf(plugin.getEventGenerator().getPropertyClass())));
+						List<ServerProperty> serverProperties = new ArrayList<ServerProperty>(Collections2.filter(server.serverProperties, Predicates.instanceOf(plugin.getEventGenerator().getPropertyClass())));
+						List<ServerProperty> discoveredProperties = new ArrayList<ServerProperty>(Collections2.filter(discovered.serverProperties, Predicates.instanceOf(plugin.getEventGenerator().getPropertyClass())));
 						List<ServerEvent> events = plugin.getEventGenerator().generateEvents(serverProperties, discoveredProperties);
 						discovered.eventLog.addAll(events);
 					}
@@ -112,12 +110,4 @@ public class ServerService {
 		return serverCollection.count("{host:#}", host) > 0;
 	}
 
-	public List<String> getPluginsNames() {
-		return Lists.transform(plugins, new Function<KheoPlugin<?>, String>() {
-			@Override
-			public String apply(KheoPlugin<?> plugin) {
-				return plugin.getName();
-			}
-		});
-	}
 }

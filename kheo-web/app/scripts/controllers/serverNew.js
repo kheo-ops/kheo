@@ -17,11 +17,11 @@ module.controller('ServerNewCtrl', ['$scope', '$resource', '$location', 'configu
         return _.reject(_.keys(property), function(element) {
             return element === 'type' || element === '$$hashKey' || element === 'key';
         });
-    }
+    };
 
     $scope.initSettings = function() {
         if($scope.server.hasOwnProperty('discoverySettings') === false) {        	            
-            $scope.server['discoverySettings'] = {};
+            $scope.server.discoverySettings = {};
 
             for(var i=0; i<$scope.plugins.length; i++) {            	
                 $scope.server.discoverySettings[$scope.plugins[i].name] = true;

@@ -3,7 +3,6 @@ package com.migibert.kheo.core;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -25,7 +24,7 @@ public class Server {
     @JsonView({ ViewList.class, ViewDetail.class })
     @JsonProperty
     public String host;
-    
+
     @JsonView({ ViewList.class, ViewDetail.class })
     public int sshPort;
 
@@ -40,11 +39,11 @@ public class Server {
     @JsonView({ ViewList.class, ViewDetail.class })
     @JsonProperty
     public String privateKey;
-    
+
     @JsonView({ ViewList.class, ViewDetail.class })
     @JsonProperty
     public boolean sudo;
-    
+
     @JsonView({ ViewDetail.class, ViewList.class })
     @JsonProperty
     public boolean sshConnectionValidity;
@@ -56,10 +55,10 @@ public class Server {
     @JsonView({ ViewDetail.class })
     @JsonProperty
     public int cpu;
-    
+
     @JsonView({ ViewDetail.class })
     @JsonProperty
-	public HashMap<String, Boolean> discoverySettings;
+    public HashMap<String, Boolean> discoverySettings;
 
     @JsonView(ViewDetail.class)
     @JsonProperty
@@ -101,11 +100,11 @@ public class Server {
 
     @Override
     public boolean equals(Object obj) {
-    	return EqualsBuilder.reflectionEquals(this, obj, false);
+        return EqualsBuilder.reflectionEquals(this, obj, false);
     }
-    
+
     @Override
     public int hashCode() {
-    	return HashCodeBuilder.reflectionHashCode(this, false);
+        return HashCodeBuilder.reflectionHashCode(this, false);
     }
 }
