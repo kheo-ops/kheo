@@ -14,7 +14,7 @@ public class KheoUtils {
         return Lists.transform(plugins, new Function<KheoPlugin<?>, String>() {
             @Override
             public String apply(KheoPlugin<?> plugin) {
-                return plugin.getName() + plugin.getVersion();
+                return plugin.getName();
             };
         });
     }

@@ -36,9 +36,32 @@
         <div class="panel-heading">{{property.key}}</div>
         <div class="form-group" ng-repeat="key in getKeys(property)">
           <label class="control-label" for="{{property.key}}{{key}}">{{key}}</label>
-          <input class="form-control" id="{{property.key}}{{key}}" disabled="true" type="text" ng-model="property[key]" />          
+          <input class="form-control" id="{{property.key}}{{key}}" disabled="true" type="text" ng-model="property[key]" />
         </div>
       </div>
     </div>
-  </tab>  
+  </tab>
+  <tab heading="Event log">
+    <div class="panel panel-default">
+      <div>
+         <timeline>
+          <timeline-node side="left" ng-repeat="eventLog in server.eventLog">
+            <timeline-badge class="info"></timeline-badge>
+            <timeline-panel>
+              <timeline-heading>
+                <timeline-title>{{eventLog.eventType}}</timeline-title>
+                <p>
+                  <small class="text-muted"><i class="glyphicon glyphicon-time"></i> Discovered at {{eventLog.date}}</small>
+                </p>
+              </timeline-heading>
+              <timeline-content>
+                <p>Old value: {{ stringValue(eventLog.oldValue) }}</p>
+                <p>New value: {{ stringValue(eventLog.newValue) }}</p>
+              </timeline-content>
+            </timeline-panel>
+          </timeline-node>
+        </timeline>
+      </div>
+    </div>  
+  </tab>
 </tabset>
