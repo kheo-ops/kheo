@@ -15,8 +15,9 @@ module.controller('ServerDetailCtrl', ['$scope', '$resource', '$routeParams', 'c
     };
 
     $scope.getKeys = function(property) {
-        return _.reject(_.keys(property), function(element) {
-            return element === 'type' || element === '$$hashKey' || element === 'key';
+        console.log(property)
+        return _.reject(_.keys(property), function(element) {            
+            return element === 'type' || element === '$$hashKey' || element === 'key' || element === '@kheo-type';
         });
     };
 
@@ -30,5 +31,5 @@ module.controller('ServerDetailCtrl', ['$scope', '$resource', '$routeParams', 'c
             return item + '=' + obj[item];
         });        
         return value.join(', ');
-    }
+    };
 }]);
