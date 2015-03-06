@@ -53,7 +53,7 @@ public class ServerService {
 		serverCollection.insert(server);
 		
 		logger.info("Initializing server {} data with first discovery", server.host);
-		scheduler.scheduleDiscovery(server.host, true);		
+		scheduler.scheduleDiscovery(server.host);		
 	}
 
 	public Server read(String host) {
@@ -77,8 +77,9 @@ public class ServerService {
 		serverCollection.remove("{host:#}", host);
 	}
 
-	public Server discover(Server server, boolean firstDiscovery) {
+	public Server discover(Server server) {
 		try {
+		    boolean firstDiscovery = ServerState.REGISTERED.name().equals(server.state);
 		    server.state = ServerState.DISCOVERING.name();
 		    update(server);
 		    

@@ -21,6 +21,7 @@ import com.migibert.kheo.exception.mapping.ServerAlreadyExistExceptionMapper;
 import com.migibert.kheo.exception.mapping.ServerNotFoundExceptionMapper;
 import com.migibert.kheo.healtcheck.MongoHealthcheck;
 import com.migibert.kheo.healtcheck.SchedulerHealthcheck;
+import com.migibert.kheo.jobs.GlobalConfigurationDiscoveryJob;
 import com.migibert.kheo.managed.ManagedMongo;
 import com.migibert.kheo.managed.ManagedScheduler;
 import com.migibert.kheo.resources.PluginResource;
@@ -61,7 +62,7 @@ public class KheoApplication extends Application<KheoConfiguration> {
 		environment.healthChecks().register("Mongo connection", new MongoHealthcheck(managedMongo.getJongo()));
 		environment.healthChecks().register("Scheduler", new SchedulerHealthcheck(managedScheduler.getScheduler()));
 
-		managedScheduler.registerJob(configuration.scheduler.cronExpression);
+		managedScheduler.registerJob(configuration.scheduler.cronExpression, GlobalConfigurationDiscoveryJob.class);
 	}
 
 	@Override

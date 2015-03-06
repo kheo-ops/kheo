@@ -68,7 +68,7 @@ public class ServerResource {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        Server discoveredServer = service.discover(server, false);
+        Server discoveredServer = service.discover(server);
         JsonNode serverData = ServerPropertyMetadataFilter.filter(discoveredServer);
         return Response.status(Status.OK).entity(serverData).build();
     }

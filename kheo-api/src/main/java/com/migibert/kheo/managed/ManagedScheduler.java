@@ -5,6 +5,7 @@ import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 import io.dropwizard.lifecycle.Managed;
 
+import org.quartz.Job;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -12,7 +13,7 @@ import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.migibert.kheo.jobs.GlobalConfigurationDiscoveryJob;
+import com.migibert.kheo.jobs.SpecificConfigurationDiscoveryJob;
 
 public class ManagedScheduler implements Managed {
 
@@ -33,19 +34,19 @@ public class ManagedScheduler implements Managed {
 		scheduler.shutdown();
 	}
 
-	public void registerJob(String cronExpression) {
-		JobDetail job = newJob(GlobalConfigurationDiscoveryJob.class).build();
+	public void registerJob(String cronExpression, Class<? extends Job> job) {
+		JobDetail jobDetail = newJob(job).build();
 		try {
 			Trigger trigger = newTrigger().withSchedule(cronSchedule(cronExpression)).build();
-			scheduler.scheduleJob(job, trigger);
+			scheduler.scheduleJob(jobDetail, trigger);
 		} catch (SchedulerException e) {
 			logger.error(e.getMessage(), e);
 			throw new RuntimeException(e);
 		}
 	}
 	
-	public void scheduleDiscovery(String host, boolean firstDiscovery) {
-	    JobDetail job = newJob(GlobalConfigurationDiscoveryJob.class).usingJobData("host", host).usingJobData("firstDiscovery", firstDiscovery).build();
+	public void scheduleDiscovery(String host) {
+	    JobDetail job = newJob(SpecificConfigurationDiscoveryJob.class).usingJobData("host", host).build();
         try {
             Trigger trigger = newTrigger().startNow().build();
             scheduler.scheduleJob(job, trigger);
