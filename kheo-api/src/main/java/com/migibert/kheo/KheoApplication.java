@@ -55,13 +55,13 @@ public class KheoApplication extends Application<KheoConfiguration> {
 		environment.jersey().register(ServerNotFoundExceptionMapper.class);				
 		
 		List<KheoPlugin<? extends ServerProperty>> plugins = KheoPluginLoader.loadKheoPlugins(configuration.plugin);
-		environment.jersey().register(new ServerResource(managedMongo.getJongo().getCollection(configuration.mongo.serverCollection), plugins));
+		environment.jersey().register(new ServerResource(managedMongo.getJongo().getCollection(configuration.mongo.serverCollection), managedScheduler, plugins));
 		environment.jersey().register(new PluginResource(plugins));
 
 		environment.healthChecks().register("Mongo connection", new MongoHealthcheck(managedMongo.getJongo()));
 		environment.healthChecks().register("Scheduler", new SchedulerHealthcheck(managedScheduler.getScheduler()));
 
-		managedScheduler.registerJobs(configuration.scheduler.cronExpression);
+		managedScheduler.registerJob(configuration.scheduler.cronExpression);
 	}
 
 	@Override

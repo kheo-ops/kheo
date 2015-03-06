@@ -13,23 +13,26 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import com.migibert.kheo.core.Server;
 import com.migibert.kheo.core.ServerEvent;
+import com.migibert.kheo.core.ServerState;
 import com.migibert.kheo.core.plugin.KheoPlugin;
 import com.migibert.kheo.core.plugin.ServerProperty;
 import com.migibert.kheo.exception.ServerAlreadyExistException;
 import com.migibert.kheo.exception.ServerConnectionException;
 import com.migibert.kheo.exception.ServerNotFoundException;
+import com.migibert.kheo.managed.ManagedScheduler;
 import com.migibert.kheo.util.KheoPluginClassLoader;
 import com.migibert.kheo.util.KheoUtils;
 
 public class ServerService {
 
 	private Logger logger = LoggerFactory.getLogger(ServerService.class);
+	private ManagedScheduler scheduler;
 	private MongoCollection serverCollection;
-
 	private List<KheoPlugin<? extends ServerProperty>> plugins;
 
-	public ServerService(MongoCollection serverCollection, List<KheoPlugin<? extends ServerProperty>> plugins) {
+	public ServerService(MongoCollection serverCollection, ManagedScheduler scheduler, List<KheoPlugin<? extends ServerProperty>> plugins) {
 		this.serverCollection = serverCollection;
+		this.scheduler = scheduler;
 		this.plugins = plugins;
 	}
 
@@ -46,10 +49,11 @@ public class ServerService {
 		}
 
 		logger.info("Adding server {}", server.host);
+		server.state = ServerState.REGISTERED.name();
 		serverCollection.insert(server);
-
+		
 		logger.info("Initializing server {} data with first discovery", server.host);
-		discover(server, true);
+		scheduler.scheduleDiscovery(server.host, true);		
 	}
 
 	public Server read(String host) {
@@ -75,7 +79,10 @@ public class ServerService {
 
 	public Server discover(Server server, boolean firstDiscovery) {
 		try {
-			Server discovered = new Server(server.host, server.user, server.password, server.privateKey, server.ram, server.cpu);
+		    server.state = ServerState.DISCOVERING.name();
+		    update(server);
+		    
+			Server discovered = new Server(server.host, server.user, server.password, server.privateKey);
 			discovered.sshPort = server.sshPort;
 			discovered.sudo = server.sudo;
 			discovered.sshConnectionValidity = false;
@@ -98,6 +105,7 @@ public class ServerService {
 			}
 
 			discovered.sshConnectionValidity = true;
+			discovered.state = ServerState.READY.name();
 			update(discovered);
 			return discovered;
 		} catch (IOException e) {

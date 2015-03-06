@@ -12,7 +12,7 @@ import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.migibert.kheo.jobs.ConfigurationDiscoveryJob;
+import com.migibert.kheo.jobs.GlobalConfigurationDiscoveryJob;
 
 public class ManagedScheduler implements Managed {
 
@@ -33,8 +33,8 @@ public class ManagedScheduler implements Managed {
 		scheduler.shutdown();
 	}
 
-	public void registerJobs(String cronExpression) {
-		JobDetail job = newJob(ConfigurationDiscoveryJob.class).build();
+	public void registerJob(String cronExpression) {
+		JobDetail job = newJob(GlobalConfigurationDiscoveryJob.class).build();
 		try {
 			Trigger trigger = newTrigger().withSchedule(cronSchedule(cronExpression)).build();
 			scheduler.scheduleJob(job, trigger);
@@ -42,6 +42,17 @@ public class ManagedScheduler implements Managed {
 			logger.error(e.getMessage(), e);
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public void scheduleDiscovery(String host, boolean firstDiscovery) {
+	    JobDetail job = newJob(GlobalConfigurationDiscoveryJob.class).usingJobData("host", host).usingJobData("firstDiscovery", firstDiscovery).build();
+        try {
+            Trigger trigger = newTrigger().startNow().build();
+            scheduler.scheduleJob(job, trigger);
+        } catch (SchedulerException e) {
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
 	}
 
 	public Scheduler getScheduler() {

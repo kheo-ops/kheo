@@ -17,14 +17,14 @@ import org.slf4j.LoggerFactory;
 
 import com.migibert.kheo.core.Server;
 
-public class ConfigurationDiscoveryJob implements Job {
+public class GlobalConfigurationDiscoveryJob implements Job {
 
-	private Logger logger = LoggerFactory.getLogger(ConfigurationDiscoveryJob.class);
+	private Logger logger = LoggerFactory.getLogger(GlobalConfigurationDiscoveryJob.class);
 	private Client client = ClientBuilder.newClient();
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		logger.info("Starting discovery job!");
+		logger.info("Starting global configuration discovery job!");
 		Response getServersResponse = client.target("http://localhost:8080").path("servers").request().accept(MediaType.APPLICATION_JSON).get();
 		if (getServersResponse.getStatus() != Status.OK.getStatusCode()) {
 			return;
@@ -35,6 +35,6 @@ public class ConfigurationDiscoveryJob implements Job {
 		for (Server server : servers) {
 			client.target("http://localhost:8080").path("servers/" + server.host + "/discover").request().get();
 		}
-		logger.info("Ending discovery job");
+		logger.info("Ending global configuration discovery job");
 	}
 }

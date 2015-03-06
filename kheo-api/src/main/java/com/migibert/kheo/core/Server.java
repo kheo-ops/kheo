@@ -48,14 +48,10 @@ public class Server {
     @JsonProperty
     public boolean sshConnectionValidity;
 
-    @JsonView({ ViewDetail.class })
+    @JsonView({ ViewDetail.class, ViewList.class })
     @JsonProperty
-    public int ram;
-
-    @JsonView({ ViewDetail.class })
-    @JsonProperty
-    public int cpu;
-
+    public String state;
+    
     @JsonView({ ViewDetail.class })
     @JsonProperty
     public HashMap<String, Boolean> discoverySettings;
@@ -74,23 +70,19 @@ public class Server {
         this.user = "";
         this.password = "";
         this.sshPort = 22;
-        this.privateKey = "";
-        this.ram = 0;
-        this.cpu = 0;
+        this.privateKey = "";        
         this.discoverySettings = new HashMap<>();
         this.serverProperties = new ArrayList<ServerProperty>();
         this.eventLog = new ArrayList<>();
     }
 
-    public Server(String host, String user, String password, String privateKey, int ram, int cpu) {
+    public Server(String host, String user, String password, String privateKey) {
         this();
         this.id = UUID.randomUUID().toString();
         this.host = host;
         this.user = user;
         this.password = password;
-        this.privateKey = privateKey;
-        this.ram = ram;
-        this.cpu = cpu;
+        this.privateKey = privateKey;        
     }
 
     @Override
