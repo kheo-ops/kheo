@@ -84,7 +84,7 @@ public class ServerService {
 
 			for (KheoPlugin<? extends ServerProperty> plugin : plugins) {
 				if (server.discoverySettings.containsKey(plugin.getName()) && server.discoverySettings.get(plugin.getName())) {
-					logger.info("{} discovery has been disabled", plugin.getName());
+					logger.info("{} discovery has been enabled", plugin.getName());
 					discovered.serverProperties.addAll(plugin.getSshCommand().executeAndParse(server));
 					if (firstDiscovery) {
 						logger.info("First discovery for {}, no event generation", server.host);
