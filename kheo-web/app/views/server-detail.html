@@ -30,13 +30,21 @@
       </div>
     </div>
   </tab>
-  <tab ng-repeat="plugin in plugins" heading="{{plugin.name}}" select="filterPluginProperties(plugin)" ng-show="server.discoverySettings[plugin.name] === true">    
+  <tab ng-repeat="plugin in plugins" heading="{{plugin.name}}" select="filterPluginProperties(plugin)" ng-show="server.discoverySettings[plugin.name] === true">        
     <div role="form">
       <div class="panel panel-default" ng-repeat="property in pluginProperties">
-        <div class="panel-heading">{{property.key}}</div>
-        <div class="form-group" ng-repeat="key in getKeys(property)">
-          <label class="control-label" for="{{property.key}}{{key}}">{{key}}</label>
-          <input class="form-control" id="{{property.key}}{{key}}" disabled="true" type="text" ng-model="property[key]" />
+        <div ng-if="property['@kheo-type'] === 'JSON'">
+          <div class="panel-heading">{{property.key}}</div>
+          <div class="form-group" ng-repeat="key in getKeys(property)">
+            <label class="control-label" for="{{property.key}}{{key}}">{{key}}</label>
+            <input class="form-control" id="{{property.key}}{{key}}" disabled="true" type="text" ng-model="property[key]" />
+          </div>
+        </div>
+        <div ng-if="property['@kheo-type'] === 'SVG'">
+          <img ng-src="{{'data:image/svg+xml;base64,' + property[key];}}" ng-repeat="key in getKeys(property)"/>
+        </div>
+        <div ng-if="property['@kheo-type'] === 'PNG'">
+          <img ng-src="{{'data:image/png;base64,' + property[key];}}" ng-repeat="key in getKeys(property)"/>
         </div>
       </div>
     </div>
