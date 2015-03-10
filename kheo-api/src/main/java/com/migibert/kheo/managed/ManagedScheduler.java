@@ -17,36 +17,36 @@ import com.migibert.kheo.jobs.SpecificConfigurationDiscoveryJob;
 
 public class ManagedScheduler implements Managed {
 
-	private Scheduler scheduler;
-	private Logger logger = LoggerFactory.getLogger(ManagedScheduler.class);
+    private Scheduler scheduler;
+    private Logger logger = LoggerFactory.getLogger(ManagedScheduler.class);
 
-	public ManagedScheduler(Scheduler scheduler) {
-		this.scheduler = scheduler;
-	}
+    public ManagedScheduler(Scheduler scheduler) {
+        this.scheduler = scheduler;
+    }
 
-	@Override
-	public void start() throws Exception {
-		scheduler.start();
-	}
+    @Override
+    public void start() throws Exception {
+        scheduler.start();
+    }
 
-	@Override
-	public void stop() throws Exception {
-		scheduler.shutdown();
-	}
+    @Override
+    public void stop() throws Exception {
+        scheduler.shutdown();
+    }
 
-	public void registerJob(String cronExpression, Class<? extends Job> job) {
-		JobDetail jobDetail = newJob(job).build();
-		try {
-			Trigger trigger = newTrigger().withSchedule(cronSchedule(cronExpression)).build();
-			scheduler.scheduleJob(jobDetail, trigger);
-		} catch (SchedulerException e) {
-			logger.error(e.getMessage(), e);
-			throw new RuntimeException(e);
-		}
-	}
-	
-	public void scheduleDiscovery(String host) {
-	    JobDetail job = newJob(SpecificConfigurationDiscoveryJob.class).usingJobData("host", host).build();
+    public void registerJob(String cronExpression, Class<? extends Job> job) {
+        JobDetail jobDetail = newJob(job).build();
+        try {
+            Trigger trigger = newTrigger().withSchedule(cronSchedule(cronExpression)).build();
+            scheduler.scheduleJob(jobDetail, trigger);
+        } catch (SchedulerException e) {
+            logger.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void scheduleDiscovery(String host) {
+        JobDetail job = newJob(SpecificConfigurationDiscoveryJob.class).usingJobData("host", host).build();
         try {
             Trigger trigger = newTrigger().startNow().build();
             scheduler.scheduleJob(job, trigger);
@@ -54,9 +54,9 @@ public class ManagedScheduler implements Managed {
             logger.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
-	}
+    }
 
-	public Scheduler getScheduler() {
-		return scheduler;
-	}
+    public Scheduler getScheduler() {
+        return scheduler;
+    }
 }

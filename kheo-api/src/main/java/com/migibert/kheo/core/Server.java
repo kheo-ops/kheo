@@ -51,7 +51,7 @@ public class Server {
     @JsonView({ ViewDetail.class, ViewList.class })
     @JsonProperty
     public String state;
-    
+
     @JsonView({ ViewDetail.class })
     @JsonProperty
     public HashMap<String, Boolean> discoverySettings;
@@ -70,7 +70,7 @@ public class Server {
         this.user = "";
         this.password = "";
         this.sshPort = 22;
-        this.privateKey = "";        
+        this.privateKey = "";
         this.discoverySettings = new HashMap<>();
         this.serverProperties = new ArrayList<ServerProperty>();
         this.eventLog = new ArrayList<>();
@@ -82,7 +82,7 @@ public class Server {
         this.host = host;
         this.user = user;
         this.password = password;
-        this.privateKey = privateKey;        
+        this.privateKey = privateKey;
     }
 
     @Override

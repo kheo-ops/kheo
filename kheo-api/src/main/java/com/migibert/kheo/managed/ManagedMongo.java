@@ -11,26 +11,26 @@ import com.mongodb.MongoClient;
 
 public class ManagedMongo implements Managed {
 
-	private Mongo mongo;
-	private DB db;
-	private Jongo jongo;
+    private Mongo mongo;
+    private DB db;
+    private Jongo jongo;
 
-	public ManagedMongo(MongoConfiguration configuration) throws Exception {
-		this.mongo = new MongoClient(configuration.host, configuration.port);
-		this.db = mongo.getDB(configuration.db);
-		this.jongo = new Jongo(db);
-	}
+    public ManagedMongo(MongoConfiguration configuration) throws Exception {
+        this.mongo = new MongoClient(configuration.host, configuration.port);
+        this.db = mongo.getDB(configuration.db);
+        this.jongo = new Jongo(db);
+    }
 
-	@Override
-	public void start() throws Exception {
-	}
+    @Override
+    public void start() throws Exception {
+    }
 
-	@Override
-	public void stop() throws Exception {
-		this.mongo.close();
-	}
+    @Override
+    public void stop() throws Exception {
+        this.mongo.close();
+    }
 
-	public Jongo getJongo() {
-		return jongo;
-	}
+    public Jongo getJongo() {
+        return jongo;
+    }
 }

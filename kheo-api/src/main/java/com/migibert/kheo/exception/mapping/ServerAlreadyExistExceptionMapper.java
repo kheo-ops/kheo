@@ -10,8 +10,8 @@ import com.migibert.kheo.exception.ServerAlreadyExistException;
 @Provider
 public class ServerAlreadyExistExceptionMapper implements ExceptionMapper<ServerAlreadyExistException> {
 
-	@Override
-	public Response toResponse(ServerAlreadyExistException e) {
-		return Response.status(Status.CONFLICT).build();
-	}
+    @Override
+    public Response toResponse(ServerAlreadyExistException e) {
+        return Response.status(Status.CONFLICT).build();
+    }
 }

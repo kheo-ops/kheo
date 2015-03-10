@@ -19,22 +19,22 @@ import com.migibert.kheo.core.Server;
 
 public class GlobalConfigurationDiscoveryJob implements Job {
 
-	private Logger logger = LoggerFactory.getLogger(GlobalConfigurationDiscoveryJob.class);
-	private Client client = ClientBuilder.newClient();
+    private Logger logger = LoggerFactory.getLogger(GlobalConfigurationDiscoveryJob.class);
+    private Client client = ClientBuilder.newClient();
 
-	@Override
-	public void execute(JobExecutionContext context) throws JobExecutionException {
-		logger.info("Starting global configuration discovery job!");
-		Response getServersResponse = client.target("http://localhost:8080").path("servers").request().accept(MediaType.APPLICATION_JSON).get();
-		if (getServersResponse.getStatus() != Status.OK.getStatusCode()) {
-			return;
-		}
+    @Override
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+        logger.info("Starting global configuration discovery job!");
+        Response getServersResponse = client.target("http://localhost:8080").path("servers").request().accept(MediaType.APPLICATION_JSON).get();
+        if (getServersResponse.getStatus() != Status.OK.getStatusCode()) {
+            return;
+        }
 
-		Set<Server> servers = getServersResponse.readEntity(new GenericType<Set<Server>>() {
-		});
-		for (Server server : servers) {
-			client.target("http://localhost:8080").path("servers/" + server.host + "/discover").request().get();
-		}
-		logger.info("Ending global configuration discovery job");
-	}
+        Set<Server> servers = getServersResponse.readEntity(new GenericType<Set<Server>>() {
+        });
+        for (Server server : servers) {
+            client.target("http://localhost:8080").path("servers/" + server.host + "/discover").request().get();
+        }
+        logger.info("Ending global configuration discovery job");
+    }
 }

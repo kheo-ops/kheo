@@ -4,9 +4,9 @@ import com.migibert.kheo.core.Server;
 
 public class ServerAlreadyExistException extends RuntimeException {
 
-	private static final long serialVersionUID = 6878389617365341375L;
+    private static final long serialVersionUID = 6878389617365341375L;
 
-	public ServerAlreadyExistException(Server server) {
-		super("Server " + server.host + " already exists");
-	}
+    public ServerAlreadyExistException(Server server) {
+        super("Server " + server.host + " already exists");
+    }
 }

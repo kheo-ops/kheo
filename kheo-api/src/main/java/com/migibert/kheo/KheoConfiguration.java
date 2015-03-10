@@ -12,20 +12,20 @@ import com.migibert.kheo.configuration.SchedulerConfiguration;
 
 public class KheoConfiguration extends Configuration {
 
-	@JsonProperty
-	@Valid
-	public MongoConfiguration mongo = new MongoConfiguration();
-	
-	@JsonProperty
-	@Valid
-	public SchedulerConfiguration scheduler = new SchedulerConfiguration();
+    @JsonProperty
+    @Valid
+    public MongoConfiguration mongo = new MongoConfiguration();
 
-	@JsonProperty
-	@Valid
-	public CorsConfiguration cors = new CorsConfiguration();
-	
-	@JsonProperty
-	@Valid
-	public PluginConfiguration plugin = new PluginConfiguration();
-	
+    @JsonProperty
+    @Valid
+    public SchedulerConfiguration scheduler = new SchedulerConfiguration();
+
+    @JsonProperty
+    @Valid
+    public CorsConfiguration cors = new CorsConfiguration();
+
+    @JsonProperty
+    @Valid
+    public PluginConfiguration plugin = new PluginConfiguration();
+
 }
