@@ -2,12 +2,14 @@ package com.migibert.kheo.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
@@ -78,47 +80,49 @@ public class ServerService {
     }
 
     public Server discover(Server server) {
-        try {
-            boolean firstDiscovery = ServerState.REGISTERED.name().equals(server.state);
-            server.state = ServerState.DISCOVERING.name();
-            update(server);
+        boolean firstDiscovery = ServerState.REGISTERED.name().equals(server.state);
+        server.state = ServerState.DISCOVERING.name();
+        update(server);
 
-            Server discovered = new Server(server.host, server.user, server.password, server.privateKey);
-            discovered.sshPort = server.sshPort;
-            discovered.sudo = server.sudo;
-            discovered.sshConnectionValidity = false;
-            discovered.eventLog = new ArrayList<ServerEvent>(server.eventLog);
-            discovered.discoverySettings = server.discoverySettings;
+        Server discovered = new Server(server.host, server.user, server.password, server.privateKey);
+        discovered.sshPort = server.sshPort;
+        discovered.sudo = server.sudo;
+        discovered.sshConnectionValidity = false;
+        discovered.eventLog = new ArrayList<ServerEvent>(server.eventLog);
+        discovered.discoverySettings = server.discoverySettings;
 
-            for (KheoPlugin<? extends ServerProperty> plugin : plugins) {
-                if (server.discoverySettings.containsKey(plugin.getName()) && server.discoverySettings.get(plugin.getName())) {
-                    logger.info("{} discovery has been enabled", plugin.getName());
+        for (KheoPlugin<? extends ServerProperty> plugin : plugins) {
+            if (server.discoverySettings.containsKey(plugin.getName()) && server.discoverySettings.get(plugin.getName())) {
+                logger.info("{} discovery has been enabled", plugin.getName());
+
+                try {
                     discovered.serverProperties.addAll(plugin.getSshCommand().executeAndParse(server));
-                    if (firstDiscovery) {
-                        logger.info("First discovery for {}, no event generation", server.host);
-                    } else {
-                        List<ServerProperty> serverProperties = new ArrayList<ServerProperty>(
-                                                                                              Collections2.filter(server.serverProperties,
-                                                                                                                  Predicates.instanceOf(plugin.getEventGenerator()
-                                                                                                                                              .getPropertyClass())));
-                        List<ServerProperty> discoveredProperties = new ArrayList<ServerProperty>(
-                                                                                                  Collections2.filter(discovered.serverProperties,
-                                                                                                                      Predicates.instanceOf(plugin.getEventGenerator()
-                                                                                                                                                  .getPropertyClass())));
-                        List<ServerEvent> events = plugin.getEventGenerator().generateEvents(serverProperties, discoveredProperties);
-                        discovered.eventLog.addAll(events);
-                    }
+                } catch (IOException e) {
+                    logger.error(e.getMessage(), e);
+                    discovered.sshConnectionValidity = false;
+                    discovered.state = ServerState.ERROR.name();
+                    update(discovered);
+                    throw new ServerConnectionException(server.host);
+                }
+
+                if (firstDiscovery) {
+                    logger.info("First discovery for {}, no event generation", server.host);
+                } else {
+                    Predicate<Object> predicate = Predicates.instanceOf(plugin.getEventGenerator().getPropertyClass());
+                    Collection<ServerProperty> serverProperties = Collections2.filter(server.serverProperties, predicate);
+                    Collection<ServerProperty> discoveredProperties = Collections2.filter(discovered.serverProperties, predicate);
+                    List<ServerEvent> events = plugin.getEventGenerator().generateEvents(new ArrayList<>(serverProperties),
+                                                                                         new ArrayList<>(discoveredProperties));
+                    discovered.eventLog.addAll(events);
                 }
             }
-
-            discovered.sshConnectionValidity = true;
-            discovered.state = ServerState.READY.name();
-            update(discovered);
-            return discovered;
-        } catch (IOException e) {
-            logger.error(e.getMessage(), e);
-            throw new ServerConnectionException(server.host);
         }
+
+        discovered.sshConnectionValidity = true;
+        discovered.state = ServerState.READY.name();
+        update(discovered);
+        return discovered;
+
     }
 
     private boolean exists(String host) {
