@@ -12,8 +12,8 @@ import com.migibert.kheo.util.DateJsonSerializer;
 
 public class ServerEvent {
 
-    @JsonSerialize(using=DateJsonSerializer.class)
-    @JsonDeserialize(using=DateJsonDeserializer.class)
+    @JsonSerialize(using = DateJsonSerializer.class)
+    @JsonDeserialize(using = DateJsonDeserializer.class)
     @JsonProperty
     public Date date;
 

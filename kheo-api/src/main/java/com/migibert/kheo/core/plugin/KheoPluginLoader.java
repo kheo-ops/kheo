@@ -20,50 +20,53 @@ import com.migibert.kheo.configuration.PluginConfiguration;
 import com.migibert.kheo.util.KheoPluginClassLoader;
 
 public class KheoPluginLoader {
-	private static final Logger logger = LoggerFactory.getLogger(KheoPluginLoader.class);
 
-	public static List<KheoPlugin<? extends ServerProperty>> loadKheoPlugins(PluginConfiguration pluginConfiguration) {
-		File pluginDirectory = new File(pluginConfiguration.directory);
-		File[] plugins = pluginDirectory.listFiles(new FileFilter() {
-			@Override
-			public boolean accept(File pathname) {
-				return pathname.getName().endsWith(".jar");
-			}
-		});
+    private static final Logger logger = LoggerFactory.getLogger(KheoPluginLoader.class);
 
-		if(plugins == null || plugins.length == 0) {
-			return new ArrayList<KheoPlugin<?>>();
-		}
-		URL[] urls = new URL[plugins.length];
-		for(int i=0 ;i<plugins.length; i++) {
-			try {
-				urls[i] = plugins[i].toURI().toURL();	
-			} catch(MalformedURLException e) {
-				logger.error(e.getMessage(), e);
-			}
-			
-		}
-		URLClassLoader classLoader = KheoPluginClassLoader.getInstance(urls);
-		List<KheoPlugin<?>> result = new ArrayList<KheoPlugin<?>>();
-		for (int i = 0; i < plugins.length; i++) {
-			try(JarFile plugin = new JarFile(plugins[i])) {				
-				Enumeration<JarEntry> entries = plugin.entries();
-				while (entries.hasMoreElements()) {
-					JarEntry entry = entries.nextElement();
-					if(entry.getName().endsWith(".class")) {
-						String tmp = entry.getName().substring(0, entry.getName().length() - 6).replaceAll("/", ".");
-						Class<?> clazz = Class.forName(tmp, true, classLoader);
-						if(KheoPlugin.class.isAssignableFrom(clazz)) {
-							result.add((KheoPlugin<?>) clazz.getConstructor().newInstance());
-						}
-					}
-				}
-			} catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				logger.error("Unable to load plugin at {}", plugins[i].getAbsolutePath());				
-			}
-		}
+    public static List<KheoPlugin<? extends ServerProperty>> loadKheoPlugins(PluginConfiguration pluginConfiguration) {
+        File pluginDirectory = new File(pluginConfiguration.directory);
+        File[] plugins = pluginDirectory.listFiles(new FileFilter() {
 
-		logger.info("Plugins loaded : {}", result.toString());
-		return result;
-	}
+            @Override
+            public boolean accept(File pathname) {
+                return pathname.getName().endsWith(".jar");
+            }
+        });
+
+        if (plugins == null || plugins.length == 0) {
+            return new ArrayList<KheoPlugin<?>>();
+        }
+        URL[] urls = new URL[plugins.length];
+        for (int i = 0; i < plugins.length; i++) {
+            try {
+                urls[i] = plugins[i].toURI().toURL();
+            } catch (MalformedURLException e) {
+                logger.error(e.getMessage(), e);
+            }
+
+        }
+        URLClassLoader classLoader = KheoPluginClassLoader.getInstance(urls);
+        List<KheoPlugin<?>> result = new ArrayList<KheoPlugin<?>>();
+        for (int i = 0; i < plugins.length; i++) {
+            try (JarFile plugin = new JarFile(plugins[i])) {
+                Enumeration<JarEntry> entries = plugin.entries();
+                while (entries.hasMoreElements()) {
+                    JarEntry entry = entries.nextElement();
+                    if (entry.getName().endsWith(".class")) {
+                        String tmp = entry.getName().substring(0, entry.getName().length() - 6).replaceAll("/", ".");
+                        Class<?> clazz = Class.forName(tmp, true, classLoader);
+                        if (KheoPlugin.class.isAssignableFrom(clazz)) {
+                            result.add((KheoPlugin<?>) clazz.getConstructor().newInstance());
+                        }
+                    }
+                }
+            } catch (IOException | ClassNotFoundException | InstantiationException | IllegalAccessException | IllegalArgumentException
+                     | InvocationTargetException | NoSuchMethodException | SecurityException e) {
+                logger.error("Unable to load plugin at {}", plugins[i].getAbsolutePath());
+            }
+        }
+
+        logger.info("Plugins loaded : {}", result.toString());
+        return result;
+    }
 }

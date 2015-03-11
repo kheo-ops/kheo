@@ -5,9 +5,9 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 
 public class PluginConfiguration {
-	
-	@NotNull
-	@NotEmpty
-	public String directory = ".kheo";
+
+    @NotNull
+    @NotEmpty
+    public String directory = ".kheo";
 
 }

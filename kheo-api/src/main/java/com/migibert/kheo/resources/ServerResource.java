@@ -24,6 +24,7 @@ import com.migibert.kheo.configuration.ViewList;
 import com.migibert.kheo.core.Server;
 import com.migibert.kheo.core.plugin.KheoPlugin;
 import com.migibert.kheo.core.plugin.ServerProperty;
+import com.migibert.kheo.managed.ManagedScheduler;
 import com.migibert.kheo.service.ServerService;
 import com.migibert.kheo.util.ServerPropertyMetadataFilter;
 
@@ -33,8 +34,8 @@ public class ServerResource {
 
     private ServerService service;
 
-    public ServerResource(MongoCollection serverCollection, List<KheoPlugin<? extends ServerProperty>> plugins) {
-        this.service = new ServerService(serverCollection, plugins);
+    public ServerResource(MongoCollection serverCollection, ManagedScheduler scheduler, List<KheoPlugin<? extends ServerProperty>> plugins) {
+        this.service = new ServerService(serverCollection, scheduler, plugins);
     }
 
     @GET
@@ -67,7 +68,7 @@ public class ServerResource {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        Server discoveredServer = service.discover(server, false);
+        Server discoveredServer = service.discover(server);
         JsonNode serverData = ServerPropertyMetadataFilter.filter(discoveredServer);
         return Response.status(Status.OK).entity(serverData).build();
     }

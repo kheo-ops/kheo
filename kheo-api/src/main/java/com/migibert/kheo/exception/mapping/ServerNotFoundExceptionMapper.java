@@ -10,9 +10,9 @@ import com.migibert.kheo.exception.ServerNotFoundException;
 @Provider
 public class ServerNotFoundExceptionMapper implements ExceptionMapper<ServerNotFoundException> {
 
-	@Override
-	public Response toResponse(ServerNotFoundException arg0) {
-		return Response.status(Status.NOT_FOUND).build();
-	}
+    @Override
+    public Response toResponse(ServerNotFoundException arg0) {
+        return Response.status(Status.NOT_FOUND).build();
+    }
 
 }

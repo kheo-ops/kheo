@@ -12,6 +12,7 @@ public class KheoUtils {
 
     public static List<String> getPluginsNames(List<KheoPlugin<?>> plugins) {
         return Lists.transform(plugins, new Function<KheoPlugin<?>, String>() {
+
             @Override
             public String apply(KheoPlugin<?> plugin) {
                 return plugin.getName();
@@ -21,6 +22,7 @@ public class KheoUtils {
 
     public static List<PluginDTO> convertPluginsToPluginDTO(List<? extends KheoPlugin<? extends ServerProperty>> plugins) {
         return Lists.transform(plugins, new Function<KheoPlugin<?>, PluginDTO>() {
+
             @Override
             public PluginDTO apply(KheoPlugin<?> plugin) {
                 return new PluginDTO(plugin);

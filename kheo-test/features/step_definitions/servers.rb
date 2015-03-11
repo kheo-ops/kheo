@@ -45,6 +45,9 @@ Then(/^port is "(.*?)"$/) do |expectedPort|
     assert_equal(expectedPort, JSON.parse(@response.body)['sshPort'].to_s)
 end
 
+Then(/^state is "(.*?)"$/) do |expectedState|
+  assert_equal(expectedState, JSON.parse(@response.body)['state'].to_s)
+end
 
 Then(/^"(.*?)" process listens on port "(.*?)" with protocol "(.*?)"$/) do |programName, port, protocol|    
     properties = JSON.parse(@response.body)['serverProperties']

@@ -10,29 +10,29 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@kheo-class")
 public abstract class ServerProperty {
 
-	public String type = getClass().getSimpleName();
-	
-	public String key = getKey();
-	
-	@JsonProperty("@kheo-type")
-	public String kheoType = getKheoType().name();
-	
-	public abstract String getKey();
-	
-	public abstract KheoType getKheoType();
+    public String type = getClass().getSimpleName();
 
-	@Override
-	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj, false);
-	}
+    public String key = getKey();
 
-	@Override
-	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this, false);
-	}
+    @JsonProperty("@kheo-type")
+    public String kheoType = getKheoType().name();
 
-	@Override
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
-	}
+    public abstract String getKey();
+
+    public abstract KheoType getKheoType();
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj, false);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this, false);
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 }

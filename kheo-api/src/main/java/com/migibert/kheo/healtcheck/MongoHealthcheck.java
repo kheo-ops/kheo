@@ -6,16 +6,16 @@ import com.codahale.metrics.health.HealthCheck;
 
 public class MongoHealthcheck extends HealthCheck {
 
-	private Jongo jongo;
+    private Jongo jongo;
 
-	public MongoHealthcheck(Jongo jongo) {
-		super();
-		this.jongo = jongo;
-	}
+    public MongoHealthcheck(Jongo jongo) {
+        super();
+        this.jongo = jongo;
+    }
 
-	@Override
-	protected Result check() throws Exception {
-		jongo.getDatabase().getCollectionNames();
-		return Result.healthy();
-	}
+    @Override
+    protected Result check() throws Exception {
+        jongo.getDatabase().getCollectionNames();
+        return Result.healthy();
+    }
 }

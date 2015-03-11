@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class SchedulerConfiguration {
 
-	@NotEmpty
-	@Valid
-	public String cronExpression = "0 0 12 * * ?";
+    @NotEmpty
+    @Valid
+    public String cronExpression = "0 0 12 * * ?";
 }
