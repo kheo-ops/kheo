@@ -1,8 +1,5 @@
 # kheo  
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://doge.mit-license.org)  
-[![Issue Stats](http://issuestats.com/github/migibert/kheo/badge/pr)](http://issuestats.com/github/migibert/kheo)  
-[![Issue Stats](http://issuestats.com/github/migibert/kheo/badge/issue)](http://issuestats.com/github/migibert/kheo)  
-[![Circle CI](https://circleci.com/gh/migibert/kheo/tree/master.svg?style=shield)](https://circleci.com/gh/migibert/kheo)  
 
 ====
 ## Overview
@@ -27,37 +24,14 @@ Once your servers have been registered, you can obtain informations like:
 
 Moreover, Kheo discovers your servers configuration at regular intervals and stores delta between configuration as events. You can select events you want to store and those that do not have interest for you.
 
-## Underlying technologies
-Kheo is build with the following technologies:
-- MongoDB
-- AngularJS
-- Dropwizard
+### Components
+Kheo is separated into two components :
+- An API, that is available at 
+- A webapp, that is available at
 
-## Build
+Moreover, Kheo functionalities are provided by plugins. Some of them are available at . You can develop your own plugin taking inspiration from these ones.
 
-### API Backend
-
-Set the mongo host IP address in `kheo-api/config/kheo-api-dev.yml`. Basically, the IP of the docker host.
-
-Then, build the API image
-```
-docker build -t kheo-api kheo-api
-```
-
-### Web frontend
-
-Set the backend API IP in `kheo-web/config/environments/development.json`. Basically, the IP of the docker host.
-
-Then, build the application
-```
-npm install
-bower install
-grunt replace:development
-grunt build
-```
-
-## Running
-
+### Running
 Run application layers in docker containers:
 
 The database must be run first.
@@ -93,7 +67,3 @@ sudo ansible-galaxy install ANXS.oracle-jdk
 ansible-playbook -i inventory kheo.yml --private-key=key
 ```
 
-## Testing
-Cucumber is used to validate API behavior. CircleCI runs Cucumber tests at each build.
-
-To run it in local, use the script `local.sh`
