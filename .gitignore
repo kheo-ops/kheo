@@ -1,7 +1,2 @@
 .git
-kheo-api/.project
-kheo-api/.settings
-kheo-api/.classpath
-kheo-api/target
-kheo-web/dist
 kheo-deployment/**/.vagrant
