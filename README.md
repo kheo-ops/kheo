@@ -3,33 +3,17 @@
 
 ====
 ## Overview
-Kheo is an agentless application dedicated to servers management, including softwares inventory, os and network informations. It performs connections in background in order to generate events that represent changes on servers (differences since the last connection).
+Kheo is an agentless application dedicated to servers life follow-up. It performs connections in background in order to generate events that represent changes on servers (differences since the last connection). 
 
-In addition, it will discover routes between servers and display them as a graph in the web ui.
+Changes detections are provided by plugins, each one assuming the responsibility to detect changes and generating associated events. Some sample plugins available <a href="https://github.com/kheo-ops/kheo-plugins">kheo-plugins</a> manage things like network interfaces, installed services, running processes or os/kernel informations.
 
-Kheo relies on SSH to communicate with the servers to manage so it does not need any specific configuration. As a constraint, it needs a key to contact remote hosts.
+Kheo relies on SSH to communicate with the servers to manage so it does not need any specific configuration. As a constraint, it needs a key or a password to contact remote hosts.
 
-To register servers, you have many solutions:
-- Using an inventory file just like Ansible does.
-- Using the API
-- Using the webapp
-
-Once your servers have been registered, you can obtain informations like:
-- Network interfaces, IPs and routes
-- OS type and version
-- Users
-- Resources (ram, disk, cpu, ...)
-- Running processes
-- Installed packages
-
-Moreover, Kheo discovers your servers configuration at regular intervals and stores delta between configuration as events. You can select events you want to store and those that do not have interest for you.
 
 ### Components
 Kheo is separated into two components :
-- An API, that is available at 
-- A webapp, that is available at
-
-Moreover, Kheo functionalities are provided by plugins. Some of them are available at . You can develop your own plugin taking inspiration from these ones.
+- An API, that is available at <a href="https://github.com/kheo-ops/kheo-core">kheo-core</a>
+- A webapp, that is available at <a href="https://github.com/kheo-ops/kheo-web">kheo-web</a>
 
 ### Running
 Run application layers in docker containers:
@@ -53,11 +37,12 @@ To make it easier to use, there is a fig config file that let you start each lay
 ```sudo fig up -d```
 
 ## Deployment
-Kheo comes with sample Ansible playbooks that deploys components through your machines.
+Some sample deployments with ansible and fig are available in the repository <a href="https://github.com/kheo-ops/kheo-deployments">kheo-deployments</a>
 
 There are sample playbooks for those topologies:
 - all-in-one: All Kheo components are deployed on one machine
 - simple: Each component is deployed on a machine
+- container: Each component is deployed in a docker container.
 
 You can execute the playbook following these steps:
 ```
